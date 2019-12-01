@@ -418,6 +418,9 @@ public class MainFrame extends TSWorkspaceFrame {
 		menu.add(i18n_createMenuItem("Switch Connections", MainFrameNames.ID_TOGGLE_CONNECTION,
 				kmgr.getKeyStroke(KeyBindingsNames.ID_SWITCH_CONNECTIONS)));
 
+        menu.addSeparator();
+        menu.add(i18n_createMenuItem("About", MainFrameNames.ID_ABOUT, null));
+
 		template.add(menu);
 		menubar.addApplicationMenu(menu);
 
@@ -428,9 +431,6 @@ public class MainFrame extends TSWorkspaceFrame {
 		com.jeta.foundation.help.HelpUtils.enableHelpOnButton(hitem, MainFrameNames.ID_HELP);
 		menu.add(hitem);
 		 */
-		menu.add(i18n_createMenuItem("About", MainFrameNames.ID_ABOUT, null));
-		template.add(menu);
-		menubar.addApplicationMenu(menu);
 
 	}
 
