@@ -1,0 +1,216 @@
+<!DOCTYPE HTML PUBLIC "-//SoftQuad Software//DTD HoTMetaL PRO 6.0::19990601::extensions to HTML 4.0//EN" "hmpro6.dtd">
+<html>
+<head>
+  <title>JETA Software</title>
+  <meta http-equiv="Content-Type"
+ content="text/html; charset=iso-8859-1">
+</head>
+<body leftmargin="0" marginwidth="0" topmargin="10" marginheight="10">
+<table border="0">
+  <tbody>
+    <tr>
+      <td>
+      <p style="margin-bottom: 0cm;"><b>Data Browser</b></p>
+      <p style="margin-bottom: 0cm;">The Data Browser is a powerful
+feature
+of Abeille. Table data can be displayed on a row by row basis. You can
+also customize how each column is displayed in the view.</p>
+      <p align="center" style="margin-bottom: 0cm;"><img
+ src="../help_images/instance_view1.png" title="" alt=""
+ style="width: 449px; height: 331px;"><br>
+      </p>
+      <p align="left" style="margin-bottom: 0cm;"></p>
+      <table border="0" cellspacing="2">
+        <tbody>
+          <tr>
+            <td width="36"><img src="../images/incors/16x16/clear.png"
+ width="16" height="16" title="" alt=""></td>
+            <td width="678">Clears all columns in the view.</td>
+          </tr>
+          <tr>
+            <td width="36"><img
+ src="../images/incors/16x16/document_add.png"
+ width="16" height="16" title="" alt=""></td>
+            <td width="678"> Adds the current row to the table.</td>
+          </tr>
+          <tr>
+            <td width="36"><img
+ src="../images/incors/16x16/document_edit.png"
+ width="16" height="16" title="" alt=""></td>
+            <td width="678">Modifies the data in the table according to
+the selected contraints</td>
+          </tr>
+          <tr>
+            <td width="36"><img
+ src="../images/incors/16x16/document_delete.png"
+ width="16" height="16" title="" alt=""></td>
+            <td width="678">Deletes the data in the table according to
+the selected constraints</td>
+          </tr>
+          <tr>
+            <td width="36"><img
+ src="../images/incors/16x16/data_into.png"
+ width="16" height="16" title="" alt=""></td>
+            <td width="678"> Commits any previous updates, inserts, or
+deletes. If you database does not support transactions, this command
+has no effect.</td>
+          </tr>
+          <tr>
+            <td width="36"><img src="../images/incors/16x16/undo.png"
+ width="16" height="16" title="" alt=""></td>
+            <td width="678">Rolls back any previous updates, inserts or
+deletes. This operation has no effect if your database does not support
+transactions.</td>
+          </tr>
+          <tr>
+            <td width="36"><img src="../images/incors/16x16/view.png"
+ width="16" height="16" title="" alt=""></td>
+            <td width="678"> Queries the table using the selected
+constraints.</td>
+          </tr>
+          <tr>
+            <td width="36"><img
+ src="../images/incors/16x16/table_sql_view.png"
+ width="16" height="16" title="" alt=""></td>
+            <td width="678"> Displays the result set in a grid view.</td>
+          </tr>
+          <tr>
+            <td width="36"><img
+ src="../images/incors/16x16/media_rewind.png"
+ width="16" height="16" title="" alt=""></td>
+            <td width="678"> Moves to the first row in the result set.</td>
+          </tr>
+          <tr>
+            <td width="36"><img
+ src="../images/incors/16x16/media_step_back.png"
+ width="16" height="16" title="" alt=""></td>
+            <td width="678"> Moves to the previous row in the result
+set.</td>
+          </tr>
+          <tr>
+            <td width="36"><img
+ src="../images/incors/16x16/media_step_forward.png"
+ width="16" height="16" title="" alt=""></td>
+            <td width="678">Moves to the next row in the result set.</td>
+          </tr>
+          <tr>
+            <td width="36"><img
+ src="../images/incors/16x16/media_fast_forward.png"
+ width="16" height="16" title="" alt=""></td>
+            <td width="678">Moves to the last row in the result set.</td>
+          </tr>
+          <tr>
+            <td width="36"><img
+ src="../images/incors/16x16/paste_instance.png"
+ width="16" height="16" title="" alt=""></td>
+            <td width="678"> Pastes the columns to the associated
+columns of the linked table (either foreign key or user defined link).
+This button is only enabled if the form was launched from a linked
+table.</td>
+          </tr>
+        </tbody>
+      </table>
+      <p style="margin-bottom: 0cm;"><b>Constraints</b></p>
+      <p style="margin-bottom: 0cm;">You can select a constraint for
+each column by clicking the constraint button to the right of the
+column label. The constraint applies when you peform an update, delete,
+or query.</p>
+      <p align="center" style="margin-bottom: 0cm;"><img
+ src="../help_images/instance_view2.png" title="" alt=""
+ style="width: 449px; height: 331px;"><br>
+      </p>
+      <p align="center" style="margin-bottom: 0cm;"><br>
+      </p>
+      <div style="text-align: left;"><a name="data_browser"></a><b>Updating
+Data</b></div>
+      <p align="center" style="margin-bottom: 0cm;"> </p>
+      <p align="center" style="margin-bottom: 0cm;"></p>
+      <p style="margin-bottom: 0cm;">To update or delete data in a
+table you must first constrain a column.&nbsp; This sets the WHERE
+clause in the UPDATE or DELETE statement.&nbsp; The Data Browser does
+not currently support updateable result sets.&nbsp; So, you must set
+the constraint to specify which rows are to be updated or
+deleted.&nbsp; <br>
+      </p>
+      <p style="margin-bottom: 0cm;">The Data Browser supports commit
+and rollback operations only if <span style="font-weight: bold;">Auto
+Commit</span> is set to OFF.&nbsp; You can change this parameter in the
+Options dialog on the main toolbar.<br>
+      </p>
+      <p style="margin-bottom: 0cm;"><br>
+      </p>
+      <p style="margin-bottom: 0cm;"> <a name="data_browser"></a><b>Data
+Browsing - Linked Tables</b></p>
+      <p style="margin-bottom: 0cm;">Tables that have links from either
+foreign keys or user defined links can be launched from the form of the
+related table. Linked columns are displayed in red. When you click on
+the column name, the form for the related table is launched. You can
+create custom links in the Model View.<br>
+      </p>
+      <p style="margin-bottom: 0cm;"></p>
+      <p align="center" style="margin-bottom: 0cm;"><br>
+      </p>
+      <p></p>
+      <p><b>Configuration</b></p>
+      <p style="margin-bottom: 0cm;">Each column can be configured to
+display the following types.</p>
+      <table border="0">
+        <tbody>
+          <tr>
+            <td width="118" valign="top"><b>Default</b></td>
+            <td width="603">Most of the time the default data type that
+is returned by the JDBC driver is sufficient. Abeille will
+automatically determine the type and display the data accordingly.
+However, Abeille cannot automatically determine the contents of some
+data. For example, with blob types there is no way to determine if the
+data is an image, text, of something else. Abeille allows you to
+manually specify the type for these situations.</td>
+          </tr>
+          <tr>
+            <td width="118" valign="top"><b>Blob Image</b></td>
+            <td width="603">Displays the data as an image. The data
+type must be a blob and contain a valid image type (gif, jpg, png)</td>
+          </tr>
+          <tr>
+            <td width="118" valign="top"><b>Blob Text </b></td>
+            <td width="603">Displays the data as text in a multiline
+editor. The data type must be a blob.</td>
+          </tr>
+          <tr>
+            <td width="118" valign="top"><b>Blob Java Object</b></td>
+            <td width="603"> Converts the blob data to a Java object
+and displays the member variables of the object. The data must be a
+serialized object. Furthermore, any classes required by the object must
+be included in the classpath of Abeille.</td>
+          </tr>
+          <tr>
+            <td width="118"><b>Integer </b></td>
+            <td width="603">Displays the data as an integer.</td>
+          </tr>
+          <tr>
+            <td width="118" valign="top"><b>Multiline Editor </b></td>
+            <td width="603">With this setting Abeille handles data as a
+VARCHAR type. Additionally the data is displayed in a text field with
+multiple lines.</td>
+          </tr>
+          <tr>
+            <td width="118" valign="top"><b>Numeric </b></td>
+            <td width="603">Displays the data as a numeric type.</td>
+          </tr>
+          <tr>
+            <td width="118"><b>Varchar</b></td>
+            <td width="603">Displays the data as a text type.</td>
+          </tr>
+        </tbody>
+      </table>
+      <p style="margin-bottom: 0cm;"> </p>
+      <p style="margin-bottom: 0cm;" align="center"><img
+ src="configure_form.gif" width="437" height="349" border="0"></p>
+      <p style="margin-bottom: 0cm;" align="center"></p>
+      <p style="margin-bottom: 0cm;"></p>
+      </td>
+    </tr>
+  </tbody>
+</table>
+</body>
+</html>

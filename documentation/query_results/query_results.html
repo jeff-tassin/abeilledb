@@ -1,0 +1,199 @@
+<!DOCTYPE HTML PUBLIC "-//SoftQuad Software//DTD HoTMetaL PRO 6.0::19990601::extensions to HTML 4.0//EN" "hmpro6.dtd">
+<html>
+<head>
+  <title>JETA Software</title>
+  <meta http-equiv="Content-Type"
+ content="text/html; charset=iso-8859-1">
+</head>
+<body leftmargin="0" marginwidth="0" topmargin="10" marginheight="10">
+<table border="0">
+  <tbody>
+    <tr>
+      <td>
+      <p><b>Query Results </b></p>
+      <p style="margin-bottom: 0cm;">The Query Results window displays
+the result set from a query. In this view you can sort the columns,
+reorder the columns, split vertically or horizontally, and export the
+results. If the data is from a single table and that table has a
+primary key, you can also delete a range of results.</p>
+      <p style="margin-bottom: 0cm;" align="center"><img
+ src="query_results.png" width="691" height="427" border="0"></p>
+      <p style="margin-bottom: 0cm;"> </p>
+      <br>
+      <table border="0">
+        <tbody>
+          <tr>
+            <td><img src="../images/general/Copy16.gif" width="16"
+ height="16" border="0"></td>
+            <td>Copies the selected data to the clipboard using the
+formatting set in the Copy Special dialog.</td>
+          </tr>
+          <tr>
+            <td><img src="../images/entrymodify16.gif"
+ width="16" height="16" title="" alt=""></td>
+            <td>Displays this data in a form view. This is useful if
+the data contains blob types which cannot be viewed in the results view</td>
+          </tr>
+          <tr>
+            <td><img src="../images/general/Delete16.gif" width="16"
+ height="16" border="0"></td>
+            <td>Deletes the selected row. This option is available only
+if the query is against a single table and that table has a primary key</td>
+          </tr>
+          <tr>
+            <td><img src="../images/commit16.gif" width="16" height="16"
+ border="0"></td>
+            <td>Commits any deleted rows. This assumes the database
+supports transactions.</td>
+          </tr>
+          <tr>
+            <td><img src="../images/general/Undo16.gif"
+ width="16" height="16" title="" alt=""></td>
+            <td> Rolls back any deleted rows. This assumes the database
+supports transactions.</td>
+          </tr>
+          <tr>
+            <td><img src="../images/no_split16.gif" width="16"
+ height="16" border="0"></td>
+            <td>Displays the data in the standard view</td>
+          </tr>
+          <tr>
+            <td><img src="../images/split_horizontal16.gif" width="16"
+ height="16" border="0"></td>
+            <td>Splits the view horizontally</td>
+          </tr>
+          <tr>
+            <td><img src="../images/split_vertical16.gif" width="16"
+ height="16" border="0"></td>
+            <td>Splits the view vertically</td>
+          </tr>
+          <tr>
+            <td><img src="../images/general/Properties16.gif" width="16"
+ height="16" border="0"></td>
+            <td>Displays the result set metadata for the query</td>
+          </tr>
+          <tr>
+            <td><img src="../images/media/StepBack16.gif" width="16"
+ height="16" border="0"></td>
+            <td>Moves the topmost visible row to the first row in the
+result set.</td>
+          </tr>
+          <tr>
+            <td><img src="../images/media/StepForward16.gif" width="16"
+ height="16" border="0"></td>
+            <td>Moves the bottommost visible row to the last row in the
+result set. This option is only available if the ResultSet is
+scrollable. Some databases such as DB2 do not support scrollable
+ResultSets in certain circumstances.</td>
+          </tr>
+        </tbody>
+      </table>
+      <p></p>
+      <p><b>Sorting</b></p>
+      <p style="margin-bottom: 0cm;">You can sort each column by
+clicking on the column header. You can sort in ascending or descending
+order. The sort mode is cycled by clicking on the header multiple
+times. </p>
+      <p style="margin-bottom: 0cm;">Note that for large result sets,
+Abeille does not download everything at once. This is denoted by a +
+sign after the row count in the status bar. When you see this, it means
+that Abeille has not reached the last row in the result set and
+therefore, cannot determine the exact size of the result set. When
+sorting, you should make sure all data has been retreived by clicking
+the move last button on the toolbar.</p>
+      <p></p>
+      <p><a name="export"></a><b>Export</b></p>
+      <p style="margin-bottom: 0cm;">Data from the query results window
+can be exported to either the clipboard or a file. You can export
+everything in the result set or a selected subset of the data.</p>
+      <p style="margin-bottom: 0cm;"></p>
+      <p style="margin-bottom: 0cm;" align="center"><img
+ src="../help_images/export.png" title="" alt=""
+ style="width: 595px; height: 416px;"><br>
+      </p>
+      <br>
+      <table border="0">
+        <tbody>
+          <tr>
+            <td>Clear</td>
+            <td>Resets the export settings to their default values.</td>
+          </tr>
+          <tr>
+            <td valign="top">Start</td>
+            <td>Starts the export process.</td>
+          </tr>
+          <tr>
+            <td valign="top">Stop</td>
+            <td>Stops the export process. This option is available only
+if you are exporting to a file. In this case, the data is exported in
+the background. This allows you to stop the process at any time.
+However, once an export is stopped, it cannot be restarted from the
+same place.</td>
+          </tr>
+          <tr>
+            <td valign="top">Preview</td>
+            <td>Previews the exported data. This allows you to inspect
+how the settings affect the resulting output before running the export.</td>
+          </tr>
+        </tbody>
+      </table>
+      <p></p>
+      <p><b>Export Settings</b></p>
+      <p style="margin-bottom: 0cm;"></p>
+      <table border="0" cellspacing="4">
+        <tbody>
+          <tr>
+            <td width="107" valign="top">Column Headers</td>
+            <td width="643">If the show button is selected, the column
+headers are included in the output. You can also select a delimiter to
+use between each column header</td>
+          </tr>
+          <tr>
+            <td width="107" valign="top">Value Delimiter</td>
+            <td width="643">Allows you to select a character(s) to be
+used as a delimiter between each value in the output.</td>
+          </tr>
+          <tr>
+            <td width="107" valign="top">Text Delimiter</td>
+            <td width="643">For those columns that are text, you can
+define the type of delimiter for the text value. The default is a
+single quote. You can also select double quotes or no delimiter. If the
+SQL checkbox is selected, quote characters are duplicated in those text
+values that have quotes. For example, the string , <i>Sandy's email</i>,
+would be exported as <i>'Sandy''s'</i> email.</td>
+          </tr>
+          <tr>
+            <td width="107" valign="top">Line Decorator</td>
+            <td width="643">
+            <p style="margin-bottom: 0cm;"> You may supply any text
+that you wish to be prepended or appended to each row that is exported.
+The actual row is denoted by $line. For example, you could generate SQL
+insert statements from an export by providing a line decorator such as:</p>
+            <p style="margin-bottom: 0cm;"> insert into mytable (col1,
+col2, ... ) values ( <b>$line</b> );</p>
+            <p style="margin-bottom: 0cm;"></p>
+            </td>
+          </tr>
+          <tr>
+            <td width="107" valign="top">Column Options</td>
+            <td width="643">The Column Options table allows you to
+change the order of each column in the output. You can also change the
+format of how each column is exported. If a column is a text type in
+the result set, the Text check box will be selected in the table. You
+can manually check or uncheck this box to require the export to include
+text delimiters on the exported value. The Include checkbox controls
+whether the selected column is included in the output. Additionally,
+you can provide a decorator on the column value. This works in exactly
+the same way as the line decorated. The only difference is that the
+column values are denoted by $value.</td>
+          </tr>
+        </tbody>
+      </table>
+      <p style="margin-bottom: 0cm;"></p>
+      <p style="margin-bottom: 0cm;"></p>
+      </td>
+    </tr>
+  </tbody>
+</table>
+</body>
+</html>

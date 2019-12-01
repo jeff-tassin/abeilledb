@@ -1,0 +1,136 @@
+<!DOCTYPE HTML PUBLIC "-//SoftQuad Software//DTD HoTMetaL PRO 6.0::19990601::extensions to HTML 4.0//EN" "hmpro6.dtd">
+<HTML> 
+  <HEAD> 
+	 <TITLE></TITLE> 
+  </HEAD> 
+  <BODY> 
+	 <P><B>Basic View</B></P> 
+	 <P>The basic connection view assumes you are using the default JBDC drivers
+		supplied by your database vendor.</P> 
+	 <P></P>
+	 <TABLE BORDER="0">
+		<TR>
+		  <TD>
+			 <TABLE BORDER="0" CELLSPACING="0" CELLPADDING="0"> 
+				<TR> 
+				  <TD WIDTH="142" VALIGN="TOP"><B>Database</B></TD> 
+				  <TD WIDTH="622">Identifies the database you want to use for this
+					 connection. Abeille currently supports DB2, DaffodilDb, HSQLDB, JDataStore, McKOI, MySQL, Oracle, Pointbase and PostgreSQL</TD> 
+				</TR> 
+				<TR> 
+				  <TD WIDTH="142" VALIGN="TOP"><B>Name</B></TD> 
+				  <TD WIDTH="622">This is the name of the database instance. (For
+					 Oracle this is the SID and for McKOI this is the default schema).</TD> 
+				</TR> 
+				<TR> 
+				  <TD WIDTH="142" VALIGN="TOP"><B>Description</B></TD> 
+				  <TD WIDTH="622">An arbitrary description for this
+					 connection.</TD> 
+				</TR> 
+				<TR> 
+				  <TD WIDTH="142" VALIGN="TOP"><B>Server</B></TD> 
+				  <TD WIDTH="622">The hostname or IP address where your database is
+					 running.</TD> 
+				</TR> 
+				<TR> 
+				  <TD WIDTH="142" VALIGN="TOP"><B>Port</B></TD> 
+				  <TD WIDTH="622">The port number to use to connect to your
+					 database.</TD> 
+				</TR> 
+				<TR> 
+				  <TD WIDTH="142" VALIGN="TOP"><B>JDBC JAR File</B></TD> 
+				  <TD WIDTH="622">The JAR path/file(s) supplied by your database
+					 vendor.</TD> 
+				</TR> 
+			 </TABLE></TD>
+		</TR>
+		<TR>
+		  <TD>
+			 <P><FONT SIZE="-1">*You don't have to supply the driver name in this
+				view. Abeille assumes the default driver supplied by your
+				vendor.</FONT></P></TD>
+		</TR>
+	 </TABLE> 
+	 <P></P>
+	 <P>The following table lists the default JDBC information for each
+		database.</P>
+	 <TABLE BORDER="0">
+		<TR>
+		  <TD>
+			 <TABLE BORDER="1" CELLSPACING="0" CELLPADDING="0" BGCOLOR="#FFFFCC"> 
+				<TR> 
+				  <TD BGCOLOR="#000066" WIDTH="141" ALIGN="CENTER"><FONT
+					 COLOR="#FFFFFF">Database</FONT></TD> 
+				  <TD BGCOLOR="#000066" WIDTH="254" ALIGN="CENTER"><FONT
+					 COLOR="#FFFFFF">Driver</FONT></TD> 
+				  <TD BGCOLOR="#000066" WIDTH="100" ALIGN="CENTER"><FONT
+					 COLOR="#FFFFFF"> Port</FONT></TD> 
+				  <TD BGCOLOR="#000066" WIDTH="300" ALIGN="CENTER"><FONT
+					 COLOR="#FFFFFF">URL</FONT></TD> 
+				  <TD BGCOLOR="#000066" WIDTH="178" ALIGN="CENTER">
+					 <FONT COLOR="#FFFFFF"> JDBC JAR File</FONT></TD> 
+				</TR> 
+				<TR> 
+				  <TD WIDTH="141" BGCOLOR="#FFFFCC"><B>DB2*</B></TD> 
+				  <TD WIDTH="254">COM.ibm.db2.jdbc.net.DB2Driver</TD> 
+				  <TD WIDTH="88">6789</TD> 
+				  <TD
+				  WIDTH="230">jdbc:db2://&lt;server&gt;:&lt;port&gt;/&lt;name&gt;</TD> 
+				  <TD WIDTH="178">db2java.zip,db2jcc.jar</TD> 
+				</TR> 
+				<TR> 
+				  <TD WIDTH="141"><B>HSQLDB</B></TD> 
+				  <TD WIDTH="254">org.hsqldb.jdbcDriver</TD> 
+				  <TD WIDTH="88">9001</TD> 
+				  <TD
+				  WIDTH="230">jdbc:hsqldb:hsql://&lt;server&gt;:&lt;port&gt;</TD> 
+				  <TD WIDTH="178">hsqldb.jar</TD> 
+				</TR> 
+				<TR> 
+				  <TD WIDTH="141"><B>McKOI</B></TD> 
+				  <TD WIDTH="254">com.mckoi.JDBCDriver</TD> 
+				  <TD WIDTH="88">9157</TD> 
+				  <TD WIDTH="230">jdbc:mckoi://&lt;server&gt;:&lt;port&gt;</TD> 
+				  <TD WIDTH="178">mkjdbc.jar</TD> 
+				</TR> 
+				<TR> 
+				  <TD WIDTH="141"><B>MySQL</B></TD> 
+				  <TD WIDTH="254">com.mysql.jdbc.Driver</TD> 
+				  <TD WIDTH="88">3306</TD> 
+				  <TD
+				  WIDTH="230">jdbc:mysql://&lt;server&gt;:&lt;port&gt;/&lt;name&gt;</TD> 
+				  <TD WIDTH="178">mysql-connector-java-3.0.7-stable-bin.jar</TD> 
+				</TR> 
+				<TR> 
+				  <TD WIDTH="141"><B>Oracle</B></TD> 
+				  <TD WIDTH="254">oracle.jdbc.driver.OracleDriver</TD> 
+				  <TD WIDTH="88">1521</TD> 
+				  <TD
+				  WIDTH="230">jdbc:oracle:thin:@&lt;server&gt;:&lt;port&gt;:&lt;name&gt;</TD> 
+				  <TD WIDTH="178">classes12.zip</TD> 
+				</TR> 
+				<TR> 
+				  <TD WIDTH="141"><B>PostgreSQL</B></TD> 
+				  <TD WIDTH="254">org.postgresql.Driver</TD> 
+				  <TD WIDTH="88">5432</TD> 
+				  <TD
+				  WIDTH="230">jdbc:postgresql://&lt;server&gt;:&lt;port&gt;/&lt;name&gt;</TD> 
+				  <TD WIDTH="178">pg73jdbc3.jar</TD> 
+				</TR> 
+				<TR> 
+				  <TD WIDTH="141"><B>Sybase</B></TD> 
+				  <TD WIDTH="254">com.sybase.jdbc2.jdbc.SybDriver</TD> 
+				  <TD WIDTH="88"></TD> 
+				  <TD
+				  WIDTH="230">jdbc:sybase:Tds:&lt;server&gt;:&lt;port&gt;/&lt;name&gt;</TD> 
+				  <TD WIDTH="178">jconn2.jar</TD> 
+				</TR> 
+			 </TABLE></TD>
+		</TR>
+		<TR>
+		  <TD>
+			 <P><FONT SIZE="-1">*DB2 requires two JAR files. Because of this, you
+				need to use the Advanced dialog to configure DB2 connections.</FONT></P></TD>
+		</TR>
+	 </TABLE> </BODY>
+</HTML>

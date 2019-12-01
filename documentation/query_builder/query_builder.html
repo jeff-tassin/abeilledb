@@ -1,0 +1,209 @@
+<!DOCTYPE HTML PUBLIC "-//SoftQuad Software//DTD HoTMetaL PRO 6.0::19990601::extensions to HTML 4.0//EN" "hmpro6.dtd">
+<html>
+<head>
+  <title>JETA Software</title>
+  <meta http-equiv="Content-Type"
+ content="text/html; charset=iso-8859-1">
+</head>
+<body leftmargin="0" marginwidth="0" topmargin="10" marginheight="10">
+<table border="0">
+  <tbody>
+    <tr>
+      <td>
+      <p style="margin-bottom: 0cm;"><b>Query Builder</b></p>
+      <p align="left" style="margin-bottom: 0cm;">The Query Builder
+allows you to graphically create SQL commands for querying data. The
+main purpose of this tool is to allow developers to easily explore and
+examine the data in their database.<br>
+      <br>
+      </p>
+      <p align="center" style="margin-bottom: 0cm;"><img
+ src="../help_images/query_builder.png" title="" alt=""
+ width="640" height="442"><br>
+      </p>
+      <p align="center" ><br>
+      </p>
+      <table border="0" cellspacing="2"
+	width="741" height="430">
+        <tbody>
+          <tr>
+            <td width="13"><img
+ src="../images/incors/16x16/disk_blue.png"
+ width="16" height="16" title="" alt=""></td>
+            <td width="700">Saves the query to a file.<br>
+            </td>
+          </tr>
+          <tr>
+            <td width="13"><img
+ src="../images/incors/16x16/table_sql_add.png"
+ width="16" height="16" title="" alt=""></td>
+            <td width="700"> Adds a new table to the top pane.</td>
+          </tr>
+          <tr>
+            <td width="13"><img
+ src="../images/incors/16x16/form_blue.png"
+ width="16" height="16" title="" alt=""></td>
+            <td width="700"> Invokes the form view for the selected
+table. This is here if you need to inspect data for selected tables as
+you build the query</td>
+          </tr>
+          <tr>
+            <td width="13"><img
+ src="../images/incors/16x16/table_sql_view.png"
+ width="16" height="16" title="" alt=""></td>
+            <td width="700">Performs a query (select *) on the selected
+table and displays the results.</td>
+          </tr>
+          <tr>
+            <td width="13"><img src="../images/incors/16x16/view.png"
+ width="16" height="16" title="" alt=""></td>
+            <td width="700"> Generates the SQL from the parameters in
+the builder and pastes the result in the SQL editor.</td>
+          </tr>
+          <tr>
+            <td style="vertical-align: top;"><img
+ src="../images/run_current16.gif" title="" alt=""
+ width="16" height="16"><br>
+            </td>
+            <td style="vertical-align: top;">Executes the generated SQL.<br>
+            </td>
+          </tr>
+          <tr>
+            <td valign="top" width="13"><img
+ src="../images/mouse16.gif"
+ width="16" height="16" border="0"></td>
+            <td width="700">The Mouse and Link Tools are mutually
+exclusive. If the mouse tool is selected, you can select, move, and
+resize a table. </td>
+          </tr>
+          <tr>
+            <td width="13" valign="top"><img
+ src="../images/link16.gif"
+ width="16" height="16" border="0" align="top"></td>
+            <td width="700">If the link tool is selected, you can drag
+links between columns of different tables. Existing links can be
+removed by dragging the link off of one of the tables. New links can be
+created by dragging the column of the source table to a column in the
+destination table. Links define the natural joins for the query.</td>
+          </tr>
+          <tr>
+            <td valign="top" width="13"><img
+ src="../images/constraint16.gif"
+ width="16" height="16" title="" alt=""></td>
+            <td width="700">Adds a new constraint. You can also create
+a new constraint by dragging a column from a table in the top pane.
+Note that the mouse tool must be selected in this case.</td>
+          </tr>
+          <tr>
+            <td width="13"><img src="../images/reportable16.gif"
+ width="16" height="16" title="" alt=""></td>
+            <td width="700"> Adds a new result column. You can also
+create a result column by dragging a column from a table in the top
+pane. </td>
+          </tr>
+          <tr>
+            <td width="13"><img
+ src="../images/incors/16x16/navigate_up.png"
+ width="16" height="16" title="" alt=""></td>
+            <td width="700"> Moves the selected constraint or result
+column up in the list.</td>
+          </tr>
+          <tr>
+            <td width="13"><img
+ src="../images/incors/16x16/navigate_down.png"
+ width="16" height="16" title="" alt=""></td>
+            <td width="700">Moves the selected constraint or result
+column down in the list.</td>
+          </tr>
+        </tbody>
+      </table>
+      <p align="left" ><br>
+      </p>
+      <br>
+      <p align="center" ></p>
+      <p align="left" >The builder is
+divided into three panes. The top pane displays the set of tables that
+you wish to pull data from. Additionally, this view displays the links
+between the tables used to form the joins. All joins are natural joins.
+The Query Builder does not support any type of join other than natural
+joins. If you wish to use advanced SQL constructs such as outer joins,
+you must use the SQL editor.</p>
+      <p align="left" >The lower pane
+contains the constraints and result columns for the query. You can drag
+and drop columns from the tables in the top pane into these views. The
+constraint view accepts constraints in the following form:</p>
+      <p align="center" ></p>
+      <p align="left" ></p>
+      <table border="0" cellspacing="2">
+        <tbody>
+          <tr>
+            <td width="52" height="39">&nbsp;</td>
+            <td width="52" height="39">&nbsp;</td>
+            <td width="496" height="39"><b>table.column op value</b></td>
+          </tr>
+          <tr>
+            <td width="52">&nbsp;</td>
+            <td width="52">where: </td>
+            <td width="496"><i>table</i> is the table name</td>
+          </tr>
+          <tr>
+            <td width="52">&nbsp;</td>
+            <td width="52">&nbsp;</td>
+            <td width="496"><i>column</i> is the column name</td>
+          </tr>
+          <tr>
+            <td width="52">&nbsp;</td>
+            <td width="52">&nbsp;</td>
+            <td width="496"><i>op</i> is the constraint (&gt;,&lt;,=,
+etc. )</td>
+          </tr>
+          <tr>
+            <td width="52">&nbsp;</td>
+            <td width="52">&nbsp;</td>
+            <td width="496"><i>value</i> is the value for the
+constraint. This can either be a string literal or numeric value.
+However, you may supply a ? here. In this case, the SQL buffer will
+prompt you for a value when the SQL is executed. </td>
+          </tr>
+        </tbody>
+      </table>
+      <p align="left" ></p>
+      <p align="left" >The query builder
+will allow you to type anything in the constraint view. However, if the
+constraint does not follow the above format, you should manually
+include the constraint in the reportables view. The reason is because
+if Abeille is unable to parse your constraints, it will not be able to
+determine the tables for those constraints (and the joins might not be
+correctly determined). </p>
+      <p align="left" >When generating the
+SQL for a query, Abeille uses the minimum number of tables possible.
+For example, if you have 10 tables in the model view, but use only 2 of
+those tables as reportables and constraints, Abeille may or may not
+include the other 8 tables. It depends entirely on the relationships
+between the tables.The reason for this is because we want you to be
+able to see all of the relationships, but still be able to zero in and
+query on a particular relationship in the graph. For complicated models
+it may be necessary to manually exclude tables from the SQL generation.
+Simply select the table and hit the <b>CTRL-E</b> key. To include an
+excluded table, select the table and press the <b>i</b> key.</p>
+      <p align="left" >The reportable column
+view displays all columns that will be returned from the query. This is
+the list of columns that you would place after the select statement as
+follows:</p>
+      <p align="center" > select column1,
+column2, ..., columnN from table where ...</p>
+      <p align="left" >There are currently
+no formatting options for reportables. </p>
+      <br>
+      <br>
+      <p align="center" ><br>
+      </p>
+      <p align="left" ></p>
+      <br>
+      <p ></p>
+      </td>
+    </tr>
+  </tbody>
+</table>
+</body>
+</html>

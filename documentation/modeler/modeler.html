@@ -1,0 +1,175 @@
+<!DOCTYPE HTML PUBLIC "-//SoftQuad Software//DTD HoTMetaL PRO 6.0::19990601::extensions to HTML 4.0//EN" "hmpro6.dtd">
+<html>
+<head>
+  <title>JETA Software</title>
+  <meta http-equiv="Content-Type"
+ content="text/html; charset=iso-8859-1">
+</head>
+<body leftmargin="0" marginwidth="0" topmargin="10" marginheight="10">
+<table border="0">
+  <tbody>
+    <tr>
+      <td>
+      <p><b>Modeler/Viewer</b></p>
+      <p style="margin-bottom: 0cm;">The Model View graphically
+displays tables as well as their relationships to other tables. The
+Model View is divided into two panes. The right pane contains a list of
+all tables that are currently being modeled (prototype tables) as well
+as all user defined links. The left pane graphically displays tables
+and their relationships. You can create multiple views in this pane.
+Existing tables are colored light blue. Prototype tables are colored
+yellow.</p>
+      <p style="margin-bottom: 0cm;">Existings tables can be added to
+the view by drag and drop (or copy/paste) from the Table View as well
+as by invoking the add table dialog. Additionally, users may create new
+tables (prototype tables) in this view. A prototype table can be
+created by invoking the New Table button on the toolbar. This will
+display the Table Properties dialog which you can use to define the
+columns for the table. Currently, Abeille does not support defining
+constraints for table columns. Once a prototype table has been created,
+it will be visible in the Prototypes list in the left pane. To save the
+table to the database, you should select the prototype in the view and
+press the commit button on the toolbar. If you want delete the
+prototype without saving, right click on the table in the prototype
+list and select the delete menu item.<br>
+      </p>
+      <p style="margin-bottom: 0cm;">Models can be saved to external
+files.&nbsp; Abeille also has the ability to share model files between
+connections.&nbsp;&nbsp; <br>
+      <br>
+      </p>
+      <p style="margin-bottom: 0cm;"></p>
+      <p style="margin-bottom: 0cm;" align="center"><img
+ src="../help_images/modeler.png" title="" alt=""
+ style="width: 640px; height: 418px;"><br>
+      </p>
+      <br>
+      <p style="margin-bottom: 0cm;"></p>
+      <table border="0">
+        <tbody>
+          <tr>
+            <td><img src="../images/incors/16x16/disk_blue.png"
+ width="16" height="16" title="" alt=""></td>
+            <td>Save the current state of the modeler.</td>
+          </tr>
+          <tr>
+            <td><img src="../images/incors/16x16/table_sql_add.png"
+ width="16" height="16" title="" alt=""></td>
+            <td> Invokes the add table dialog. Allows the user to add
+an existing table to the view.</td>
+          </tr>
+          <tr>
+            <td><img src="../images/incors/16x16/table_sql_create.png"
+ width="16" height="16" title="" alt=""></td>
+            <td> Invokes the create table dialog. This allows the user
+to create a new table or edit the properties of an existing prototype
+table.</td>
+          </tr>
+          <tr>
+            <td><img src="../images/mouse16.gif"
+ width="16" height="16" title="" alt=""></td>
+            <td>The Mouse and Link Tools are mutually exclusive. If the
+mouse tool is selected, you can select, move, and resize a table. </td>
+          </tr>
+          <tr>
+            <td><img src="../images/link16.gif"
+ width="16" height="16" title="" alt=""></td>
+            <td>If the link tool is selected, you can drag links
+between columns of different tables. The type of link that is created
+between two tables depends on the type of tables.</td>
+          </tr>
+          <tr>
+            <td><img src="../images/incors/16x16/table_sql_check.png"
+ width="16" height="16" title="" alt=""></td>
+            <td> Invokes the Table Properties dialog.</td>
+          </tr>
+          <tr>
+            <td><img src="../images/incors/16x16/form_blue.png"
+ width="16" height="16" title="" alt=""></td>
+            <td>Invokes the Form View for the selected table.</td>
+          </tr>
+          <tr>
+            <td><img src="../images/incors/16x16/table_sql_view.png"
+ width="16" height="16" title="" alt=""></td>
+            <td> Runs a query ( select * ) against the selected table.</td>
+          </tr>
+          <tr>
+            <td><img src="../images/incors/16x16/data_into.png"
+ width="16" height="16" title="" alt=""></td>
+            <td> Commits the selected prototype table to the
+database.&nbsp; Only a single table may be committed at a time.&nbsp;
+If a table has foreign key relationships, be sure to commit any
+dependent tables beforehand.</td>
+          </tr>
+        </tbody>
+      </table>
+      <p><br>
+      </p>
+      <p style="margin-bottom: 0cm;">Relationships between tables are
+indicated by a link connecting the two tables in the view. If the link
+is a solid line, then that relationship is based on a foreign key
+constraint. If the link is a dashed line, then that link is a
+user-defined link. If a link is dragged between two tables that exist
+in the database, a user link is created in the application. A user link
+is useful if you wish to display a relationship between two tables that
+don't have the relationship (foreign key) defined in the database.
+Also, some versions of MySQL do not support foreign keys, so user links
+would be useful here. User links also are supported in Table Form views
+and the Query Builder.</p>
+      <p style="margin-bottom: 0cm;">Iif a link is dragged to a
+prototype table (i.e. a table that is curren being modeled), a foreign
+key is automatically defined in the prototype.</p>
+      <br>
+      <p style="margin-bottom: 0cm;"></p>
+      <p><a name="table_props"></a><b>Table Properties</b></p>
+      <p style="margin-bottom: 0cm;">This dialog allows you to inspect
+properties of existing tables. You can modify properties of prototype
+tables and view the properties for existing tables.</p>
+      <p style="margin-bottom: 0cm;"></p>
+      <p style="margin-bottom: 0cm;" align="center"><img
+ src="table_properties.png" width="610" height="400" border="0"></p>
+      <p style="margin-bottom: 0cm;"><br>
+      </p>
+      <table border="0">
+        <tbody>
+          <tr>
+            <td width="140">Columns</td>
+            <td width="581">Displays all columns in the table. Columns
+can be added, modified, and deleted</td>
+          </tr>
+          <tr>
+            <td width="140">Primary Key</td>
+            <td width="581">Displays the primary key for the table. You
+define the primary key in the Columns Tab.</td>
+          </tr>
+          <tr>
+            <td width="140" valign="top">Foreign Keys </td>
+            <td width="581">Displays the foreign keys for this table.
+Foreign keys can be created and edited here. You can also create a
+foreign key by dragging a link from one table to another.</td>
+          </tr>
+          <tr>
+            <td width="140">SQL</td>
+            <td width="581">Displays the SQL used to create the table.</td>
+          </tr>
+          <tr>
+            <td width="140" valign="top">JDBC </td>
+            <td width="581">If the dialog is for an existing table,
+this view shows the JDBC information for that table.</td>
+          </tr>
+          <tr>
+            <td width="140" valign="top">Exported/Imported Keys</td>
+            <td width="581">For databases other than PostgreSQL and
+MySQL, the exported and imported keys for each table will be displayed.
+Abeille has advanced features for PostgreSQL and MySQL, so the
+interface will look slightly different for these databases.</td>
+          </tr>
+        </tbody>
+      </table>
+      <br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+</body>
+</html>

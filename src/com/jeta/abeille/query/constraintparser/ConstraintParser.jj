@@ -1,0 +1,253 @@
+/**
+ * Token definitions for SQL constraint parser
+ *  type:   javacc ConstraintParser.jj
+ * @author Jeff Tassin
+ *
+ */
+
+options
+{
+    LOOKAHEAD=2;
+    FORCE_LA_CHECK=true;
+    STATIC=false;
+}
+
+PARSER_BEGIN(ConstraintParser)
+
+package com.jeta.abeille.query.constraintparser;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+
+import com.jeta.abeille.query.*;
+import com.jeta.abeille.database.model.Catalog;
+import com.jeta.abeille.database.model.Schema;
+import com.jeta.abeille.database.model.TableId;
+import com.jeta.abeille.database.model.TSConnection;
+
+
+public class ConstraintParser
+{
+    /** the catalog to use if one is not provided. */
+    private Catalog           m_defaultcatalog;
+
+    /** the schema to use if one is not provided */
+    private Schema            m_defaultschema;
+
+    /** the database connection manager */
+    private TSConnection      m_connection;
+	
+
+    public static void main(String args[]) throws ParseException 
+    {
+	ConstraintParser parser = new ConstraintParser(System.in);
+        while (true)
+        {
+            parser.parse();
+        }
+    }	
+
+    public void initialize( TSConnection conn, Catalog defaultCatalog, Schema defaultSchema )
+    {
+	m_connection = conn;
+	m_defaultcatalog = defaultCatalog;
+	m_defaultschema = defaultSchema;
+    }	
+    	
+}
+
+PARSER_END(ConstraintParser)
+
+SKIP:
+{
+    " "
+  | "\r"
+  | "\t"
+}
+
+TOKEN :
+{
+ < EOL: "\n" >
+}
+
+TOKEN:  /* Keywords */
+{
+  < AND: "and" | "AND" >
+  | < OR: "or" | "OR" >
+  | < BOOLEAN: ( "true" | "false" ) >
+}     
+
+TOKEN:  /* Literals */
+{
+    < INTEGER_LITERAL: (["0"-"9"])+ >
+  | < FLOATING_POINT_LITERAL:
+          (["0"-"9"])+ "." (["0"-"9"])+ (<EXPONENT>)?
+        | "." (["0"-"9"])+ (<EXPONENT>)?
+        | (["0"-"9"])+ <EXPONENT>
+        | (["0"-"9"])+ (<EXPONENT>)?
+    >
+  | < #EXPONENT: ["e","E"] (["+","-"])? (["0"-"9"])+ >
+  | < STRING_LITERAL: "'" (~["'"])* ( "''" (~["'"])* )* "'" >
+}
+
+
+TOKEN:  /* Separators and operators */
+{
+    < DOT: "." >
+  | < LESS: "<" >
+  | < LESSEQUAL: "<=" >
+  | < GREATER: ">" >
+  | < GREATEREQUAL: ">=" >
+  | < EQUAL: "=" >
+  | < NOTEQUAL: "!=" >
+  | < NOTEQUAL2: "<>" >
+  | < OPENPAREN: "(" >
+  | < CLOSEPAREN: ")" >
+  | < QUESTIONMARK: "?" >
+  | < AT: "@" >
+  | < IS_NULL: "IS NULL" >
+  | < LIKE: "LIKE" >
+}
+
+TOKEN:  /* Identifiers */
+{
+    < ID: ( <LETTER> )+ ( "_" | "$" | "#" | <DIGIT> | <LETTER> )* >
+  | < #LETTER: ["A"-"Z", "a"-"z"] >
+  | < #DIGIT: ["0"-"9"] >
+}
+
+
+
+/**
+* Invoke parse to start the parse operation
+*/
+ConstraintNode parse():
+{ ConstraintNode result = null; }
+{
+   result = node() (<EOL> | <EOF>) { return result; }
+}
+
+
+ConstraintNode node():
+{ Token x;  ConstraintNode node = new ConstraintNode(); Object result;  }
+{
+  result = expr( new ArrayList() ) { node.addNode( null, result ); }
+  ( <AND> result = expr( new ArrayList() ) { node.addNode( LogicalConnective.AND, result ); }  |
+    <OR>  result = expr( new ArrayList() ) { node.addNode( LogicalConnective.OR, result ); } )*
+ { return node; }
+}
+
+Object subexpr( Expression expression ):
+{
+   Object result;
+}
+{
+   operands( expression )
+   {
+        return expression;
+   }
+| "(" result = node() ")" { return result; } 
+}
+
+
+Object expr( ArrayList literals ):
+{  
+   Token x;  String schemaname; String tablename;  String columnname;  Object result; 
+   Expression expression = new Expression();  TableId tableid;
+}
+{
+  x = <ID> { literals.add( x.image ); }
+  (x = <DOT> result = expr( literals ) { return result; }
+|
+  result = subexpr( expression ) 
+  { 
+     if ( literals.size() == 2 )
+     {
+	        // user specified table.column with default catalog and schema
+	       tableid = new TableId( m_connection, m_defaultcatalog, m_defaultschema, (String)literals.get(0) );
+	       expression.setTableId( tableid );
+	       expression.setColumnName( (String)literals.get(1) );
+     }
+     else if ( literals.size() == 3 )
+     {
+	// user specified (catalog|schema).table.column depending on if the connection supports multiple catalogs/schemas
+	if ( m_connection.supportsSchemas() )
+        {
+            tableid = new TableId( m_connection, m_defaultcatalog, new Schema((String)literals.get(0)), (String)literals.get(1) );
+	    expression.setTableId( tableid );
+	    expression.setColumnName( (String)literals.get(2) );
+        }
+	else if ( m_connection.supportsCatalogs() )
+        {
+            tableid = new TableId( m_connection, Catalog.createInstance((String)literals.get(0)), m_defaultschema, (String)literals.get(1) );
+	    expression.setTableId( tableid );
+	    expression.setColumnName( (String)literals.get(2) );
+        }
+	else
+        {
+            //unknown
+	    tableid = new TableId( m_connection, m_defaultcatalog, m_defaultschema, (String)literals.get(1) );
+	    expression.setTableId( tableid );
+	    expression.setColumnName( (String)literals.get(2) );
+        }
+     }
+     else if ( literals.size() == 4 )
+     {
+	// user specified catalog.schema.table.column
+	if ( m_connection.supportsCatalogs() && m_connection.supportsSchemas() )
+        {
+            tableid = new TableId( m_connection, 
+                                   Catalog.createInstance((String)literals.get(0)),
+	                           new Schema((String)literals.get(1)),
+                                   (String)literals.get(2) );
+	    expression.setTableId( tableid );
+	    expression.setColumnName( (String)literals.get(3) );
+        }
+     }
+     // otherwise it is undefined
+     return result; 
+  } 
+   )
+}
+
+void operands( Expression expression ) :
+{ String rs; }
+{
+   rs = SQLCompareOp() 
+	{ 
+            Operator op = Operator.fromString(rs);
+	    expression.setOperator( op );
+        }
+   rs = SQLValue() { expression.setValue(rs); }
+}
+
+String SQLCompareOp() :
+{ String rs = new String(""); }
+{
+  (
+    <EQUAL>	   { rs = "="; }
+  | <NOTEQUAL>     { rs = "!="; }
+  | <NOTEQUAL2>    { rs = "!="; }
+  | <GREATER>      { rs = ">"; }
+  | <GREATEREQUAL> { rs = ">="; }
+  | <LESS>         { rs = "<"; }
+  | <LESSEQUAL>    { rs = "<="; }
+  | <LIKE>         { rs = "LIKE"; }
+  | <IS_NULL>      { rs = "IS NULL"; }
+  )
+  { return rs; }
+}
+
+
+String SQLValue() :
+{  Token x;  String rs = new String(""); }
+{
+   x = < INTEGER_LITERAL > { return x.image; }
+ | x = < STRING_LITERAL >  { return x.image; }
+ | x = < QUESTIONMARK > { return x.image; }
+ | x = < AT > { return x.image; }
+ | x = < BOOLEAN > { return x.image; }
+ | x = < EOF > { return ""; }
+}
+
+

@@ -1,0 +1,110 @@
+<SupportedTypes>
+<DataType>
+   <Type Name="TINYINT" Precision="true" Scale="true" />
+   <Unsigned>true<Unsigned>
+   <ZeroFill>true<ZeroFill>
+</DataType>
+<DataType>
+<DataType>
+   <Type Name = "BIT" Precision="false", Scale="false" />
+   <Unsigned>false<Unsigned>
+   <ZeroFill>false<ZeroFill>
+</DataType>
+<DataType>
+   <Type Name = "BOOL
+</DataType>
+
+<DataType>
+   <Type Name = "SMALLINT[(M)] [UNSIGNED] [ZEROFILL]
+</DataType>
+<DataType>
+   <Type Name = "MEDIUMINT[(M)] [UNSIGNED] [ZEROFILL]
+</DataType>
+<DataType>
+   <Type Name = "INT[(M)] [UNSIGNED] [ZEROFILL]
+</DataType>
+<DataType>
+   <Type Name = "INTEGER[(M)] [UNSIGNED] [ZEROFILL]
+</DataType>
+<DataType>
+   <Type Name = "BIGINT[(M)] [UNSIGNED] [ZEROFILL]
+</DataType>
+<DataType>
+   <Type Name = "FLOAT(precision) [UNSIGNED] [ZEROFILL]
+</DataType>
+<DataType>
+   <Type Name = "FLOAT[(M,D)] [UNSIGNED] [ZEROFILL]
+</DataType>
+<DataType>
+   <Type Name = "DOUBLE[(M,D)] [UNSIGNED] [ZEROFILL]
+</DataType>
+<DataType>
+   <Type Name = "DOUBLE PRECISION[(M,D)] [UNSIGNED] [ZEROFILL]
+</DataType>
+<DataType>
+   <Type Name = "REAL[(M,D)] [UNSIGNED] [ZEROFILL]
+</DataType>
+<DataType>
+   <Type Name = "DECIMAL[(M[,D])] [UNSIGNED] [ZEROFILL]
+</DataType>
+<DataType>
+   <Type Name = "DEC[(M[,D])] [UNSIGNED] [ZEROFILL]
+</DataType>
+<DataType>
+   <Type Name = "NUMERIC[(M[,D])] [UNSIGNED] [ZEROFILL]
+</DataType>
+<DataType>
+   <Type Name = "DATE
+</DataType>
+<DataType>
+   <Type Name = "DATETIME
+</DataType>
+<DataType>
+   <Type Name = "TIMESTAMP
+</DataType>
+<DataType>
+   <Type Name = "TIME
+</DataType>
+<DataType>
+   <Type Name = "YEAR[(2|4)]
+</DataType>
+<DataType>
+   <Type Name = "[NATIONAL] CHAR(M) [BINARY]
+</DataType>
+<DataType>
+   <Type Name = "CHAR
+</DataType>
+<DataType>
+   <Type Name = "VARCHAR(M) [BINARY]
+</DataType>
+<DataType>
+   <Type Name = "TINYBLOB
+</DataType>
+<DataType>
+   <Type Name = "TINYTEXT
+</DataType>
+<DataType>
+   <Type Name = "BLOB
+</DataType>
+<DataType>
+   <Type Name = "TEXT
+</DataType>
+<DataType>
+   <Type Name = "MEDIUMBLOB
+</DataType>
+<DataType>
+   <Type Name = "MEDIUMTEXT
+</DataType>
+<DataType>
+   <Type Name = "LONGBLOB
+</DataType>
+<DataType>
+   <Type Name = "LONGTEXT
+</DataType>
+<DataType>
+   <Type Name = "ENUM('value1','value2',...)
+</DataType>
+<DataType>
+   <Type Name = "SET('value1','value2',...)
+</DataType>
+</SupportedTypes>

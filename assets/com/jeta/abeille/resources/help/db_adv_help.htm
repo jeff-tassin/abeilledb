@@ -1,0 +1,133 @@
+<!DOCTYPE HTML PUBLIC "-//SoftQuad Software//DTD HoTMetaL PRO 6.0::19990601::extensions to HTML 4.0//EN" "hmpro6.dtd">
+<HTML> 
+  <HEAD> 
+	 <TITLE></TITLE> 
+  </HEAD> 
+  <BODY> 
+	 <P><B>Advanced View</B></P> 
+	 <P>The advanced connection view allows you to specify any JDBC driver for
+		the connection.</P> 
+	 <P></P>
+	 <TABLE BORDER="0">
+		<TR>
+		  <TD>
+			 <TABLE BORDER="0" CELLSPACING="0" CELLPADDING="0"> 
+				<TR> 
+				  <TD WIDTH="157" VALIGN="TOP"><B>Database</B></TD> 
+				  <TD WIDTH="606">Identifies the database you want to use for this
+					 connection. Abeille currently supports DB2, DaffodilDb, HSQLDB, JDataStore, McKOI, MySQL, Oracle, Pointbase and PostgreSQL</TD> 
+				</TR> 
+				<TR> 
+				  <TD WIDTH="157" VALIGN="TOP"><B>Description</B></TD> 
+				  <TD WIDTH="606">An arbitrary description for this
+					 connection.</TD> 
+				</TR> 
+				<TR> 
+				  <TD WIDTH="157" VALIGN="TOP"><B>Driver</B></TD> 
+				  <TD WIDTH="606">The name of the JDBC driver class. The following
+					 table displays the default drivers for each supported database. If you are
+					 using a third party driver, then provide the name specified by your driver
+					 vendor.</TD> 
+				</TR> 
+				<TR> 
+				  <TD WIDTH="157" VALIGN="TOP"><B>URL</B></TD> 
+				  <TD WIDTH="606">The URL to use to connect to your database. The
+					 form of the URL is dependent on the database vendor. The following tables shows
+					 the default URLs for the supported databases</TD> 
+				</TR> 
+				<TR> 
+				  <TD WIDTH="157" VALIGN="TOP"><B>JDBC JAR File(s)</B></TD> 
+				  <TD WIDTH="606">The path/file(s) to your JDBC drivers.</TD> 
+				</TR> 
+			 </TABLE></TD>
+		</TR>
+		<TR>
+		  <TD></TD>
+		</TR>
+	 </TABLE> 
+	 <P></P>
+	 <P>The following table lists the default JDBC information for each
+		database. However, in the advanced view, you can specify any JDBC driver that
+		is compatible with your database. Keep in mind that Abeille uses
+		PreparedStatements, so if you use a third party driver, make sure that is
+		supports this capability.</P>
+	 <TABLE BORDER="0">
+		<TR>
+		  <TD>
+			 <TABLE BORDER="1" CELLSPACING="0" CELLPADDING="0" BGCOLOR="#FFFFCC"> 
+				<TR> 
+				  <TD BGCOLOR="#000066" WIDTH="141" ALIGN="CENTER"><FONT
+					 COLOR="#FFFFFF">Database</FONT></TD> 
+				  <TD BGCOLOR="#000066" WIDTH="254" ALIGN="CENTER"><FONT
+					 COLOR="#FFFFFF">Driver</FONT></TD> 
+				  <TD BGCOLOR="#000066" WIDTH="100" ALIGN="CENTER"><FONT
+					 COLOR="#FFFFFF"> Port</FONT></TD> 
+				  <TD BGCOLOR="#000066" WIDTH="300" ALIGN="CENTER"><FONT
+					 COLOR="#FFFFFF">URL</FONT></TD> 
+				  <TD BGCOLOR="#000066" WIDTH="178" ALIGN="CENTER">
+					 <FONT COLOR="#FFFFFF"> JDBC JAR File</FONT></TD> 
+				</TR> 
+				<TR> 
+				  <TD WIDTH="141" BGCOLOR="#FFFFCC"><B>DB2*</B></TD> 
+				  <TD WIDTH="254">COM.ibm.db2.jdbc.net.DB2Driver</TD> 
+				  <TD WIDTH="88">6789</TD> 
+				  <TD
+					WIDTH="230">jdbc:db2://&lt;server&gt;:&lt;port&gt;/&lt;name&gt;</TD> 
+				  <TD WIDTH="178">db2java.zip,db2jcc.jar</TD> 
+				</TR> 
+				<TR> 
+				  <TD WIDTH="141"><B>HSQLDB</B></TD> 
+				  <TD WIDTH="254">org.hsqldb.jdbcDriver</TD> 
+				  <TD WIDTH="88">9001</TD> 
+				  <TD
+					WIDTH="230">jdbc:hsqldb:hsql://&lt;server&gt;:&lt;port&gt;</TD> 
+				  <TD WIDTH="178">hsqldb.jar</TD> 
+				</TR> 
+				<TR> 
+				  <TD WIDTH="141"><B>McKOI</B></TD> 
+				  <TD WIDTH="254">com.mckoi.JDBCDriver</TD> 
+				  <TD WIDTH="88">9157</TD> 
+				  <TD WIDTH="230">jdbc:mckoi://&lt;server&gt;:&lt;port&gt;</TD> 
+				  <TD WIDTH="178">mkjdbc.jar</TD> 
+				</TR> 
+				<TR> 
+				  <TD WIDTH="141"><B>MySQL</B></TD> 
+				  <TD WIDTH="254">com.mysql.jdbc.Driver</TD> 
+				  <TD WIDTH="88">3306</TD> 
+				  <TD
+					WIDTH="230">jdbc:mysql://&lt;server&gt;:&lt;port&gt;/&lt;name&gt;</TD> 
+				  <TD WIDTH="178">mysql-connector-java-3.0.7-stable-bin.jar</TD> 
+				</TR> 
+				<TR> 
+				  <TD WIDTH="141"><B>Oracle</B></TD> 
+				  <TD WIDTH="254">oracle.jdbc.driver.OracleDriver</TD> 
+				  <TD WIDTH="88">1521</TD> 
+				  <TD
+					WIDTH="230">jdbc:oracle:thin:@&lt;server&gt;:&lt;port&gt;:&lt;name&gt;</TD> 
+				  <TD WIDTH="178">classes12.zip</TD> 
+				</TR> 
+				<TR> 
+				  <TD WIDTH="141"><B>PostgreSQL</B></TD> 
+				  <TD WIDTH="254">org.postgresql.Driver</TD> 
+				  <TD WIDTH="88">5432</TD> 
+				  <TD
+					WIDTH="230">jdbc:postgresql://&lt;server&gt;:&lt;port&gt;/&lt;name&gt;</TD> 
+				  <TD WIDTH="178">pg73jdbc3.jar</TD> 
+				</TR> 
+				<TR> 
+				  <TD WIDTH="141"><B>Sybase</B></TD> 
+				  <TD WIDTH="254">com.sybase.jdbc2.jdbc.SybDriver</TD> 
+				  <TD WIDTH="88"></TD> 
+				  <TD
+				  WIDTH="230">jdbc:sybase:Tds:&lt;server&gt;:&lt;port&gt;/&lt;name&gt;</TD> 
+				  <TD WIDTH="178">jconn2.jar</TD> 
+				</TR> 
+			 </TABLE></TD>
+		</TR>
+		<TR>
+		  <TD>
+			 <P><FONT SIZE="-1">*DB2 requires two JAR files. Because of this, you
+				need to use the Advanced dialog to configure DB2 connections.</FONT></P></TD>
+		</TR>
+	 </TABLE> </BODY>
+</HTML>

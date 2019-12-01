@@ -1,0 +1,88 @@
+/**
+ * Token definitions for the time mask parse
+ * @author Jeff Tassin
+ *
+ */
+
+options
+{
+    LOOKAHEAD=3;
+    FORCE_LA_CHECK=true;
+    STATIC=false;
+}
+
+PARSER_BEGIN(TimeMaskParser)
+
+package com.jeta.foundation.gui.components.datetime;
+
+import com.jeta.foundation.gui.components.TimeMask;
+
+public class TimeMaskParser
+{
+
+    /**
+     *  hh (1-12),  HH (0-23), a (AM/PM),  mm (minutes), ss (seconds)
+     */
+    public static void main(String args[]) throws ParseException 
+    {
+
+    }	
+ 
+    public TimeMask parse() throws ParseException
+    {
+      TimeMask ddef = new TimeMask();
+      subParse( ddef ); 
+      return ddef;
+    }
+}
+
+PARSER_END(TimeMaskParser)
+
+TOKEN :
+{
+ < EOL: "\n" >
+}
+
+TOKEN: 
+{
+  < hh: "hh" >
+  |  < HH: "HH" >
+  |  < mm: "mm" >
+  |  < ss: "ss" >
+  |  < a: "a" >
+
+}     
+
+TOKEN: 
+{
+  < ANY2: (~["a", "m", "s", "h", "H"])+ >
+}
+
+
+
+
+void subParse( TimeMask tmdef ):
+{
+   Token x;
+   String el;
+}
+{ 
+    x = <ANY2>  { tmdef.addElement( x.image );  subParse(tmdef); }
+     |
+    el = element() { tmdef.addElement(el); subParse(tmdef); }
+     |
+    <EOF>
+}
+
+
+String element():
+{
+   Token x;
+}
+{
+   x = <hh> { return x.image; }
+  | x = <HH> { return x.image; }
+  | x = <mm>  { return x.image; }
+  | x = <ss> { return x.image; }
+  | x = <a> { return x.image; }
+}

@@ -1,0 +1,535 @@
+<!DOCTYPE HTML PUBLIC "-//SoftQuad Software//DTD HoTMetaL PRO 6.0::19990601::extensions to HTML 4.0//EN" "hmpro6.dtd">
+<html>
+<head>
+  <title>JETA Software</title>
+  <meta http-equiv="Content-Type"
+ content="text/html; charset=iso-8859-1">
+</head>
+<body leftmargin="0" marginwidth="0" topmargin="10" marginheight="10">
+<table border="0" width="580">
+  <tbody>
+    <tr>
+      <td>
+      <p><img src="images/abeille.gif" width="205" height="73"
+ border="0"> <b>version 2.0</b></p>
+      <p></p>
+      <table border="0" cellspacing="2" width="400">
+        <tbody>
+          <tr>
+            <td>&nbsp;</td>
+            <td width="459"><font size="+1">Contents</font></td>
+          </tr>
+          <tr>
+            <td>&nbsp;</td>
+            <td width="459"><a href="#requirements">Requirements</a></td>
+          </tr>
+          <tr>
+            <td>&nbsp;</td>
+            <td width="459"><a href="#installation">Installation</a></td>
+          </tr>
+          <tr>
+            <td>&nbsp;</td>
+            <td width="459"><a href="#connections">Connection Management</a></td>
+          </tr>
+          <tr>
+            <td>&nbsp;</td>
+            <td width="459"><a href="#mainwindow">Main Application
+Window</a></td>
+          </tr>
+          <tr>
+            <td>&nbsp;</td>
+            <td width="459"><a href="modeler/modeler.html">Modeler</a></td>
+          </tr>
+          <tr>
+            <td>&nbsp;</td>
+            <td width="459"><a href="sql_editor/sql_editor.html">SQL
+Editor</a></td>
+          </tr>
+          <tr>
+            <td>&nbsp;</td>
+            <td width="459"><a href="query_results/query_results.html">Query
+Results Window and Export</a></td>
+          </tr>
+          <tr>
+            <td>&nbsp;</td>
+            <td width="459"><a href="form_view/form_view.html">Form
+Views</a></td>
+          </tr>
+          <tr>
+            <td>&nbsp;</td>
+            <td width="459"><a href="query_builder/query_builder.html">Query
+Builder</a></td>
+          </tr>
+          <tr>
+            <td>&nbsp;</td>
+            <td width="459"><a href="license.html">License</a></td>
+          </tr>
+        </tbody>
+      </table>
+      <p></p>
+      <p><br>
+      </p>
+      <p><a name="requirements"></a><b> Requirements</b></p>
+      <p>Abeille has been tested on Red Hat Linux 8.0 and Microsoft
+Windows 2000/XP.</p>
+Abeille has been tested with the following databases:<br>
+      <table border="0">
+        <tbody>
+          <tr>
+            <td><b>Oracle 9i, 8i</b></td>
+          </tr>
+          <tr>
+            <td><b>DB2 V8.1</b></td>
+          </tr>
+          <tr>
+            <td><b>DaffodilDb v2.2</b></td>
+          </tr>
+          <tr>
+            <td><b>PostgreSQL 7.2.x, 7.3.x</b></td>
+          </tr>
+          <tr>
+            <td><b>MySQL 3.23, 4.0</b></td>
+          </tr>
+          <tr>
+            <td><b>McKOI 1.0</b></td>
+          </tr>
+          <tr>
+            <td><b>HSQLDB 1.7.1</b></td>
+          </tr>
+          <tr>
+            <td><b>PointBase 4.6</b></td>
+          </tr>
+          <tr>
+            <td><b>JDataStore 6.0</b></td>
+          </tr>
+          <tr>
+            <td><b>Sybase 12.5</b></td>
+          </tr>
+        </tbody>
+      </table>
+      <p></p>
+      <p><br>
+      <a name="installation"></a><b>Downloading and Installing Abeille</b></p>
+      <p>Abeille requires Java 1.4 or higher.&nbsp; You can download
+Java from: <a href="http://www.java.com">http://www.java.com.</a></p>
+      <p>Download and unzip the file abeille20.zip.&nbsp; This zip
+archive contains the following files:<br>
+      <br>
+      </p>
+      <table border="0" cellspacing="2" width="500">
+        <tbody>
+          <tr>
+            <td width="121"><b>dbclient.jar</b></td>
+            <td width="609">The JAR file for the application.</td>
+          </tr>
+          <tr>
+            <td width="121"><b>README.txt</b></td>
+            <td width="609">The README file for Abeille. </td>
+          </tr>
+          <tr>
+            <td width="121"><b>documentation/</b></td>
+            <td width="609">The documentation directory.</td>
+          </tr>
+        </tbody>
+      </table>
+      <p> <b></b></p>
+      <table border="0" cellspacing="0" cellpadding="0">
+        <tbody>
+          <tr>
+            <td>You can now start Abeille. Simply type:</td>
+            <td width="75">&nbsp;</td>
+            <td width="352"><b>java -jar dbclient.jar</b></td>
+          </tr>
+        </tbody>
+      </table>
+      <br>
+      <p><a name="connections"></a><b>Connection Management</b></p>
+      <p>When Abeille is run for the first time, the first window you
+should see is the connection manager dialog. Here you must define the
+connection parameters for the database that you wish to connect to.
+Select Create New Connection button.</p>
+      <p></p>
+      <p align="center"><img src="help_images/connection_mgr1.png"
+ title="" alt="" style="width: 643px; height: 368px;"><br>
+      </p>
+      <p align="left"></p>
+      <p align="left"></p>
+      <br>
+      <p><a name="basic_connection_view"></a><b>Basic Connection View</b></p>
+      <p>When you click the create connection button, a dialog is
+displayed that allows you to select a database and enter the connection
+parameters for that database. The basic connection view assumes you are
+using the <b>default</b> JBDC drivers supplied by your database
+vendor. If you wish to use a 3rd party JDBC driver, you must click the
+Advanced check box and manually enter the JDBC information.</p>
+      <p></p>
+      <p align="center"><img src="help_images/create_connection.png"
+ title="" alt="" style="width: 512px; height: 334px;"><br>
+      <br>
+      </p>
+      <table border="0" width="500">
+        <tbody>
+          <tr>
+            <td>
+            <table border="0" cellspacing="0" cellpadding="0"
+ style="height: 294px; width: 691px;">
+              <tbody>
+                <tr>
+                  <td width="142" valign="top"><b>Database</b></td>
+                  <td width="622" style="vertical-align: top;">Identifies
+the database you want to use for this connection. Abeille currently
+supports DB2,HSQLDB,McKOI, MySQL, Oracle, PostgreSQL, and Sybase. You
+can also define a generic connection for any JDBC supported database.</td>
+                </tr>
+                <tr>
+                  <td width="142" valign="top"><b>Name</b></td>
+                  <td width="622" style="vertical-align: top;">This is
+the name of the database instance. <br>
+(For Oracle this is the SID and for McKOI this is the default schema).</td>
+                </tr>
+                <tr>
+                  <td width="142" valign="top"><b>Description</b></td>
+                  <td width="622" style="vertical-align: top;">An
+arbitrary description for this connection.</td>
+                </tr>
+                <tr>
+                  <td width="142" valign="top"><b>Server</b></td>
+                  <td width="622" style="vertical-align: top;">The
+hostname or IP address where your database is running.</td>
+                </tr>
+                <tr>
+                  <td width="142" valign="top"><b>Port</b></td>
+                  <td width="622" style="vertical-align: top;">The port
+number to use to connect to your database.</td>
+                </tr>
+                <tr>
+                  <td width="142" valign="top"><b>JDBC JAR File</b></td>
+                  <td width="622" style="vertical-align: top;">The JAR
+path/file(s) supplied by your database vendor.</td>
+                </tr>
+              </tbody>
+            </table>
+            </td>
+          </tr>
+          <tr>
+            <td>
+            <p>*You don't have to supply the driver name in this view.
+Abeille assumes the default driver supplied by your vendor.</p>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <p align="left"></p>
+      <br>
+      <p><a name="connection_settings"></a><b>Default Connection
+Parameters</b></p>
+      <p>The following table lists the default JDBC information for
+each database. </p>
+      <table border="1" cellspacing="0" cellpadding="0"
+ bgcolor="#ffffcc" width="580">
+        <tbody>
+          <tr>
+            <td bgcolor="#000066" align="center"><font color="#ffffff">Database</font></td>
+            <td bgcolor="#000066" align="center"><font color="#ffffff">Driver</font></td>
+            <td bgcolor="#000066" width="131" align="center"><font
+ color="#ffffff"> Port</font></td>
+            <td bgcolor="#000066" align="center"><font color="#ffffff">URL</font></td>
+          </tr>
+          <tr>
+            <td width="141" bgcolor="#ffffcc"><b>DB2*</b></td>
+            <td width="115">COM.ibm.db2.jdbc.net.DB2Driver</td>
+            <td width="131">6789</td>
+            <td width="202">jdbc:db2://&lt;server&gt;:&lt;port&gt;/&lt;name&gt;</td>
+          </tr>
+          <tr>
+            <td width="141"><b>HSQLDB</b></td>
+            <td width="115">org.hsqldb.jdbcDriver</td>
+            <td width="131">9001</td>
+            <td width="202">jdbc:hsqldb:hsql://&lt;server&gt;:&lt;port&gt;</td>
+          </tr>
+          <tr>
+            <td width="141"><b>McKOI</b></td>
+            <td width="115">com.mckoi.JDBCDriver</td>
+            <td width="131">9157</td>
+            <td width="202">jdbc:mckoi://&lt;server&gt;:&lt;port&gt;</td>
+          </tr>
+          <tr>
+            <td width="141"><b>MySQL</b></td>
+            <td width="115">com.mysql.jdbc.Driver</td>
+            <td width="131">3306</td>
+            <td width="202">jdbc:mysql://&lt;server&gt;:&lt;port&gt;/&lt;name&gt;</td>
+          </tr>
+          <tr>
+            <td width="141"><b>Oracle</b></td>
+            <td width="115">oracle.jdbc.driver.OracleDriver</td>
+            <td width="131">1521</td>
+            <td width="202">jdbc:oracle:thin:@&lt;server&gt;:&lt;port&gt;:&lt;name&gt;</td>
+          </tr>
+          <tr>
+            <td width="141"><b>PostgreSQL</b></td>
+            <td width="115">org.postgresql.Driver</td>
+            <td width="131">5432</td>
+            <td width="202">jdbc:postgresql://&lt;server&gt;:&lt;port&gt;/&lt;name&gt;</td>
+          </tr>
+          <tr>
+            <td width="141"><b>Sybase</b></td>
+            <td width="115">com.sybase.jdbc2.jdbc.SybDriver</td>
+            <td width="131">&nbsp;</td>
+            <td width="202">jdbc:sybase:Tds:&lt;server&gt;:&lt;port&gt;/&lt;name&gt;</td>
+          </tr>
+          <tr>
+            <td width="141"><b>Pointbase</b></td>
+            <td width="115">com.pointbase.jdbc.jdbcUniversalDriver</td>
+            <td width="131">9092</td>
+            <td width="202">jdbc:pointbase:server://&lt;server&gt;:&lt;port&gt;/&lt;name&gt;</td>
+          </tr>
+        </tbody>
+      </table>
+      <br>
+      <p>The following table lists the default JAR files supplied by
+each database vendor. </p>
+      <table border="0" width="580">
+        <tbody>
+          <tr>
+            <td>
+            <table border="1" cellspacing="0" cellpadding="0"
+ bgcolor="#ffffcc" width="580">
+              <tbody>
+                <tr>
+                  <td bgcolor="#000066" align="center"><font
+ color="#ffffff">Database</font></td>
+                  <td bgcolor="#000066" align="center"> <font
+ color="#ffffff"> JDBC JAR File</font></td>
+                </tr>
+                <tr>
+                  <td width="141" bgcolor="#ffffcc"><b>DB2*</b></td>
+                  <td width="299">db2java.zip,db2jcc.jar</td>
+                </tr>
+                <tr>
+                  <td width="141"><b>HSQLDB</b></td>
+                  <td width="299">hsqldb.jar</td>
+                </tr>
+                <tr>
+                  <td width="141"><b>McKOI</b></td>
+                  <td width="299">mkjdbc.jar</td>
+                </tr>
+                <tr>
+                  <td width="141"><b>MySQL</b></td>
+                  <td width="299">mysql-connector-java-3.0.11-stable-bin.jar</td>
+                </tr>
+                <tr>
+                  <td width="141"><b>Oracle</b></td>
+                  <td width="299">classes12.zip</td>
+                </tr>
+                <tr>
+                  <td width="141"><b>PostgreSQL</b></td>
+                  <td width="299">pg74.214.jdbc3.jar</td>
+                </tr>
+                <tr>
+                  <td width="141"><b>Sybase</b></td>
+                  <td width="299">jconn2.jar</td>
+                </tr>
+                <tr>
+                  <td width="141"><b>Pointbase</b></td>
+                  <td width="299">pbclient46.jar</td>
+                </tr>
+              </tbody>
+            </table>
+            </td>
+          </tr>
+          <tr>
+            <td>
+            <p>*DB2 requires two JAR files. Because of this, you need
+to use the Advanced dialog to configure DB2 connections.</p>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <p><a name="adv_connection_view"></a><b>Advanced View</b></p>
+      <p>If you are using DB2 or wish to use a 3rd party JDBC driver,
+then you must use the Advanced view. The advanced connection view
+allows you to specify any JDBC driver for the connection.</p>
+      <p align="center"><img src="help_images/create_connection_adv.png"
+ title="" alt="" style="width: 512px; height: 334px;"><br>
+      <br>
+      </p>
+      <table border="0" width="500">
+        <tbody>
+          <tr>
+            <td>
+            <table border="0" cellspacing="0" cellpadding="0"
+ style="width: 709px; height: 332px;">
+              <tbody>
+                <tr>
+                  <td width="157" valign="top"><b>Database</b></td>
+                  <td style="width: 606px; vertical-align: top;">Identifies
+the database you want to use for this connection. Abeille currently
+supports DB2,HSQLDB,McKOI, MySQL, Oracle, PostgreSQL, and Sybase. You
+can also define a generic connection for any JDBC supported database.</td>
+                </tr>
+                <tr>
+                  <td width="157" valign="top"><b>Description</b></td>
+                  <td width="606" style="vertical-align: top;">An
+arbitrary description for this connection.</td>
+                </tr>
+                <tr>
+                  <td width="157" valign="top"><b>Driver</b></td>
+                  <td width="606" style="vertical-align: top;">The name
+of the JDBC driver class. The following table displays the default
+drivers for each supported database. If you are using a third party
+driver, then provide the name specified by your driver vendor.</td>
+                </tr>
+                <tr>
+                  <td width="157" valign="top"><b>URL</b></td>
+                  <td width="606" style="vertical-align: top;">The URL
+to use to connect to your database. The form of the URL is dependent on
+the database vendor.</td>
+                </tr>
+                <tr>
+                  <td width="157" valign="top"><b>JDBC JAR File(s)</b></td>
+                  <td width="606" style="vertical-align: top;">The
+path/file(s) to your JDBC drivers.</td>
+                </tr>
+              </tbody>
+            </table>
+            </td>
+          </tr>
+          <tr>
+            <td><br>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <p></p>
+      <p> Once you've defined your connection, press Ok on the dialog.
+At this point, the login dialog should be displayed on the screen. You
+can supply a user name and password to login and continue with the
+application. Once you've successfully connected to your database, the main application window will be displayed.</p>
+      <br>
+      <p><a name="mainwindow"></a><b>Main Window</b></p>
+      <p> </p>
+      <p>When Abeille connects to a database, four major application
+windows are displayed:&nbsp; Connection Manager, Object Tree, Model
+View, and SQL Editor. The Object Tree displays tables and views for
+each database. The Model View displays existing and prototype tables.
+Initially, the model view is empty. You can add tables to the view by
+clicking the Add Table button on the toolbar or you can simply drag and
+drop tables from the object view. Finally, the SQL editor allows you to
+perform ad-hoc queries.</p>
+      <p style="margin-bottom: 0cm;" align="center"><img
+ src="help_images/application.png" title="" alt=""
+ style="width: 640px; height: 384px;"><br>
+      </p>
+      <p style="margin-bottom: 0cm;"></p>
+      <br>
+      <table border="0" cellspacing="2"
+ style="width: 673px; height: 392px;">
+        <tbody>
+          <tr>
+            <td style="vertical-align: top;"><img
+ src="images/incors/16x16/text_tree.png"
+ width = "16" height="16" valign="top" title="" alt=""></td>
+            <td style="vertical-align: top;"> Displays the Object Frame
+            <a href="#objectview"></a>for the active connection. This
+includes all tables and views.&nbsp; Abeille supports sequences and
+functions in PostreSQL.</td>
+          </tr>
+          <tr>
+            <td style="vertical-align: top;"><img
+ src="images/incors/16x16/branch.png"
+ width="16" height="16" valign="top"  title="" alt=""></td>
+            <td style="vertical-align: top;">Displays the <a
+ href="modeler/modeler.html">Model View</a> for the active connection.
+The model view graphically shows tables and relationships between
+tables. It also shows tables that are currently being modeled and user
+defined links.</td>
+          </tr>
+          <tr>
+            <td style="vertical-align: top;"><img
+ src="images/incors/16x16/view.png"
+ width="16" height="16" valign="top"  title="" alt=""></td>
+            <td style="vertical-align: top;"> Displays the <a
+ href="sql_editor/sql_editor.html">SQL Editor</a> for the active
+connection.</td>
+          </tr>
+          <tr>
+            <td style="vertical-align: top;"><img
+ src="images/incors/16x16/table_sql_check.png"
+ width="16" height="16" valign="top"  title="" alt=""></td>
+            <td style="vertical-align: top;">Displays the <a
+ href="modeler/modeler.html#tableprops">Table Properties</a> for the
+active connection. The user can select a table in the dialog and
+inspect the table's columns and other properties.</td>
+          </tr>
+          <tr>
+            <td style="vertical-align: top;"><img
+ src="images/incors/16x16/scroll.png"
+ width="16" height="16" valign="top"  title="" alt=""></td>
+            <td style="vertical-align: top;">Displays the application
+log. This view shows all SQL statements that have been executed for all
+connections.</td>
+          </tr>
+          <tr>
+            <td style="vertical-align: top;"><img
+ src="images/incors/16x16/server_connection.png"
+ width="16" height="16" valign="top"  title="" alt=""></td>
+            <td style="vertical-align: top;">Invokes the login dialog.
+Allows a user to open a new database connection in the application. </td>
+          </tr>
+          <tr>
+            <td style="vertical-align: top;"><img
+ src="images/incors/16x16/server_forbidden.png"
+ width="16" height="16" valign="top"  title="" alt=""></td>
+            <td style="vertical-align: top;"> Disconnects from the
+active database.</td>
+          </tr>
+          <tr>
+            <td style="vertical-align: top;"><img
+ src="images/incors/16x16/information.png"
+ width="16" height="16" valign="top"  title="" alt=""></td>
+            <td style="vertical-align: top;"> Invokes the System
+Information dialog. This dialog shows properties of the current JDBC
+driver and database.</td>
+          </tr>
+          <tr>
+            <td style="vertical-align: top;"><img
+ src="images/incors/16x16/server_into.png" title="" alt=""
+ width="16" height="16" valign="top" ><br>
+            </td>
+            <td style="vertical-align: top;">Makes the next connection
+active.<br>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+       <br>
+      <br>
+      <br>
+      <p align="center" style="margin-bottom: 0cm;"></p>
+      <p><b>Object View<br>
+      </b></p>
+      <p style="margin-bottom: 0cm;">The Object View displays all user
+tables in the database. By right clicking on a table, you can invoke
+several common operations in the application.</p>
+      <p>Table Properties displays
+the table properties dialog. This dialog allows the user to see the
+table's metadata.</p>
+      <p> Form View displays the table in a
+form view. This allows the user to query, add, modify and delete data
+in the table. Form views also allow the user to navigate to related
+tables simply by clicking the column name in the form.</p>
+      <p>Table Query (select *) performs a
+select * against the selected table. The results are displayed in the <a
+ href="query_results/query_results.html">Query Results</a> window.</p>
+      <p>Reload. Allows the user to reload
+the table. This is useful if the table structure has changed by either
+a SQL command or another user. </p>
+      <br>
+      <p></p>
+      <p></p>
+      </td>
+    </tr>
+  </tbody>
+</table>
+</body>
+</html>

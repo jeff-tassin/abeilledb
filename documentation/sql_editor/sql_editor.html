@@ -1,0 +1,256 @@
+<!DOCTYPE HTML PUBLIC "-//SoftQuad Software//DTD HoTMetaL PRO 6.0::19990601::extensions to HTML 4.0//EN" "hmpro6.dtd">
+<html>
+<head>
+  <title>JETA Software</title>
+  <meta http-equiv="Content-Type"
+ content="text/html; charset=iso-8859-1">
+</head>
+<body leftmargin="0" marginwidth="0" topmargin="10" marginheight="10">
+<p><b>SQL Editor</b></p>
+<p style="margin-bottom: 0cm;">Abeille provides a SQL editor complete
+with syntax highlighting, history buffer, customizable key bindings,
+and macro support. Multiple files can be opened in the editor. However,
+only the SQL buffer can execute SQL commands. SQL from other buffers
+must be transferred to the SQL buffer to be executed. </p>
+<p style="margin-bottom: 0cm;" align="center"><img
+ src="../help_images/sql_editor.png" title="" alt=""
+ style="width: 640px; height: 420px;"><br>
+</p>
+<br>
+<table border="0" cellspacing="2">
+  <tbody>
+    <tr>
+      <td><img src="../images/incors/16x16/clear.png"
+ width="16" height="16" title="" alt=""></td>
+      <td>Clears the current editor of all text.</td>
+    </tr>
+    <tr>
+      <td height="24"><img src="../images/incors/16x16/folder.png"
+ width="16" height="16" title="" alt=""></td>
+      <td height="24">Opens a file. This opens the file in another
+buffer in the SQL frame. While the SQL editor allows you to<br>
+work with multiple buffers, only the SQL buffer can execute SQL
+commands.</td>
+    </tr>
+    <tr>
+      <td><img src="../images/incors/16x16/disk_blue.png"
+ width="16" height="16" title="" alt=""></td>
+      <td>Saves the current file/buffer to disk. <br>
+      </td>
+    </tr>
+    <tr>
+      <td><img src="../images/incors/16x16/undo.png"
+ width="16" height="16" title="" alt=""></td>
+      <td>Undo the last operation.</td>
+    </tr>
+    <tr>
+      <td><img src="../images/run_all16.gif"
+ width="16" height="16" title="" alt=""></td>
+      <td>Invokes all SQL commands in the current buffer. The default
+keyboard short cut for this is CTRL-T</td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;"><img
+ src="../images/run_current_all16.gif" title="" alt=""
+ width="16" height="16"><br>
+      </td>
+      <td style="vertical-align: top;">Executes all SQL statements from
+the current cursor position.<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;"><img
+ src="../images/run_current16.gif" title="" alt=""
+ width="16" height="16"><br>
+      </td>
+      <td style="vertical-align: top;">Executes the SQL statement that
+contains the current cursor position.<br>
+      </td>
+    </tr>
+    <tr>
+      <td><img src="../images/incors/16x16/find_text.png"
+ width="16" height="16" title="" alt=""></td>
+      <td>Invokes the text search dialog.</td>
+    </tr>
+  </tbody>
+</table>
+<br>
+<p></p>
+<p><a name="keybindings"></a><b>Key Bindings</b></p>
+<p style="margin-bottom: 0cm;">The SQL editor supports customized key
+bindings as well as macros. You can invoke the SQL Preferences dialog
+from the Tools-Preferences menu. </p>
+<p style="margin-bottom: 0cm;">You can edit the default key bindings
+for the supported actions in the editor. You can also create a new set
+of key bindings to emulate editors such as vi and emacs. You can edit
+the current bindings by invoking the Edit Key Bindings dialog. This
+dialog lists all actions in the editor. It also lists the key strokes
+used to invoke the action.</p>
+<p style="margin-bottom: 0cm;" align="center"><img
+ src="../help_images/key_bindings.png" title="" alt=""
+ style="width: 508px; height: 459px;"><br>
+</p>
+<p style="margin-bottom: 0cm;" align="center"></p>
+<br>
+<table border="0" cellspacing="2">
+  <tbody>
+    <tr>
+      <td><img src="../images/incors/16x16/clear.png"
+ width="16" height="16" title="" alt=""></td>
+      <td>Clears the key bindings for the selected action.</td>
+    </tr>
+    <tr>
+      <td><img src="../images/incors/16x16/document_add.png"
+ width="16" height="16" title="" alt=""></td>
+      <td> Creates a new key binding for the selected action. This
+allows you to create multiple bindings for the same action.</td>
+    </tr>
+    <tr>
+      <td><img src="../images/incors/16x16/document_edit.png"
+ width="16" height="16" title="" alt=""></td>
+      <td>Edits the bindings for the selected action.</td>
+    </tr>
+    <tr>
+      <td><img src="../images/incors/16x16/document_delete.png"
+ width="16" height="16" title="" alt=""></td>
+      <td>Deletes the bindings for the selected action. This is only
+allowed if there are multiple bindings for the given action. If there
+is only one binding for the selected action, this command is disabled.</td>
+    </tr>
+    <tr>
+      <td><img src="../images/incors/16x16/refresh.png"
+ width="16" height="16" title="" alt=""></td>
+      <td>Resets ALL key bindings to their default values.</td>
+    </tr>
+  </tbody>
+</table>
+<p style="margin-bottom: 0cm;"> </p>
+<p style="margin-bottom: 0cm;"> </p>
+<p style="margin-bottom: 0cm;">Common Default Actions</p>
+<p style="margin-bottom: 0cm;">Abeille has several predefined actions
+that are useful in the SQL editor:</p>
+<table border="0" cellspacing="4">
+  <tbody>
+    <tr>
+      <td width="150" valign="top"><i>execute-sql</i></td>
+      <td width="576">executes the SQL in the SQL buffer.</td>
+      <td width="576" valign="top"><b>CTRL</b>+<b>T</b></td>
+    </tr>
+    <tr>
+      <td width="150" valign="top"><i>sql-history-next</i></td>
+      <td width="576">inserts the next SQL statement in the history
+list. This allows you to scroll through SQL statements</td>
+      <td width="576" valign="top"><b>CTRL</b>+<b>up arrow</b></td>
+    </tr>
+    <tr>
+      <td width="150" valign="top"><i>sql-history-previous</i></td>
+      <td width="576">this action inserts the previous SQL statement in
+the history list.</td>
+      <td width="576" valign="top"><b>CTRL</b>+<b>down arrow</b></td>
+    </tr>
+    <tr>
+      <td width="150" valign="top"><i>table-name-completion</i></td>
+      <td width="576">displays a drop down combo box with all user
+tables in the system</td>
+      <td width="576" valign="top"><b>CTRL</b>+<b>period</b></td>
+    </tr>
+    <tr>
+      <td width="150" valign="top"><i>sql-select-star</i></td>
+      <td width="576"> macro that inserts the text, <i>select * from,</i>
+into the SQL buffer.</td>
+      <td width="576" valign="top"><b>CTRL</b>+<b>8</b></td>
+    </tr>
+  </tbody>
+</table>
+<p style="margin-bottom: 0cm;"><br>
+</p>
+<p></p>
+<p><a name="macros"></a><b>Macros</b></p>
+<p style="margin-bottom: 0cm;">Abeille allows you to define custom
+macros.</p>
+<p style="margin-bottom: 0cm;" align="center"><img src="macros.png"
+ width="578" height="349" border="0"></p>
+<br>
+<p></p>
+<p style="margin-bottom: 0cm;"> Macros are defined by creating a series
+of actions: </p>
+<br>
+<table border="0" cellspacing="2">
+  <tbody>
+    <tr>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td><b> [action 1] [action 2] ... [action N] </b></td>
+    </tr>
+  </tbody>
+</table>
+<p style="margin-bottom: 0cm;">Additionally, you can use the macro to
+insert text into the edtior:</p>
+<br>
+<table border="0" cellspacing="2">
+  <tbody>
+    <tr>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td><b> [action 1] &#8220;text&#8221; [action 2]</b></td>
+    </tr>
+  </tbody>
+</table>
+<p style="margin-bottom: 0cm;" align="center"></p>
+<p style="margin-bottom: 0cm;">For example, to create a macro that puts
+quotation marks around a word, you would enter the following in the
+macro editor:</p>
+<br>
+<p style="margin-bottom: 0cm;" align="center"><img
+ src="macro_editor.png" width="482" height="218" border="0"></p>
+<p style="margin-bottom: 0cm;"></p>
+<table border="0" cellspacing="2">
+  <tbody>
+    <tr>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td><b>caret-begin-word "\"" caret-end-word "\""</b></td>
+    </tr>
+    <tr>
+      <td>&nbsp;</td>
+      <td>where:</td>
+      <td>caret-begin-word &#8211; predefined action to move the caret to the
+beginning of the current word.</td>
+    </tr>
+    <tr>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td> &#8220;\&#8221;&#8221; - inserts the quote character. You must use the control
+\ for this case</td>
+    </tr>
+    <tr>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td> caret-end-word - predefined action to move the caret to the
+end of the current word.</td>
+    </tr>
+    <tr>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+    </tr>
+  </tbody>
+</table>
+<p style="margin-bottom: 0cm;">Or, you could simply insert straight
+text into the editor as follows (e.g. sql-select-star macro)</p>
+<br>
+<table border="0" cellspacing="2">
+  <tbody>
+    <tr>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td><b>"select * from"</b></td>
+    </tr>
+  </tbody>
+</table>
+<br>
+<p style="margin-bottom: 0cm;">Once a macro has been defined, you can
+use the key binding editor to assign key strokes to the macro.</p>
+<br>
+</body>
+</html>

@@ -1,0 +1,179 @@
+/**
+ * Token definitions for parsing MySQL foreign key definitions because
+ * the JDBC driver has problems in some cases
+ *
+ * Format for a foreign key definition:
+ * (col1 col2 colN) REFER local_table/ref_table(col1 col2 colN)
+ *
+ * @author Jeff Tassin
+ *
+ */
+
+options
+{
+    LOOKAHEAD=2;
+    FORCE_LA_CHECK=true;
+    STATIC=false;
+    IGNORE_CASE = true;
+}
+
+PARSER_BEGIN(MySQLForeignKeyParser)
+
+package com.jeta.plugins.abeille.mysql.parsers;
+
+import java.util.Collection;
+import java.util.ArrayList;
+
+public class MySQLForeignKeyParser
+{
+    private ArrayList         m_localcols = new ArrayList();
+    private ArrayList         m_refcols = new ArrayList();
+    private String            m_reftable;
+    private String            m_refcatalog;
+    private String            m_updateaction;
+    private String            m_deleteaction;
+
+
+    public String getUpdateAction()
+    {
+	return m_updateaction;
+    }
+
+    public String getDeleteAction()
+    {
+	return m_deleteaction;
+    }
+ 
+    public String[] getLocalColumns()
+    {
+	return (String[])m_localcols.toArray( new String[0] );
+    }    
+
+    public String[] getReferenceColumns()
+    {
+	return (String[])m_refcols.toArray( new String[0] );
+    }    
+
+    public String getReferenceTable()
+    {
+	return m_reftable;
+    }
+
+    public String getReferenceCatalog()
+    {
+	return m_refcatalog;
+    }
+
+}
+
+PARSER_END(MySQLForeignKeyParser)
+
+SKIP:
+{
+    " "
+  | "\r"
+  | "\t"
+}
+
+
+TOKEN :
+{
+ < EOL: "\n" >
+}
+
+TOKEN:  /* Keywords */
+{
+  < REFER: "REFER" >
+|  < ON_DELETE: "ON DELETE" >
+|  < ON_UPDATE: "ON UPDATE" >
+|  < CASCADE: "CASCADE" >
+|  < SET_NULL: "SET NULL" >
+|  < NO_ACTION: "NO ACTION" >
+|  < RESTRICT: "RESTRICT" >
+}     
+
+TOKEN:  /* Literals */
+{
+    < INTEGER_LITERAL: (["0"-"9"])+ >
+  | < FLOATING_POINT_LITERAL:
+          (["0"-"9"])+ "." (["0"-"9"])+ (<EXPONENT>)?
+        | "." (["0"-"9"])+ (<EXPONENT>)?
+        | (["0"-"9"])+ <EXPONENT>
+        | (["0"-"9"])+ (<EXPONENT>)?
+    >
+  | < #EXPONENT: ["e","E"] (["+","-"])? (["0"-"9"])+ >
+  | < STRING_LITERAL: "'" (~["'"])* ( "''" (~["'"])* )* "'" >
+}
+
+
+TOKEN:  /* Identifiers */
+{
+    < ID: ( <LETTER> )+ ( "_" | "$" | "#" | <DIGIT> | <LETTER> )* >
+  | < #LETTER: ["A"-"Z", "a"-"z"] >
+  | < #DIGIT: ["0"-"9"] >
+}
+
+
+TOKEN:  /* Separators and operators */
+{
+    < COMMA: "," >
+}
+
+/**
+* Invoke parse to start the parse operation
+*/
+void parse():
+{  Token x = null; }
+{
+  "(" getColumns(true) <REFER>
+   { 
+
+   }
+   x = <ID> { m_refcatalog = x.image; }
+   "/"
+   x = <ID> { m_reftable = x.image; }
+  "(" getColumns(false) 
+   getActions()
+}	
+
+void getColumns( boolean local ):
+{  Token x = null; }
+{
+  (x = <ID> 
+  {
+	if ( local )
+	   m_localcols.add( x.image );
+        else
+	   m_refcols.add( x.image );
+  } 
+  getColumns( local )
+  )
+  | ")"
+}
+
+
+void getActions() :
+{  Token x = null; String action; }
+{
+   <EOF>
+   |
+   (<ON_DELETE> 
+    action = getAction() {  m_deleteaction = action; }
+    getActions()
+   )
+   |
+   (<ON_UPDATE>
+    action = getAction() { m_updateaction = action; }
+    getActions()
+   )
+}
+
+String getAction() : 
+{  Token x = null; }
+{
+   x = <CASCADE> { return x.image; }
+ | x = <SET_NULL> { return x.image; }
+ | x = <NO_ACTION> { return x.image; }
+ | x = <RESTRICT> { return x.image; }
+}   
+ 

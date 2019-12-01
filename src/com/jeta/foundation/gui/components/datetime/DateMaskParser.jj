@@ -1,0 +1,81 @@
+/**
+ * Token definitions for the date mask parse
+ * @author Jeff Tassin
+ *
+ */
+
+options
+{
+    LOOKAHEAD=3;
+    FORCE_LA_CHECK=true;
+    STATIC=false;
+}
+
+PARSER_BEGIN(DateMaskParser)
+
+package com.jeta.foundation.gui.components.datetime;
+
+import com.jeta.foundation.gui.components.DateMask;
+
+public class DateMaskParser
+{
+    public static void main(String args[]) throws ParseException 
+    {
+
+    }	
+ 
+    public DateMask parse() throws ParseException
+    {
+      DateMask ddef = new DateMask();
+      subParse( ddef ); 
+      return ddef;
+    }
+}
+
+PARSER_END(DateMaskParser)
+
+TOKEN :
+{
+ < EOL: "\n" >
+}
+
+TOKEN: 
+{
+  < yyyy: "yyyy" >
+  |  < MM: "MM" >
+  |  < MMM: "MMM" >
+  |  < dd: "dd" >
+}     
+
+TOKEN: 
+{
+  < ANY2: (~["y", "M", "d"])+ >
+}
+
+
+
+
+void subParse( DateMask ddef ):
+{
+   Token x;
+   String el;
+}
+{ 
+    x = <ANY2>  { ddef.addElement( x.image );  subParse(ddef); }
+     |
+    el = element() { ddef.addElement(el); subParse(ddef); }
+     |
+    <EOF>
+}
+
+
+String element():
+{
+   Token x;
+}
+{
+   x = <yyyy> { return x.image; }
+  | x = <MM> { return x.image; }
+  | x = <MMM>  { return x.image; }
+  | x = <dd> { return x.image; }
+}

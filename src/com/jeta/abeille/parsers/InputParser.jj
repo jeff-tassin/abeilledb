@@ -1,0 +1,107 @@
+/**
+ * Token definitions for Input parser
+ *  type:   javacc InputParser.jj
+ * @author Jeff Tassin
+ *
+ */
+
+options
+{
+    LOOKAHEAD=2;
+    FORCE_LA_CHECK=true;
+    STATIC=false;
+    IGNORE_CASE = true;
+}
+
+PARSER_BEGIN(InputParser)
+
+package com.jeta.abeille.parsers;
+
+import java.util.Collection;
+import java.util.LinkedList;
+
+public class InputParser
+{
+    private LinkedList        m_tokens = new LinkedList();
+
+    public Collection getTokens()
+    {
+        return m_tokens;
+    }    
+
+}
+
+PARSER_END(InputParser)
+
+SKIP:
+{
+    " "
+  | "\r"
+  | "\t"
+}
+
+
+TOKEN :
+{
+ < EOL: "\n" >
+}
+
+TOKEN:  /* Keywords */
+{
+  < AND: "and" >
+  | < OR: "or" >
+}     
+
+TOKEN:  /* Literals */
+{
+    < INTEGER_LITERAL: (["0"-"9"])+ >
+  | < FLOATING_POINT_LITERAL:
+          (["0"-"9"])+ "." (["0"-"9"])+ (<EXPONENT>)?
+        | "." (["0"-"9"])+ (<EXPONENT>)?
+        | (["0"-"9"])+ <EXPONENT>
+        | (["0"-"9"])+ (<EXPONENT>)?
+    >
+  | < #EXPONENT: ["e","E"] (["+","-"])? (["0"-"9"])+ >
+  | < STRING_LITERAL: "'" (~["'"])* ( "''" (~["'"])* )* "'" >
+}
+
+
+TOKEN:  /* Identifiers */
+{
+    < ID: ( <LETTER> )+ ( "_" | "$" | "#" | <DIGIT> | <LETTER> )* >
+  | < #LETTER: ["A"-"Z", "a"-"z"] >
+  | < #DIGIT: ["0"-"9"] >
+}
+
+
+TOKEN:  /* Separators and operators */
+{
+    < COMMA: "," >
+}
+
+/**
+* Invoke parse to start the parse operation
+*/
+void parse():
+{  Token token = null; }
+{
+   (token = <STRING_LITERAL> 
+   { 
+	m_tokens.add( token.image );
+   }
+   |
+   token = <ID>
+   {
+	m_tokens.add( token.image );
+   }
+   )
+   ( <COMMA>
+   {
+	parse();
+   }
+   | <EOF>
+   {
+	return;
+   })
+}
+
