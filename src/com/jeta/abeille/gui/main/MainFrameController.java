@@ -336,14 +336,9 @@ public class MainFrameController extends TSController implements TSListener, DbM
 			} catch (Exception e) {
 				TSUtils.printException(e);
 			}
-			// panel.add( javax.swing.Box.createVerticalStrut(20),
-			// BorderLayout.SOUTH );
-			// Dimension d2 = TSGuiToolbox.getWindowDimension(1,8);
-			// d.height += d2.height;
 
 			dlg.setPrimaryPanel(panel);
-			// TSGuiToolbox.setReasonableWindowSize( dlg, d );
-			dlg.setSize(dlg.getPreferredSize());
+			dlg.setSize( new java.awt.Dimension(430,350) );
 			dlg.setTitle(I18N.getLocalizedMessage("About"));
 			dlg.setResizable(false);
 			dlg.showCenter();
