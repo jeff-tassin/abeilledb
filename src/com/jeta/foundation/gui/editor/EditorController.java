@@ -5,53 +5,35 @@
 
 package com.jeta.foundation.gui.editor;
 
-import java.awt.Color;
-import java.awt.Container;
-
 import java.awt.dnd.DropTarget;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.IOException;
 
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.HashMap;
 
 import javax.swing.JComponent;
 import javax.swing.JEditorPane;
-import javax.swing.JLabel;
-import javax.swing.JFileChooser;
+
 import javax.swing.JOptionPane;
-import javax.swing.SwingUtilities;
-import javax.swing.Timer;
+
 import javax.swing.event.CaretEvent;
 import javax.swing.event.CaretListener;
-import javax.swing.event.DocumentListener;
-import javax.swing.event.DocumentEvent;
+
 
 import javax.swing.text.Caret;
-import javax.swing.text.JTextComponent;
 import javax.swing.text.Document;
-import javax.swing.undo.UndoableEdit;
 
 import com.jeta.foundation.utils.TSUtils;
 import com.jeta.foundation.gui.utils.TSGuiToolbox;
 
-import com.jeta.foundation.componentmgr.ComponentMgr;
 
 import com.jeta.foundation.gui.components.TSController;
-import com.jeta.foundation.gui.components.TSDialog;
 
 import com.jeta.foundation.gui.filechooser.TSFileChooserFactory;
 import com.jeta.foundation.i18n.I18N;
 
-import com.jeta.foundation.interfaces.userprops.TSUserProperties;
 
 import com.jeta.open.gui.framework.JETAContainer;
 
@@ -483,7 +465,7 @@ public class EditorController extends TSController {
 		public void actionPerformed(ActionEvent evt) {
 			File f = TSFileChooserFactory.showOpenDialog();
 			if (f != null) {
-				openFile(f);
+                openFileIntoBuffer(f, m_buffermgr.getCurrentBuffer());
 			}
 		}
 	}
