@@ -29,7 +29,7 @@ public abstract class InstanceMetaData {
 	 * Adds a column setting to the meta data model
 	 */
 	protected void addColumnSettings(ColumnSettings ci) {
-		m_data.add(ci);
+	    m_data.add(ci);
 	}
 
 	/**

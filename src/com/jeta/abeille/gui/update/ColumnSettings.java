@@ -41,8 +41,7 @@ public class ColumnSettings implements JETAExternalizable {
 	 * This is used for those instanceviews that require the modelindex to be
 	 * saved. Specifically, this is needed when the InstanceView is based on a
 	 * SQL query result. The only reliable way to match columns to the settings
-	 * is to use the model index. The formbuilder and tableinstance don't use
-	 * this.
+	 * is to use the model index.
 	 */
 	private int m_modelindex;
 
@@ -226,4 +225,7 @@ public class ColumnSettings implements JETAExternalizable {
 		out.writeInt(m_modelindex);
 	}
 
+	public String toString() {
+	    return "ColumnSetting " + m_cmd.getName() + "  index: " + m_modelindex;
+    }
 }

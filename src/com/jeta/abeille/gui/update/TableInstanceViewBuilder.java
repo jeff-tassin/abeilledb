@@ -84,9 +84,11 @@ public class TableInstanceViewBuilder implements InstanceViewBuilder {
 		dlg.setSize(dlg.getPreferredSize());
 		dlg.showCenter();
 		if (dlg.isOk()) {
-			m_view.getModel().setMetaData(panel.getMetaData());
+		    m_metadata = (TableInstanceMetaData)panel.getMetaData();
+			m_view.getModel().setMetaData(m_metadata);
 			m_view.reset();
 			m_view.doLayout();
+			m_metadata.saveSettings();
 		}
 	}
 

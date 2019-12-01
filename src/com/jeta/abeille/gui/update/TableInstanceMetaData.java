@@ -65,8 +65,7 @@ public class TableInstanceMetaData extends InstanceMetaData {
 
 		// load the model with the default settings
 		if (tableId != null) {
-			TableMetaData tmd = m_connection.getModel(tableId.getCatalog()).getTableEx(tableId,
-					TableMetaData.LOAD_FOREIGN_KEYS);
+			TableMetaData tmd = m_connection.getModel(tableId.getCatalog()).getTableEx(tableId,	TableMetaData.LOAD_FOREIGN_KEYS);
 			m_tmd = tmd;
 		} else {
 			m_tmd = null;
@@ -199,6 +198,8 @@ public class TableInstanceMetaData extends InstanceMetaData {
 	 * @return the stored column settings for this table
 	 */
 	public ColumnSettings getStoredColumnSettings(String colName) {
+
+
 		if (m_tmd == null)
 			return null;
 
@@ -254,14 +255,14 @@ public class TableInstanceMetaData extends InstanceMetaData {
 	 *            presets.
 	 */
 	public void load(TableMetaData tmd, ColumnMetaData[] presetColumns) {
-		if (tmd == null)
-			return;
+		if (tmd == null) {
+            return;
+        }
 
-		ArrayList col_settings = new ArrayList();
+		ArrayList<ColumnSettings> col_settings = new ArrayList();
 
 		if (presetColumns != null && presetColumns.length > 0) {
 			// first convert the presets to an array of default column settings
-
 			for (int index = 0; index < presetColumns.length; index++) {
 				ColumnMetaData cmd = presetColumns[index];
 				if (tmd.getColumn(cmd.getColumnName()) != null) {
@@ -296,9 +297,9 @@ public class TableInstanceMetaData extends InstanceMetaData {
 			}
 		}
 
+        col_settings.sort((ColumnSettings c1, ColumnSettings c2)->c1.getModelIndex() - c2.getModelIndex());
 		// now iterate over the stored data and make sure that all columns in
-		// the stored data
-		// are present in the table metadata
+		// the stored data are present in the table metadata
 		Iterator iter = col_settings.iterator();
 		while (iter.hasNext()) {
 			ColumnSettings setting = (ColumnSettings) iter.next();
@@ -309,9 +310,12 @@ public class TableInstanceMetaData extends InstanceMetaData {
 			}
 		}
 
+
+		// stored
+
+
 		for (int index = 0; index < col_settings.size(); index++) {
-			if (com.jeta.abeille.database.postgres.PostgresObjectStore.isShowOID(m_connection, m_tmd.getTableId())
-					&& index == 0) {
+			if (com.jeta.abeille.database.postgres.PostgresObjectStore.isShowOID(m_connection, m_tmd.getTableId()) && index == 0) {
 				ColumnMetaData oidcmd = new ColumnMetaData("oid", java.sql.Types.INTEGER, "INTEGER", 0,
 						m_tmd.getTableId(), false);
 				ColumnSettings defaultci = new ColumnSettings(oidcmd, true, new DefaultColumnHandler());
@@ -359,17 +363,21 @@ public class TableInstanceMetaData extends InstanceMetaData {
 			HashMap settings = new HashMap();
 			for (int index = 0; index < csa.length; index++) {
 				ColumnSettings cs = csa[index];
+				cs.setModelIndex(index);
 				settings.put(cs.getColumnName(), cs);
 			}
-
 			try {
 				os.store(oskey, settings);
 			} catch (java.io.IOException ioe) {
 				// just ignore
 			}
 		}
-
 		m_stored_settings = null;
 	}
+
+
+	public String toString() {
+	   return  "Table metadata " + m_stored_settings;
+    }
 
 }
