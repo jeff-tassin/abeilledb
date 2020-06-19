@@ -128,7 +128,7 @@ public class PostgresViewService implements ViewService {
 			if (stmt != null)
 				stmt.close();
 
-			conn.commit();
+			//conn.commit();
 		}
 		return view;
 	}
