@@ -439,6 +439,9 @@ class ModelData {
 				if (m_schema != Schema.VIRTUAL_SCHEMA) {
 					String schema = rset.getString("TABLE_SCHEM");
 					assert (m_schema.getName().equals(schema));
+					if ( !m_schema.getName().equals(schema)) {
+						continue;
+					}
 				}
 
 				if ("synonym_test119_".equalsIgnoreCase(tablename))
@@ -455,10 +458,12 @@ class ModelData {
 					tmd = new TableMetaData(tableid);
 
 				tmd.setTableType(ttype);
-				// TSUtils.printMessage( "ModelData.loadSchema: " +
-				// m_schema.getName() + "  table: " + tablename + "   type: " +
-				// ttype + "  isView: " + tmd.isView() + "   hash: " +
-				// tmd.hashCode() );
+				/*
+				TSUtils.printMessage( "ModelData.loadSchema: " +
+				m_schema.getName() + "  table: " + tablename + "   type: " +
+				ttype + "  isView: " + tmd.isView() + "   hash: " +
+				 tmd.hashCode() );
+				 */
 
 				addTable(m_schema, tmd);
 			}
