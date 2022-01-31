@@ -6,11 +6,11 @@ sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
 repositories {
-    jcenter()
+    mavenCentral()
 }
 
 dependencies {
-    implementation files('thirdparty/batik.jar','thirdparty/formsrt.jar', 'thirdparty/junit.jar')
+    compile files('thirdparty/batik.jar','thirdparty/formsrt.jar', 'thirdparty/junit.jar')
 }
 
 sourceSets {
@@ -34,9 +34,9 @@ task deploy(type: Jar, dependsOn: copyResources) {
         	'Implementation-Version': 1.0,
         	'Main-Class': 'com.jeta.abeille.main.Launcher'
     }
-    baseName = project.name 
+    baseName = project.name
     from { 
-    	configurations.compile.collect { 
+    	configurations.compile.collect {
     		it.isDirectory() ? it : zipTree(it) 
     	} 
     }
