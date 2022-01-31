@@ -10,7 +10,7 @@ repositories {
 }
 
 dependencies {
-    compile files('thirdparty/batik.jar','thirdparty/formsrt.jar', 'thirdparty/junit.jar')
+    implementation files('thirdparty/batik.jar','thirdparty/formsrt.jar', 'thirdparty/junit.jar')
 }
 
 sourceSets {

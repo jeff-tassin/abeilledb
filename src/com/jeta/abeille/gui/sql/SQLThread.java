@@ -71,6 +71,8 @@ public class SQLThread {
 	 */
 	private String m_sqlbuff;
 
+	private char m_delimiter = SQLPreferences.getDelimiter();
+
 	/**
 	 * provides a layer between the mediator and this thread. Basically, moves
 	 * some of the GUI complexity out of this class
@@ -112,6 +114,14 @@ public class SQLThread {
 		m_statement = stmt;
 		m_sqlbuff = sqlbuff;
 		m_mediator = mediator;
+		m_startpos = -1;
+	}
+	/**
+	 * Runs the sql in the given string.
+	 */
+	public SQLThread(ConnectionReference cref, Statement stmt, String sqlbuff, SQLMediator mediator, char delimiter) {
+		this(cref, stmt, sqlbuff, mediator);
+		m_delimiter = delimiter;
 	}
 
 	/**
@@ -132,10 +142,9 @@ public class SQLThread {
 
 	private SQLDocumentParser createParser() throws Exception {
 		if (m_document == null)
-			return new SQLDocumentParser(m_connectionref.getTSConnection(), m_sqlbuff, SQLPreferences.getDelimiter());
+			return new SQLDocumentParser(m_connectionref.getTSConnection(), m_sqlbuff,  m_delimiter );
 		else
-			return new SQLDocumentParser(m_connectionref.getTSConnection(), m_startpos, m_document,
-					SQLPreferences.getDelimiter());
+			return new SQLDocumentParser(m_connectionref.getTSConnection(), m_startpos, m_document, m_delimiter );
 	}
 
 	/**
@@ -345,12 +354,19 @@ public class SQLThread {
 
 			m_resultsmgr.lock();
 
-			if (m_mediator.isCanceled())
+			if (m_mediator.isCanceled()) {
 				m_mediator.commandCanceled();
-			else if (got_some_sql)
-				m_mediator.commandCompleted(parser.getStartPos(), parser.getEndPos(), m_resultsmgr);
-			else
+			} else if (got_some_sql) {
+				System.out.println("SQLThread done " + m_sqlbuff);
+				if ( m_sqlbuff != null ) {
+					// using string buffer. no start/end pos
+					m_mediator.commandCompleted(-1,0, m_resultsmgr);
+				} else {
+					m_mediator.commandCompleted(parser.getStartPos(), parser.getEndPos(), m_resultsmgr);
+				}
+			} else {
 				m_mediator.commandNotFound();
+			}
 		} catch (Exception e) {
 			TSUtils.printException(e);
 			int startpos = 0;
@@ -396,9 +412,7 @@ public class SQLThread {
 				SQLThread.this.run();
 			}
 		});
-
 		t.start();
-
 	}
 
 	/**

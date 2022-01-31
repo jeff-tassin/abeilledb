@@ -86,6 +86,7 @@ public class SQLMediator {
 	 */
 	private boolean m_step = false;
 
+
 	/* mediator state definitions */
 	public static final int RUNNING = 1;
 	public static final int CANCELED = 2;
@@ -414,6 +415,24 @@ public class SQLMediator {
 		}
 		m_step = step;
 		m_thread.start(step);
+	}
+
+	public void start(String buff) throws SQLException {
+		// kicks off the sql thread
+		try {
+			Connection conn = m_connectionref.getConnection();
+			TSConnection tsconn = m_connectionref.getTSConnection();
+			int rtype = tsconn.getResultSetScrollType();
+			int concurrency = tsconn.getResultSetConcurrency();
+			m_statement = conn.createStatement(rtype, concurrency);
+			m_statement.setMaxRows(TSUserPropertiesUtils.getInteger(TSConnection.ID_MAX_QUERY_ROWS, 500));
+			m_thread = new SQLThread(m_connectionref, m_statement, buff, this, (char)0);
+		} catch (Exception e) {
+			commandCompleted(0, 0, e);
+			return;
+		}
+		m_step = true;
+		m_thread.start(true);
 	}
 
 	/**

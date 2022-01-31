@@ -354,8 +354,11 @@ public class SQLController extends EditorController implements JETAFrameListener
 	 */
 	public void notifyEvent(SQLMediatorEvent evt) {
 		SQLMediator mediator = evt.getMediator();
-		SQLBuffer buffer = (SQLBuffer) mediator.getSQLSource();
 
+		if ( mediator.getSQLSource() instanceof String ) {
+			return;
+		}
+		SQLBuffer buffer = (SQLBuffer) mediator.getSQLSource();
 		if (evt.getID() == SQLMediatorEvent.ID_TIME_EVENT) {
 			long tm = evt.getElapsedTime();
 			if (tm > 0) {
@@ -379,9 +382,11 @@ public class SQLController extends EditorController implements JETAFrameListener
 				}
 			}
 		} else if (evt.getID() == SQLMediatorEvent.ID_SQL_STATEMENT_PROCESSED) {
-			JTextComponent textcomp = buffer.getEditor();
-			textcomp.setCaretPosition(evt.getEndPos());
-			textcomp.moveCaretPosition(evt.getStartPos());
+			if ( evt.getStartPos() > 0 ) {
+				JTextComponent textcomp = buffer.getEditor();
+				textcomp.setCaretPosition(evt.getEndPos());
+				textcomp.moveCaretPosition(evt.getStartPos());
+			}
 		} else if (evt.getID() == SQLMediatorEvent.ID_COMMAND_FINISHED) {
 			try {
 				buffer.setEnabled(true);
@@ -399,7 +404,7 @@ public class SQLController extends EditorController implements JETAFrameListener
 			 * executing a single statement or an error ocurred
 			 */
 			int status_code = mediator.getResult();
-			if (status_code == SQLMediator.SUCCESS || status_code == SQLMediator.ERROR) {
+			if ( evt.getStartPos() >= 0 && (status_code == SQLMediator.SUCCESS || status_code == SQLMediator.ERROR)) {
 				int endpos = evt.getEndPos();
 				if (mediator.isStep() || status_code == SQLMediator.ERROR) {
 					textcomp.setCaretPosition(evt.getStartPos());
@@ -528,8 +533,13 @@ public class SQLController extends EditorController implements JETAFrameListener
 			buffer.setEditable(false);
 			buffer.setBusy(true);
 
+			String selectedText = target.getSelectedText();
 			SQLMediator mediator = new SQLMediator(buffer.getConnectionReference(), buffer, this);
-			mediator.start(startpos, single_statement);
+			if ( selectedText == null ) {
+				mediator.start(startpos, single_statement);
+			} else {
+				mediator.start(selectedText);
+			}
 		} catch (Exception e) {
 			SQLErrorDialog dlg = (SQLErrorDialog) TSGuiToolbox.createDialog(SQLErrorDialog.class,
 					(SQLFrame) getFrameWindow(), true);

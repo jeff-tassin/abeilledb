@@ -100,7 +100,7 @@ public class ObjectTreeNode extends DefaultMutableTreeNode implements Comparable
 	 */
 	public void sortChildren() {
 		if (children != null) {
-			java.util.Collections.sort(children);
+			//java.util.Collections.sort(children);
 
 			/*
 			 * System.out.println( "sorted node: " ); java.util.Iterator iter =
