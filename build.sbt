@@ -10,3 +10,6 @@ lazy val root = (project in file("."))
     ),
     fork := true
   )
+
+Compile / mainClass := Some("com.jeta.abeille.main.Main")
+Compile / resourceDirectory := baseDirectory.value / "assets"
