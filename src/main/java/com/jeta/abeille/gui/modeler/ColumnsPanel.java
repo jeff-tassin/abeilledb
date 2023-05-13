@@ -189,7 +189,7 @@ public class ColumnsPanel extends TSPanel {
 		setBorder(BorderFactory.createEmptyBorder(5, 5, 0, 5));
 		setLayout(new BorderLayout());
 
-		m_columns_table_panel = TableUtils.createSimpleTable(m_model, false);
+		m_columns_table_panel = TableUtils.createSimpleTable(m_model, true);
 		m_columnstable = m_columns_table_panel.getTable();
 
 		/**
