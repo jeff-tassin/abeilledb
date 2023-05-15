@@ -1,25 +1,22 @@
 package com.jeta.abeille.gui.sql;
 
-import java.awt.BorderLayout;
-
-import java.lang.ref.WeakReference;
-
 import com.jeta.abeille.database.model.TSConnection;
 import com.jeta.abeille.gui.queryresults.QueryResultsView;
-
-import com.jeta.foundation.gui.components.TSCell;
-import com.jeta.foundation.gui.components.TSPanel;
-import com.jeta.foundation.gui.components.TSStatusBar;
-
-import com.jeta.foundation.gui.table.TableUtils;
+import com.jeta.foundation.gui.components.*;
 import com.jeta.foundation.gui.table.TSTablePanel;
+import com.jeta.foundation.gui.table.TableSelection;
+import com.jeta.foundation.gui.table.TableSettings;
+import com.jeta.foundation.gui.table.TableUtils;
 import com.jeta.foundation.i18n.I18N;
-
 import com.jeta.foundation.utils.TSUtils;
 
+import javax.swing.*;
+import java.awt.*;
+import java.lang.ref.WeakReference;
+
 /**
- * This class manages the view for a single resultset. This frame window can
- * display multiple resultsets, so we manage each view with this type of object.
+ * This class manages the view for a single result set. This frame window can
+ * display multiple result sets, so we manage each view with this type of object.
  */
 public class ResultsView extends TSPanel {
 	/** the underlying database connection */
@@ -39,7 +36,9 @@ public class ResultsView extends TSPanel {
 	 * action. If the query results window was launched by an instance frame,
 	 * then the lanucher reference will be maintained by the SQLResultsFrame
 	 */
-	private WeakReference m_instance_frame = null;
+	private WeakReference<TSInternalFrame> m_instance_frame = null;
+
+	private Object m_launcher;
 
 	/** status bar cell ids */
 	public static final String ROW_COUNT_CELL = "row.count.cell";
@@ -49,7 +48,8 @@ public class ResultsView extends TSPanel {
 	/**
 	 * ctor
 	 */
-	public ResultsView(TSConnection tsconn, SQLResultsModel model) {
+	public ResultsView(Object launcher, TSConnection tsconn, SQLResultsModel model) {
+		m_launcher = launcher;
 		m_connection = tsconn;
 		setLayout(new BorderLayout());
 
@@ -74,6 +74,39 @@ public class ResultsView extends TSPanel {
 		setResults(model);
 	}
 
+	/**
+	 * Creates the toolbar for this frame
+	 */
+	protected JToolBar createToolBar() {
+		JToolBar toolbar = new JToolBar();
+		toolbar.add(i18n_createToolBarButton("incors/16x16/copy.png", TSComponentNames.ID_COPY,  "Copy"));
+		toolbar.addSeparator();
+
+		toolbar.add(i18n_createToolBarButton("incors/16x16/form_blue.png", SQLResultsNames.ID_SHOW_INSTANCE, "Row View"));
+
+		toolbar.addSeparator();
+		toolbar.add(i18n_createToolBarButton( "incors/16x16/transpose_table.png", SQLResultsNames.ID_TRANSPOSE, "Transpose"));
+
+		toolbar.addSeparator();
+		toolbar.add(i18n_createToolBarButton( "incors/16x16/table.png", SQLResultsNames.ID_NO_SPLIT, "No Split"));
+		toolbar.add(i18n_createToolBarButton( "incors/16x16/column.png", SQLResultsNames.ID_SPLIT_VERTICAL, "Split Vertical"));
+		toolbar.add(i18n_createToolBarButton( "incors/16x16/row.png", SQLResultsNames.ID_SPLIT_HORIZONTAL, "Split Horizontal"));
+		toolbar.add(i18n_createToolBarButton( "incors/16x16/preferences.png", SQLResultsNames.ID_TABLE_OPTIONS, "Table Options"));
+		toolbar.addSeparator();
+		toolbar.add(i18n_createToolBarButton( "incors/16x16/media_step_back.png", SQLResultsNames.ID_FIRST, "First"));
+		toolbar.add(i18n_createToolBarButton( "incors/16x16/media_step_forward.png", SQLResultsNames.ID_LAST, "Last"));
+		toolbar.addSeparator();
+		toolbar.add(i18n_createToolBarButton( "incors/16x16/redo.png", SQLResultsNames.ID_REDO_QUERY, "Redo Query"));
+
+		toolbar.addSeparator();
+		toolbar.add(i18n_createToolBarButton( "incors/16x16/information.png", SQLResultsNames.ID_QUERY_INFO, "Query Information"));
+
+		toolbar.add(javax.swing.Box.createHorizontalStrut(16));
+		toolbar.add(i18n_createToolBarButton( "incors/16x16/information.png", SQLResultsNames.ID_SHOW_IN_FRAME_WINDOW, "Detach Window"));
+		return toolbar;
+
+	}
+
 	public void setResults(SQLResultsModel model) {
 		removeAll();
 
@@ -81,6 +114,7 @@ public class ResultsView extends TSPanel {
 		m_view = new QueryResultsView(m_model);
 		add(m_view, BorderLayout.CENTER);
 		add(m_statusbar, BorderLayout.SOUTH);
+		add(createToolBar(), BorderLayout.NORTH);
 
 		// restore any table settings that we associated with the sql statement
 		// in a previous
@@ -132,16 +166,15 @@ public class ResultsView extends TSPanel {
 		m_model = null;
 		m_view.dispose();
 		m_view = null;
+		m_launcher = null;
 	}
 
-	/**
-	 * @return the reference used to hold the instance frame if the user presses
-	 *         the show instances action. If the query results window launched
-	 *         by an instance frame, then the lanucher reference will be
-	 *         maintained by the SQLResultsFrame
-	 */
-	public WeakReference getInstanceFrameReference() {
-		return m_instance_frame;
+	public void copy() {
+		m_view.copy();
+	}
+
+	public TableSelection getSelection() {
+		return m_view.getSelection();
 	}
 
 	public SQLResultsModel getModel() {
@@ -153,10 +186,20 @@ public class ResultsView extends TSPanel {
 	}
 
 	/**
+	 * @return the reference used to hold the instance frame if the user presses
+	 *         the show instances action. If the query results window launched
+	 *         by an instance frame, then the lanucher reference will be
+	 *         maintained by the SQLResultsFrame
+	 */
+	public WeakReference<TSInternalFrame> getInstanceFrameReference() {
+		return m_instance_frame;
+	}
+
+	/**
 	 * Sets the reference used to hold the instance frame if the user presses
 	 * the show instances action.
 	 */
-	public void setInstanceFrameReference(WeakReference ref) {
+	public void setInstanceFrameReference(WeakReference<TSInternalFrame> ref) {
 		m_instance_frame = ref;
 	}
 
@@ -170,4 +213,77 @@ public class ResultsView extends TSPanel {
 		}
 	}
 
+	public TSConnection getConnection() {
+		return m_connection;
+	}
+
+	public TSTablePanel getTablePanel() {
+		return m_view.getTablePanel();
+	}
+
+	public Object getLauncher() {
+		return m_launcher;
+	}
+
+	public void splitVertical() {
+		m_view.splitVertical();
+	}
+	public void splitHorizontal() {
+		m_view.splitHorizontal();
+	}
+
+	public void showNormal() {
+		m_view.showNormal();
+	}
+
+	public boolean isSplitHorizontal() {
+		return m_view.isSplitHorizontal();
+	}
+
+	public boolean isSplitVertical() {
+		return m_view.isSplitVertical();
+	}
+
+	/**
+	 * Saves any frame settings such as column widths for a given SQL
+	 */
+	public void saveFrame() {
+		SQLResultsModel model = (SQLResultsModel) getModel();
+
+		// now, let's store the table settings (e.g. the table column
+		// widths) so that the next
+		// time the user runs this query, we can restore the table to the
+		// way the user prefers it
+		String sql = model.getUnprocessedSQL();
+		if (sql == null)
+			sql = model.getSQL();
+
+		if (sql != null && sql.length() > 0) {
+			TSTablePanel tspanel = m_view.getTablePanel();
+			TableSettings tablesettings = TableUtils.getTableSettings(tspanel);
+			SQLSettingsMgr smgr = SQLSettingsMgr.getInstance(m_connection);
+			String trimsql = smgr.trim(sql);
+
+			SQLSettings sqlsettings = smgr.get(trimsql);
+			if (sqlsettings == null) {
+				sqlsettings = new SQLSettings(trimsql);
+			} else {
+				// @todo trim spaces and semicolon from sql as well as
+				// convert to lowercase since
+				// we want to handle from sql command window as well
+				smgr.remove(trimsql);
+			}
+
+			sqlsettings.setTableSettings(tablesettings);
+			smgr.add(sqlsettings);
+
+			// @todo we probably could optimize this and not save the entire
+			// SQLSettingsMgr every time
+			smgr.save();
+		}
+	}
+
+	public void configureTableOptions() {
+		m_view.configureTableOptions();
+	}
 }

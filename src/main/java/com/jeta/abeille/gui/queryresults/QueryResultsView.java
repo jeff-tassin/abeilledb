@@ -1,37 +1,27 @@
 package com.jeta.abeille.gui.queryresults;
 
-import java.awt.BorderLayout;
-
-import java.sql.SQLException;
-
-import java.util.Collection;
-
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JTable;
-import javax.swing.table.TableCellRenderer;
-import javax.swing.table.TableColumn;
-import javax.swing.table.TableColumnModel;
-
 import com.jeta.abeille.database.model.ColumnMetaData;
+import com.jeta.abeille.database.model.TSConnection;
 import com.jeta.abeille.database.model.TableId;
-import com.jeta.abeille.gui.sql.SQLSettingsNames;
 import com.jeta.abeille.gui.sql.SQLDefaultSettings;
-
+import com.jeta.abeille.gui.sql.SQLSettingsNames;
 import com.jeta.foundation.componentmgr.ComponentMgr;
-
 import com.jeta.foundation.gui.components.TSComponentNames;
 import com.jeta.foundation.gui.components.TSController;
 import com.jeta.foundation.gui.components.TSPanel;
-
-import com.jeta.foundation.gui.table.TableSelection;
 import com.jeta.foundation.gui.table.TSTableNames;
 import com.jeta.foundation.gui.table.TSTablePanel;
-
+import com.jeta.foundation.gui.table.TableSelection;
 import com.jeta.foundation.i18n.I18N;
 import com.jeta.foundation.interfaces.userprops.TSUserProperties;
-
 import com.jeta.foundation.utils.TSUtils;
+
+import javax.swing.*;
+import javax.swing.table.TableCellRenderer;
+import javax.swing.table.TableColumn;
+import javax.swing.table.TableColumnModel;
+import java.awt.*;
+import java.sql.SQLException;
 
 /**
  * This panel is used to display the results of a SQL query in a JTable. Each
@@ -93,6 +83,10 @@ public class QueryResultsView extends TSPanel {
 	public void finalize() throws Throwable {
 		super.finalize();
 		TSUtils.printMessage("QueryResultsView.finalize");
+	}
+
+	public TSConnection getConnection() {
+		return m_model.getTSConnection();
 	}
 
 	/**
@@ -200,34 +194,6 @@ public class QueryResultsView extends TSPanel {
 
 		m_tablepanel.syncTableColumnCache();
 		add(m_tablepanel, BorderLayout.CENTER);
-	}
-
-	/**
-	 * Test the given table to see if the row has been deleted
-	 * 
-	 * @param table
-	 *            the table to check
-	 * @param row
-	 *            the row in table coordinates
-	 * @return true if the given instance is to be deleted.
-	 */
-	public boolean isDeleted(JTable table, int row) {
-		int modelrow = m_tablepanel.convertTableToModelIndex(table, row);
-		return m_model.isDeleted(modelrow);
-	}
-
-	/**
-	 * Test the given table to see if the row is marked for delete
-	 * 
-	 * @param table
-	 *            the table to check
-	 * @param row
-	 *            the row in table coordinates
-	 * @return true if the given instance is to be deleted.
-	 */
-	public boolean isMarkedForDeletion(JTable table, int row) {
-		int modelrow = m_tablepanel.convertTableToModelIndex(table, row);
-		return m_model.isMarkedForDeletion(modelrow);
 	}
 
 	/**

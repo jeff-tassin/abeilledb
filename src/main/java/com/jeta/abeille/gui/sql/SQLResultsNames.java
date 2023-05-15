@@ -17,6 +17,7 @@ public class SQLResultsNames {
 	public static final String ID_COMMIT = "commit";
 	public static final String ID_ROLLBACK = "rollback";
 
+	public static final String ID_TRANSPOSE = "Transpose";
 	public static final String ID_NO_SPLIT = "No Split";
 	public static final String ID_SPLIT_VERTICAL = "Split Vertical";
 	public static final String ID_SPLIT_HORIZONTAL = "Split Horizontal";

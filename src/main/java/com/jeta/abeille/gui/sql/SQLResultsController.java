@@ -54,10 +54,7 @@ import com.jeta.foundation.gui.components.TSWorkspaceFrame;
 import com.jeta.foundation.gui.components.TSInternalFrame;
 import com.jeta.foundation.gui.print.PrintPreviewDialog;
 
-import com.jeta.foundation.gui.table.TablePrintable;
-import com.jeta.foundation.gui.table.TSTablePanel;
-import com.jeta.foundation.gui.table.TableSelection;
-import com.jeta.foundation.gui.table.TableSorter;
+import com.jeta.foundation.gui.table.*;
 
 import com.jeta.foundation.gui.utils.TSGuiToolbox;
 import com.jeta.foundation.i18n.I18N;
@@ -70,9 +67,9 @@ import com.jeta.foundation.interfaces.userprops.TSUserProperties;
  */
 public class SQLResultsController extends TSController {
 	/** the frame window we are controlling */
-	private SQLResultsFrame m_frame;
+	private ResultsView m_frame;
 
-	public SQLResultsController(SQLResultsFrame frame) {
+	public SQLResultsController(ResultsView frame) {
 		super(frame);
 		m_frame = frame;
 
@@ -86,9 +83,6 @@ public class SQLResultsController extends TSController {
 		assignAction(SQLResultsNames.ID_SPLIT_VERTICAL, new SplitVerticalAction());
 		assignAction(SQLResultsNames.ID_SPLIT_HORIZONTAL, new SplitHorizontalAction());
 
-		assignAction(SQLResultsNames.ID_DELETE_INSTANCE, new DeleteInstanceAction());
-		assignAction(SQLResultsNames.ID_COMMIT, new CommitAction());
-		assignAction(SQLResultsNames.ID_ROLLBACK, new RollbackAction());
 
 		assignAction(SQLResultsNames.ID_QUERY_INFO, new QueryInfoAction());
 
@@ -99,111 +93,9 @@ public class SQLResultsController extends TSController {
 
 		assignAction(SQLResultsNames.ID_PREFERENCES, new SQLResultsPreferencesAction());
 		assignAction(SQLResultsNames.ID_REDO_QUERY, new RedoQueryAction());
-
-		assignAction(SQLResultsNames.ID_SHOW_IN_FRAME_WINDOW, new DetachFrameAction());
 	}
 
-	private boolean confirmCommit() {
-		boolean bcommit = true;
-		if (isShowCommitDialog()) {
-			TSDialog dlg = (TSDialog) TSGuiToolbox.createDialog(TSDialog.class, m_frame, true);
-			ConfirmCommitPanel commitpanel = new ConfirmCommitPanel();
-			dlg.setPrimaryPanel(commitpanel);
-			dlg.setSize(dlg.getPreferredSize());
-			dlg.setTitle(I18N.getLocalizedMessage("Confirm"));
-			dlg.setInitialFocusComponent(dlg.getCloseButton());
-			dlg.showCenter();
-			bcommit = dlg.isOk();
-			TSUserProperties userprops = (TSUserProperties) ComponentMgr.lookup(TSUserProperties.COMPONENT_ID);
-			userprops.setProperty(SQLResultsPreferencesView.ID_SQL_RESULTS_CONFIRM_COMMIT,
-					String.valueOf(commitpanel.isShowCommitDialog()));
-		}
-		return bcommit;
-	}
 
-	/**
-	 * @return the underlying frame window
-	 */
-	public SQLResultsFrame getFrame() {
-		return m_frame;
-	}
-
-	/**
-	 * Actually does the delete in the database
-	 */
-	private void deleteInstance(int row) {
-		// if we are here, then the query is against a single table.
-		// so, we need to get the primary key values for each row
-		// and use as a constraint. Only tables with primary keys
-		// support deletes in the query results view.
-		SQLResultsModel model = m_frame.getCurrentDataModel();
-		QueryResultsView view = m_frame.getCurrentView().getView();
-
-		TableId tableid = model.getTableId();
-		StringBuffer sqlbuff = new StringBuffer();
-		sqlbuff.append("delete from ");
-		sqlbuff.append(tableid.getFullyQualifiedName());
-		sqlbuff.append(" where ");
-
-		ArrayList constraints = new ArrayList();
-		ArrayList values = new ArrayList();
-
-		boolean band = false;
-		DbKey pk = model.getPrimaryKey();
-		if (pk != null && pk.getColumnCount() > 0) {
-			for (int col = 0; col < model.getColumnCount(); col++) {
-				ColumnMetaData cmd = model.getColumnMetaData(col);
-				if (pk.containsField(cmd.getColumnName())) {
-					if (band)
-						sqlbuff.append(" and ");
-
-					band = true;
-					sqlbuff.append(cmd.getColumnName());
-
-					Object value = model.getValueAt(row, col);
-					if (value == null) {
-						sqlbuff.append(" is NULL");
-					} else {
-						sqlbuff.append(" = ?");
-						constraints.add(cmd);
-						values.add(value);
-					}
-				}
-			}
-
-		}
-
-		Logger logger = Logger.getLogger(ComponentNames.APPLICATION_LOGGER);
-		ConnectionReference cref = model.getConnectionReference();
-		try {
-			String sql = sqlbuff.toString();
-
-			PreparedStatement pstmt = cref.prepareStatement(sql);
-			PreparedStatementWriter pwriter = new PreparedStatementWriter(sql);
-
-			for (int count = 0; count < constraints.size(); count++) {
-				ColumnMetaData cmd = (ColumnMetaData) constraints.get(count);
-				pstmt.setObject(count + 1, values.get(count));
-				pwriter.setObject(count + 1, values.get(count));
-			}
-
-			pstmt.executeUpdate();
-			logger.fine(pwriter.getPreparedSQL());
-		} catch (SQLException e) {
-			logger.fine(e.getLocalizedMessage());
-			invokeAction(SQLResultsNames.ID_ROLLBACK);
-			showError(e);
-		}
-	}
-
-	/**
-	 * @return true if the commit dialog should be displayed before a commit.
-	 */
-	public boolean isShowCommitDialog() {
-		TSUserProperties userprops = (TSUserProperties) ComponentMgr.lookup(TSUserProperties.COMPONENT_ID);
-		return Boolean.valueOf(userprops.getProperty(SQLResultsPreferencesView.ID_SQL_RESULTS_CONFIRM_COMMIT, "true"))
-				.booleanValue();
-	}
 
 	/**
 	 * Invokes a dialog showing the exception. Also, send the exception message
@@ -219,47 +111,7 @@ public class SQLResultsController extends TSController {
 		dlg.showCenter();
 	}
 
-	/**
-	 * Performs a delete/commit on any rows marked for deletion
-	 */
-	public class CommitAction implements ActionListener {
-		public void actionPerformed(ActionEvent evt) {
-			try {
-				if (confirmCommit()) {
-					SQLResultsModel model = m_frame.getCurrentDataModel();
-					ConnectionReference cref = model.getConnectionReference();
-					cref.commit();
 
-					Collection rows = model.getInstancesMarkedForDeletion();
-					Iterator iter = rows.iterator();
-					while (iter.hasNext()) {
-						Integer row = (Integer) iter.next();
-						model.markDeleted(row.intValue());
-					}
-					model.unmarkForDeletion();
-					ResultsView rview = m_frame.getCurrentView();
-					QueryResultsView view = rview.getView();
-					view.getTablePanel().repaint();
-
-					Logger logger = Logger.getLogger(ComponentNames.APPLICATION_LOGGER);
-					logger.fine(I18N.getLocalizedMessage("Commit"));
-				}
-			} catch (SQLException e) {
-				showError(e);
-			}
-		}
-	}
-
-	/**
-    */
-	public class DetachFrameAction implements ActionListener {
-		public void actionPerformed(ActionEvent evt) {
-			if (m_frame.getDelegate() instanceof JPanelFrame) {
-				MainFrame mainframe = (MainFrame) TSWorkspaceFrame.getInstance();
-				mainframe.detachFrame(m_frame);
-			}
-		}
-	}
 
 	/**
 	 * Action listener that copies the selected table rows/columns to the
@@ -267,52 +119,7 @@ public class SQLResultsController extends TSController {
 	 */
 	public class CopyAction implements ActionListener {
 		public void actionPerformed(ActionEvent evt) {
-			m_frame.getCurrentView().getView().copy();
-		}
-	}
-
-	/**
-	 * Action that marks all selected rows in the table for deletion. The query
-	 * results must be from a single table and that table must have a primary
-	 * key
-	 */
-	public class DeleteInstanceAction implements ActionListener {
-		public void actionPerformed(ActionEvent evt) {
-			SQLResultsModel model = m_frame.getCurrentDataModel();
-			QueryResultsView view = m_frame.getCurrentView().getView();
-			DbKey pk = model.getPrimaryKey();
-			if (pk != null && pk.getColumnCount() > 0) {
-				boolean bdelete = true;
-				if (!model.supportsTransactions()) {
-					bdelete = confirmCommit();
-				}
-
-				if (bdelete) {
-					TSTablePanel tp = view.getTablePanel();
-					int[] rowheaders = tp.getSelectedRowHeaders();
-					if (rowheaders.length > 0) {
-						for (int index = 0; index < rowheaders.length; index++) {
-							int delete_row = rowheaders[index];
-							if (!model.isDeleted(delete_row)) {
-								deleteInstance(delete_row);
-								model.markForDeletion(delete_row);
-								if (!model.supportsTransactions()) {
-									model.markDeleted(delete_row);
-
-								}
-
-							}
-						}
-						model.truncateResults();
-					}
-
-				}
-
-				if (!model.supportsTransactions()) {
-					model.unmarkForDeletion();
-				}
-				view.getTablePanel().repaint();
-			}
+			m_frame.copy();
 		}
 	}
 
@@ -328,7 +135,7 @@ public class SQLResultsController extends TSController {
 			wsframe.addWindow(exportframe, false);
 
 			Object[] params = new Object[1];
-			params[0] = m_frame.getCurrentDataModel();
+			params[0] = m_frame.getModel();
 
 			exportframe.initializeModel(params);
 			exportframe.setSize(exportframe.getPreferredSize());
@@ -349,8 +156,8 @@ public class SQLResultsController extends TSController {
 			wsframe.addWindow(exportframe, false);
 
 			Object[] params = new Object[2];
-			params[0] = m_frame.getCurrentDataModel();
-			params[1] = m_frame.getCurrentView().getView().getSelection();
+			params[0] = m_frame.getModel();
+			params[1] = m_frame.getSelection();
 
 			exportframe.initializeModel(params);
 			exportframe.setSize(exportframe.getPreferredSize());
@@ -365,9 +172,9 @@ public class SQLResultsController extends TSController {
 	 */
 	public class FirstInstanceAction implements ActionListener {
 		public void actionPerformed(ActionEvent evt) {
-			SQLResultsModel model = m_frame.getCurrentDataModel();
+			QueryResultsModel model = m_frame.getModel();
 			if (model.getRowCount() > 0) {
-				TSTablePanel tablepanel = m_frame.getCurrentView().getView().getTablePanel();
+				TSTablePanel tablepanel = m_frame.getTablePanel();
 				JTable table = tablepanel.getFocusTable();
 				Rectangle rect = table.getCellRect(0, 0, true);
 				table.scrollRectToVisible(rect);
@@ -382,10 +189,10 @@ public class SQLResultsController extends TSController {
 	public class LastInstanceAction implements ActionListener {
 		public void actionPerformed(ActionEvent evt) {
 			try {
-				SQLResultsModel model = m_frame.getCurrentDataModel();
+				SQLResultsModel model = (SQLResultsModel) m_frame.getModel();
 				model.last();
 				int rowcount = model.getRowCount();
-				TSTablePanel tablepanel = m_frame.getCurrentView().getView().getTablePanel();
+				TSTablePanel tablepanel = m_frame.getTablePanel();
 				JTable table = tablepanel.getFocusTable();
 				if (rowcount > 0 && table != null) {
 					Rectangle rect = table.getCellRect(rowcount - 1, 0, true);
@@ -404,7 +211,7 @@ public class SQLResultsController extends TSController {
 	 */
 	public class NoSplitAction implements ActionListener {
 		public void actionPerformed(ActionEvent evt) {
-			m_frame.getCurrentView().getView().showNormal();
+			m_frame.showNormal();
 		}
 	}
 
@@ -415,7 +222,7 @@ public class SQLResultsController extends TSController {
 		public void actionPerformed(ActionEvent evt) {
 			PrintPreviewDialog dlg = (PrintPreviewDialog) TSGuiToolbox.createDialog(PrintPreviewDialog.class, m_frame,
 					true);
-			TablePrintable tp = new TablePrintable(m_frame.getCurrentView().getView().getTablePanel());
+			TablePrintable tp = new TablePrintable(m_frame.getTablePanel());
 			dlg.setPrintable(tp);
 			TSGuiToolbox.setReasonableWindowSize(dlg, dlg.getPreferredSize());
 			dlg.showCenter();
@@ -430,7 +237,7 @@ public class SQLResultsController extends TSController {
 		public void actionPerformed(ActionEvent evt) {
 			try {
 				QueryInfoDialog dlg = (QueryInfoDialog) TSGuiToolbox.createDialog(QueryInfoDialog.class, m_frame, true);
-				QueryResultsModel model = m_frame.getCurrentDataModel();
+				QueryResultsModel model = m_frame.getModel();
 				ResultSetReference ref = model.getResultSetReference();
 				dlg.initialize(m_frame.getConnection(), ref, ref.getSQL());
 				dlg.setSize(dlg.getPreferredSize());
@@ -450,8 +257,7 @@ public class SQLResultsController extends TSController {
 		public void actionPerformed(ActionEvent evt) {
 			try {
 				m_frame.saveFrame();
-				SQLResultsModel model = m_frame.getCurrentDataModel();
-				ResultsView view = m_frame.getCurrentView();
+				SQLResultsModel model = (SQLResultsModel) m_frame.getModel();
 				ConnectionReference cref = model.getConnectionReference();
 				ResultSetReference ref = model.getResultSetReference();
 				String sql = ref.getSQL();
@@ -468,29 +274,8 @@ public class SQLResultsController extends TSController {
 					ref.setSQL(sql);
 					ref.setUnprocessedSQL(model.getUnprocessedSQL());
 					SQLResultsModel smodel = new SQLResultsModel(tsconn, ref, model.getTableId());
-					view.setResults(smodel);
+					m_frame.setResults(smodel);
 				}
-			} catch (SQLException e) {
-				showError(e);
-			}
-		}
-	}
-
-	/**
-	 * Unmarks any rows marked for deletion
-	 */
-	public class RollbackAction implements ActionListener {
-		public void actionPerformed(ActionEvent evt) {
-			try {
-				SQLResultsModel model = m_frame.getCurrentDataModel();
-				ConnectionReference cref = model.getConnectionReference();
-
-				cref.rollback();
-				model.unmarkForDeletion();
-				QueryResultsView view = m_frame.getCurrentView().getView();
-				view.getTablePanel().repaint();
-				Logger logger = Logger.getLogger(ComponentNames.APPLICATION_LOGGER);
-				logger.fine(I18N.getLocalizedMessage("Rollback"));
 			} catch (SQLException e) {
 				showError(e);
 			}
@@ -503,8 +288,6 @@ public class SQLResultsController extends TSController {
 	public class ShowInstanceAction implements ActionListener {
 		public void actionPerformed(ActionEvent evt) {
 			try {
-				ResultsView view = m_frame.getCurrentView();
-
 				Object launcher = m_frame.getLauncher();
 				if (launcher instanceof InstanceFrame) {
 					InstanceFrame iframe = (InstanceFrame) launcher;
@@ -515,7 +298,7 @@ public class SQLResultsController extends TSController {
 				} else {
 
 					TSInternalFrame instance_frame = null;
-					WeakReference iframe_ref = view.getInstanceFrameReference();
+					WeakReference iframe_ref = m_frame.getInstanceFrameReference();
 					if (iframe_ref != null) {
 						TSInternalFrame iframe = (TSInternalFrame) iframe_ref.get();
 						if (iframe != null && iframe.isVisible())
@@ -523,10 +306,9 @@ public class SQLResultsController extends TSController {
 					}
 
 					if (instance_frame == null) {
-						SQLResultsModel model = m_frame.getCurrentDataModel();
+						SQLResultsModel model = (SQLResultsModel) m_frame.getModel();
 						TableId tableid = model.getTableId();
-						QueryResultsView qrview = m_frame.getCurrentView().getView();
-						TSTablePanel tablepanel = qrview.getTablePanel();
+						TSTablePanel tablepanel = m_frame.getTablePanel();
 						JTable table = tablepanel.getFocusTable();
 						int[] rows = table.getSelectedRows();
 						int row = 0;
@@ -540,7 +322,7 @@ public class SQLResultsController extends TSController {
 										m_frame.getConnection(), model.getResultSetReference(), row);
 								TSInternalFrame iframe = ShowInstanceFrameAction.launchFrame(m_frame.getConnection(),
 										builder, new InstanceFrameLauncher(m_frame));
-								view.setInstanceFrameReference(new WeakReference(iframe));
+								m_frame.setInstanceFrameReference(new WeakReference(iframe));
 							} catch (SQLException e) {
 								showError(e);
 							}
@@ -549,7 +331,7 @@ public class SQLResultsController extends TSController {
 									m_frame.getConnection(), tableid, table, row);
 							TSInternalFrame iframe = ShowInstanceFrameAction.launchFrame(m_frame.getConnection(),
 									builder, new InstanceFrameLauncher(m_frame));
-							view.setInstanceFrameReference(new WeakReference(iframe));
+							m_frame.setInstanceFrameReference(new WeakReference(iframe));
 						}
 					} else {
 						TSWorkspaceFrame wsframe = TSWorkspaceFrame.getInstance();
@@ -568,7 +350,7 @@ public class SQLResultsController extends TSController {
 	 */
 	public class SplitHorizontalAction implements ActionListener {
 		public void actionPerformed(ActionEvent evt) {
-			m_frame.getCurrentView().getView().splitHorizontal();
+			m_frame.splitHorizontal();
 		}
 	}
 
@@ -578,7 +360,7 @@ public class SQLResultsController extends TSController {
 	 */
 	public class SplitVerticalAction implements ActionListener {
 		public void actionPerformed(ActionEvent evt) {
-			m_frame.getCurrentView().getView().splitVertical();
+			m_frame.splitVertical();
 		}
 	}
 
@@ -606,7 +388,7 @@ public class SQLResultsController extends TSController {
 	 */
 	public class TableOptionsAction implements ActionListener {
 		public void actionPerformed(ActionEvent evt) {
-			m_frame.getCurrentView().getView().configureTableOptions();
+			m_frame.configureTableOptions();
 		}
 	}
 }

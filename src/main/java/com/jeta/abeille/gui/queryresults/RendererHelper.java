@@ -1,13 +1,7 @@
 package com.jeta.abeille.gui.queryresults;
 
-import java.awt.Color;
-import java.awt.Component;
-
-import javax.swing.JTable;
-import javax.swing.UIManager;
-
-import com.jeta.foundation.componentmgr.ComponentMgr;
-import com.jeta.foundation.interfaces.license.LicenseManager;
+import javax.swing.*;
+import java.awt.*;
 
 public class RendererHelper {
 	private Color m_deletecolor;
@@ -60,16 +54,11 @@ public class RendererHelper {
 				}
 			} else {
 				Color forecolor = m_standard;
-				if (view.isDeleted(table, row)) {
-					forecolor = m_deletecolor;
-				} else if (view.isMarkedForDeletion(table, row)) {
-					forecolor = Color.red;
+
+				if (bSelected) {
+					forecolor = m_selected;
 				} else {
-					if (bSelected) {
-						forecolor = m_selected;
-					} else {
-						forecolor = m_standard;
-					}
+					forecolor = m_standard;
 				}
 
 				comp.setForeground(forecolor);

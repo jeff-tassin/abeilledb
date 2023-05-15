@@ -5,23 +5,14 @@
 
 package com.jeta.foundation.gui.components;
 
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.LayoutManager;
-
-import java.util.LinkedList;
-
-import javax.swing.Icon;
-import javax.swing.JButton;
-import javax.swing.JMenuItem;
-import javax.swing.KeyStroke;
-
-import com.jeta.foundation.i18n.I18N;
 import com.jeta.foundation.gui.utils.TSGuiToolbox;
-
+import com.jeta.foundation.i18n.I18N;
+import com.jeta.open.gui.framework.JETAPanel;
 import com.jeta.open.gui.utils.JETAToolbox;
 
-import com.jeta.open.gui.framework.JETAPanel;
+import javax.swing.*;
+import java.awt.*;
+import java.util.LinkedList;
 
 public class TSPanel extends JETAPanel {
 	private boolean m_editable = true;
@@ -144,8 +135,6 @@ public class TSPanel extends JETAPanel {
 	 */
 	protected JButton i18n_createToolBarButton(String iconName, String id, String tooltip) {
 		JButton btn = i18n_createButton(null, id, iconName);
-		// btn.setBorderPainted(false);
-		// btn.setFocusPainted(false);
 		if (tooltip != null)
 			btn.setToolTipText(tooltip);
 

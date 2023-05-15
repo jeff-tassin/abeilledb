@@ -1,13 +1,7 @@
-/* 
- * Copyright 2004 JETA Software, Inc. All rights reserved.
- * JETA SOFTWARE PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
- */
-
 package com.jeta.foundation.gui.table;
 
 import java.awt.BorderLayout;
 import java.awt.Container;
-import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.event.AdjustmentEvent;
 import java.awt.event.AdjustmentListener;
@@ -104,6 +98,7 @@ public class TSTablePanel extends AbstractTablePanel {
 	static final int NORMAL = 1;
 	static final int SPLIT_HORIZONTAL = 2;
 	static final int SPLIT_VERTICAL = 3;
+	static final int TRANSPOSED = 4;
 
 	/** the current view mode */
 	private int m_viewmode;
@@ -773,14 +768,14 @@ public class TSTablePanel extends AbstractTablePanel {
 		HashMap destcols = new HashMap();
 		for (int index = 0; index < destcolmodel.getColumnCount(); index++) {
 			TableColumn col = destcolmodel.getColumn(index);
-			destcols.put(new Integer(col.getModelIndex()), col);
+			destcols.put(col.getModelIndex(), col);
 		}
 
 		// add the move column to the left model if the left model does not
 		// already contain the column
 		for (int index = 0; index < movecols.length; index++) {
 			TableColumn col = movecols[index];
-			if (!destcols.containsKey(new Integer(col.getModelIndex())))
+			if (!destcols.containsKey(col.getModelIndex()))
 				destcolmodel.addColumn(col);
 		}
 
