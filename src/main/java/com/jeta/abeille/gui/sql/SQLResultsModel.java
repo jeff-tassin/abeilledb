@@ -1,14 +1,12 @@
 package com.jeta.abeille.gui.sql;
 
-import java.sql.SQLException;
-
-import com.jeta.abeille.database.model.TableId;
 import com.jeta.abeille.database.model.TSConnection;
-
+import com.jeta.abeille.database.model.TableId;
 import com.jeta.abeille.database.utils.ResultSetReference;
-
 import com.jeta.abeille.gui.queryresults.QueryResultSet;
 import com.jeta.abeille.gui.queryresults.QueryResultsModel;
+
+import java.sql.SQLException;
 
 /**
  * We specialize QueryResultsModel here so that we can provide management of an
@@ -19,7 +17,6 @@ import com.jeta.abeille.gui.queryresults.QueryResultsModel;
  * again, it can simply bring the window to the top of the z-order rather than
  * create another one.
  * 
- * @author Jeff Tassin
  */
 public class SQLResultsModel extends QueryResultsModel {
 	/**

@@ -1,39 +1,16 @@
 package com.jeta.abeille.gui.queryresults;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.TreeSet;
-import java.util.Vector;
-
-import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
-import java.sql.Statement;
-import java.sql.SQLException;
-import java.sql.Types;
-
-import javax.swing.SwingUtilities;
-import javax.swing.event.TableModelEvent;
-import javax.swing.table.AbstractTableModel;
-
-import com.jeta.abeille.database.model.Catalog;
-import com.jeta.abeille.database.model.ColumnMetaData;
-import com.jeta.abeille.database.model.Database;
-import com.jeta.abeille.database.model.DbKey;
-import com.jeta.abeille.database.model.TableId;
-import com.jeta.abeille.database.model.TableMetaData;
-import com.jeta.abeille.database.model.TSConnection;
-import com.jeta.abeille.database.model.TSDatabase;
-
+import com.jeta.abeille.database.model.*;
 import com.jeta.abeille.database.utils.ConnectionReference;
 import com.jeta.abeille.database.utils.DbUtils;
 import com.jeta.abeille.database.utils.ResultSetReference;
-import com.jeta.abeille.database.utils.RowCache;
 import com.jeta.abeille.database.utils.RowInstance;
-
 import com.jeta.foundation.utils.TSUtils;
 
-import com.jeta.plugins.abeille.mysql.MySQLTableType;
-import com.jeta.plugins.abeille.mysql.MySQLUtils;
+import javax.swing.event.TableModelEvent;
+import javax.swing.table.AbstractTableModel;
+import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
 
 /**
  * This class is used to represent a result set for a SQL query in a JTable.
@@ -63,11 +40,6 @@ public class QueryResultsModel extends AbstractTableModel {
 	 */
 	private TableMetaData m_tmd;
 
-	/** A set of instances that are marked for deletion */
-	private TreeSet m_markedfordelete = new TreeSet();
-
-	/** A set of instances that have been deleted */
-	private TreeSet m_deletedinstances = new TreeSet();
 
 	/**
 	 * ctor
@@ -161,13 +133,6 @@ public class QueryResultsModel extends AbstractTableModel {
 		return m_columns.length;
 	}
 
-	/**
-	 * @return the instances (a Collection of Integer objects) marked for
-	 *         deletion
-	 */
-	public Collection getInstancesMarkedForDeletion() {
-		return m_markedfordelete;
-	}
 
 	/**
 	 * @return the underlying query result set
@@ -315,13 +280,6 @@ public class QueryResultsModel extends AbstractTableModel {
 		}
 	}
 
-	/**
-	 * @return true if the given instance at the row has been deleted
-	 */
-	public boolean isDeleted(int row) {
-		Integer ival = new Integer(row);
-		return m_deletedinstances.contains(ival);
-	}
 
 	/**
 	 * @return true, if this model has no query results
@@ -342,14 +300,7 @@ public class QueryResultsModel extends AbstractTableModel {
 		return m_queryresults.isRowCountKnown();
 	}
 
-	/**
-	 * @return true if the given instance at the row is marked for deletion
-	 */
-	public boolean isMarkedForDeletion(int row) {
-		Integer ival = new Integer(row);
-		return m_markedfordelete.contains(ival);
-	}
-
+	
 	/**
 	 * @return true if the resultset is scrollable
 	 */
@@ -366,76 +317,5 @@ public class QueryResultsModel extends AbstractTableModel {
 		fireTableChanged(new TableModelEvent(this));
 	}
 
-	/**
-	 * Marks the given row as deleted
-	 */
-	public void markDeleted(int row) {
-		m_deletedinstances.add(new Integer(row));
-	}
-
-	/**
-	 * Mark the instance at the given row for deletion
-	 */
-	public void markForDeletion(int row) {
-		m_markedfordelete.add(new Integer(row));
-	}
-
-	/**
-	 * Unmarks all instances that are currently marked for deletion
-	 */
-	public void unmarkForDeletion() {
-		m_markedfordelete.clear();
-	}
-
-	/**
-	 * @return true if the database connection for this view supports
-	 *         transactions
-	 */
-	public boolean supportsTransactions() {
-		try {
-			if (m_tsconnection.isAutoCommit()) {
-				return false;
-			} else if (m_tableid != null) {
-				/**
-				 * if we are running MySQL, then we need to check the table
-				 * type. Only InnoDb supports transactions
-				 */
-				if (m_tsconnection.getDatabase().equals(Database.MYSQL)) {
-					TableMetaData tmd = m_tsconnection.getModel(m_tableid.getCatalog()).getTableEx(m_tableid,
-							TableMetaData.LOAD_ALL);
-					MySQLTableType ttype = MySQLUtils.getTableType(tmd);
-					if (ttype.equals(MySQLTableType.InnoDB)) {
-						return true;
-					}
-				}
-
-			}
-
-			TSDatabase db = (TSDatabase) m_tsconnection.getImplementation(TSDatabase.COMPONENT_ID);
-			return db.supportsTransactions();
-		} catch (Exception e) {
-			TSUtils.printException(e);
-		}
-
-		return false;
-	}
-
-	/**
-	 * Tells the query results to set the isRowCountKnown flag to true (even if
-	 * the result set is not fully downloaded). This also sets the max row and
-	 * last row to the current max row. This is primarly used when the user
-	 * makes changes to the result set and the set has not been fully
-	 * downloaded. In this case, we simply truncate to prevent problems.
-	 */
-	public void truncateResults() {
-		m_queryresults.truncateResults();
-	}
-
-	/**
-	 * UnMark the instance at the given row for deletion
-	 */
-	public void unmarkForDeletion(int row) {
-		m_markedfordelete.remove(new Integer(row));
-	}
 
 }
