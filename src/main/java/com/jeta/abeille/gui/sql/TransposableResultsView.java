@@ -13,15 +13,16 @@ import java.awt.*;
 public class TransposableResultsView extends TSPanel {
 
     private ResultsView m_resultsView;
+    
 
     /**
      * ctor
      */
     public TransposableResultsView(Object launcher, TSConnection tsconn, SQLResultsModel model) {
         setLayout(new BorderLayout());
-        ResultsView view = new ResultsView(launcher, tsconn, model );
+        ResultsView view = new ResultsView(launcher, tsconn, model);
         SQLResultsController controller = new SQLResultsController(view);
-        add( BorderLayout.CENTER, view );
+        add(BorderLayout.CENTER, view);
 
 
         SQLResultsUIDirector uidirector = new SQLResultsUIDirector(view);
@@ -33,5 +34,15 @@ public class TransposableResultsView extends TSPanel {
         return m_resultsView;
     }
 
+    /**
+     * Cleans up this view to assist in garbage collection.
+     */
+    public void dispose() {
+        m_resultsView.dispose();
+        removeAll();
+    }
 
+    public void saveFrame() {
+        m_resultsView.saveFrame();
+    }
 }

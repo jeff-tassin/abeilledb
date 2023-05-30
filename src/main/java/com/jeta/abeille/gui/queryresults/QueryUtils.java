@@ -32,6 +32,22 @@ public class QueryUtils {
 	/**
 	 * Runs a query against the metadata connection.
 	 */
+	public static AbstractTablePanel createQueryResultsView(String viewId, TSConnection tsconn, String sql)
+			throws SQLException {
+		Statement stmt = tsconn.createStatement();
+		ResultSet rset = stmt.executeQuery(sql);
+		QueryResultsModel model = new QueryResultsModel(tsconn, new ResultSetReference(new ConnectionReference(tsconn,
+				stmt.getConnection()), stmt, rset, sql));
+		model.last();
+		AbstractTablePanel tpanel = TableUtils.createBasicTablePanel(model, true);
+		restoreTableSettings(viewId, tsconn, tpanel);
+		return tpanel;
+	}
+
+
+	/**
+	 * Runs a query against the metadata connection.
+	 */
 	public static AbstractTablePanel createMetaDataResultsView(String viewId, TSConnection tsconn, String sql)
 			throws SQLException {
 		Statement stmt = tsconn.createScrollableMetaDataStatement();

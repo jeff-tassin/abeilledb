@@ -1,22 +1,16 @@
 package com.jeta.abeille.gui.queryresults;
 
-import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
-import java.sql.SQLException;
-import java.sql.Statement;
-
-import com.jeta.abeille.database.model.ColumnMetaData;
 import com.jeta.abeille.database.model.Catalog;
-
+import com.jeta.abeille.database.model.ColumnMetaData;
 import com.jeta.abeille.database.utils.ResultSetReference;
 import com.jeta.abeille.database.utils.RowCache;
 import com.jeta.abeille.database.utils.RowCacheFactory;
 import com.jeta.abeille.database.utils.RowInstance;
-
 import com.jeta.foundation.utils.TSUtils;
-import com.jeta.foundation.gui.components.TSErrorDialog;
-import com.jeta.foundation.gui.components.TSWorkspaceFrame;
-import com.jeta.foundation.gui.utils.TSGuiToolbox;
+
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
 
 /**
  * This class is a wrapper around the rowcache and the ResultSet
@@ -29,18 +23,6 @@ public class QueryResultSet {
 
 	public QueryResultSet(Catalog catalog, ResultSetReference ref) throws SQLException {
 		m_rowcache = RowCacheFactory.createInstance(catalog, ref);
-
-		/*
-		 * try { m_rowcache = RowCacheFactory.createInstance( catalog, ref ); }
-		 * catch( Throwable e ) { m_rowcache = RowCacheFactory.createInstance(
-		 * catalog, null );
-		 * 
-		 * final Throwable qerror = e; javax.swing.SwingUtilities.invokeLater(
-		 * new Runnable() { public void run() { TSErrorDialog dlg =
-		 * (TSErrorDialog)TSGuiToolbox.createDialog( TSErrorDialog.class,
-		 * TSWorkspaceFrame.getInstance(), true ); dlg.initialize( null, qerror
-		 * ); dlg.setSize( dlg.getPreferredSize() ); dlg.showCenter(); } }); }
-		 */
 	}
 
 	public QueryResultSet(RowCache rowcache) {

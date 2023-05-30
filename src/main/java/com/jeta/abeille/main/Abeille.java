@@ -1,31 +1,18 @@
 package com.jeta.abeille.main;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.PrintStream;
-
-import java.awt.Toolkit;
-import java.util.Locale;
-
-import com.jeta.abeille.gui.main.*;
 import com.jeta.abeille.database.model.TSConnectionMgr;
-
-import com.jeta.foundation.app.AppResourceLoader;
-import com.jeta.foundation.app.ApplicationStateStore;
+import com.jeta.abeille.gui.main.AbeilleLicenser;
+import com.jeta.abeille.gui.main.MainFrame;
+import com.jeta.abeille.gui.main.MainFrameController;
+import com.jeta.abeille.gui.main.Splash;
 import com.jeta.foundation.componentmgr.ComponentMgr;
 import com.jeta.foundation.componentmgr.ComponentNames;
 import com.jeta.foundation.componentmgr.TSComponent;
-
 import com.jeta.foundation.documents.DocumentManager;
-
-import com.jeta.foundation.gui.components.TSErrorDialog;
-
-import com.jeta.foundation.gui.utils.TSGuiToolbox;
-
 import com.jeta.foundation.interfaces.app.ObjectStore;
-import com.jeta.foundation.interfaces.resources.ResourceLoader;
-import com.jeta.foundation.i18n.I18N;
-import com.jeta.foundation.utils.TSUtils;
+
+import java.io.File;
+import java.io.IOException;
 
 /**
  * This is the main launcher class for the application.
@@ -70,19 +57,12 @@ public class Abeille implements TSComponent {
 		m_splash = new Splash();
 
 		ComponentMgr.setAppShutdown(this);
-
-		String[] args = {};
-
 		try {
-			JETAInitializer ji = new JETAInitializer();
-			ji.initialize(args);
-
 			if (checkLockFile()) {
-
 				// this will load the components that actually launch any login
 				// dialogs or
 				// perform any automatic logins
-				launchComponents();
+				launchComponents(true);
 			} else {
 				System.exit(0);
 			}
@@ -92,10 +72,20 @@ public class Abeille implements TSComponent {
 		}
 	}
 
+	public void initialize()  throws ClassNotFoundException, InstantiationException, IllegalAccessException {
+		launchComponents(false);
+	}
+
 	/**
 	 * Launched base components needed by the rest of the application
 	 */
-	private void launchComponents() throws ClassNotFoundException, InstantiationException, IllegalAccessException {
+	private void launchComponents(boolean launchFrame) throws ClassNotFoundException, InstantiationException, IllegalAccessException {
+		String[] args = {};
+
+		JETAInitializer ji = new JETAInitializer();
+		ji.initialize(args);
+
+
 		// start..... create some dummy objects here just to throw off any code
 		// snoopers
 		new com.jeta.foundation.gui.utils.ControlsAlignLayout();
@@ -125,16 +115,17 @@ public class Abeille implements TSComponent {
 		com.jeta.foundation.gui.editor.KeyBindingMgr kmgr = new com.jeta.foundation.gui.editor.KeyBindingMgr();
 		kmgr.startup();
 
-		try {
-			MainFrameController.setLookAndFeel();
-		} catch (Exception e) {
-			e.printStackTrace();
+		if (launchFrame) {
+			try {
+				MainFrameController.setLookAndFeel();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+
+			MainFrame mainframe = new MainFrame();
+			m_splash.dispose();
+			mainframe.show();
 		}
-
-		MainFrame mainframe = new MainFrame();
-		m_splash.dispose();
-		mainframe.show();
-
 	}
 
 	/**

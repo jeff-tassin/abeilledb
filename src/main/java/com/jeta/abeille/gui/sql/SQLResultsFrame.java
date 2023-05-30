@@ -69,7 +69,7 @@ public class SQLResultsFrame extends TSInternalFrame {
 		Collection views = getViews();
 		Iterator iter = views.iterator();
 		while (iter.hasNext()) {
-			ResultsView view = (ResultsView) iter.next();
+			TransposableResultsView view = (TransposableResultsView) iter.next();
 			view.saveFrame();
 			view.dispose();
 		}
@@ -107,10 +107,10 @@ public class SQLResultsFrame extends TSInternalFrame {
 	/**
 	 * @return a collection of all ResultsView objects in the frame.
 	 */
-	public Collection getViews() {
-		LinkedList<ResultsView> results = new LinkedList<ResultsView>();
+	public Collection<TransposableResultsView> getViews() {
+		LinkedList<TransposableResultsView> results = new LinkedList<TransposableResultsView>();
 		for (int index = 0; index < m_view_container.getTabCount(); index++) {
-			ResultsView view = (ResultsView) m_view_container.getComponentAt(index);
+			TransposableResultsView view = (TransposableResultsView) m_view_container.getComponentAt(index);
 			results.add(view);
 		}
 		return results;

@@ -1,36 +1,21 @@
 package com.jeta.abeille.database.model;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.TreeMap;
-
-import java.io.ObjectStreamException;
-import java.io.IOException;
-
-import java.sql.Connection;
-import java.sql.DatabaseMetaData;
-import java.sql.Driver;
-import java.sql.ResultSet;
-import java.sql.Statement;
-import java.sql.SQLException;
-
 import com.jeta.abeille.database.procedures.StoredProcedureInterface;
 import com.jeta.abeille.database.procedures.StoredProcedureService;
-import com.jeta.abeille.database.security.SecurityService;
 import com.jeta.abeille.database.security.SecurityManager;
+import com.jeta.abeille.database.security.SecurityService;
 import com.jeta.abeille.logger.DbLogger;
-
 import com.jeta.foundation.common.JETAExternalizable;
-
 import com.jeta.foundation.componentmgr.TSNotifier;
-import com.jeta.foundation.componentmgr.ComponentMgr;
-import com.jeta.foundation.componentmgr.ComponentNames;
-import com.jeta.foundation.interfaces.app.ObjectStore;
 import com.jeta.foundation.i18n.I18N;
+import com.jeta.foundation.interfaces.app.ObjectStore;
 import com.jeta.foundation.interfaces.userprops.TSUserPropertiesUtils;
 import com.jeta.foundation.utils.TSUtils;
+
+import java.io.IOException;
+import java.io.ObjectStreamException;
+import java.sql.*;
+import java.util.*;
 
 /**
  * This class represents a connection to a single database instance
@@ -274,36 +259,20 @@ public class TSConnection implements JETAExternalizable {
 	public Connection createConnection(ConnectionInfo cinfo) throws SQLException, ClassNotFoundException {
 		Connection connection = null;
 		try {
-			java.util.Properties info = new java.util.Properties();
-			info.put("user", cinfo.getUserName());
-			info.put("password", cinfo.getPassword());
+			if ( cinfo.getDatabase() == Database.ORACLE ) {
+				connection = DriverManager.getConnection( cinfo.getUrl(), cinfo.getUserName(), cinfo.getPassword() );
+			} else {
+				java.util.Properties info = new java.util.Properties();
+				info.put("user", cinfo.getUserName());
+				info.put("password", cinfo.getPassword());
 
-			if (Database.DAFFODIL.equals(cinfo.getDatabase())) {
-				if (cinfo.isEmbedded()) {
-					System.setProperty("daffodilDB_home", cinfo.getParameter1());
-					com.jeta.abeille.logger.DbLogger.fine("daffodilDB_home: " + cinfo.getParameter1());
+				if (m_driver == null) {
+					ClassLoader cloader = cinfo.getClassLoader();
+					Class dc = cloader.loadClass(cinfo.getDriver());
+					m_driver = (Driver) dc.newInstance();
 				}
+				connection = m_driver.connect(cinfo.getUrl(), info);
 			}
-
-			if (Database.POINTBASE.equals(cinfo.getDatabase())) {
-				if (cinfo.isEmbedded()) {
-					System.setProperty("database.home", cinfo.getParameter1());
-					com.jeta.abeille.logger.DbLogger.fine("database.home: " + cinfo.getParameter1());
-				}
-			}
-
-			if (m_driver == null) {
-				ClassLoader cloader = cinfo.getClassLoader();
-				Class dc = cloader.loadClass(cinfo.getDriver());
-				m_driver = (Driver) dc.newInstance();
-			}
-
-			if (TSUtils.isDebug()) {
-				System.out.println("TSConnection.createConnection  url: " + cinfo.getUrl() + "  driver: "
-						+ cinfo.getDriver());
-			}
-
-			connection = m_driver.connect(cinfo.getUrl(), info);
 			connection.setAutoCommit(true);
 
 			if (TSUtils.isDebug()) {

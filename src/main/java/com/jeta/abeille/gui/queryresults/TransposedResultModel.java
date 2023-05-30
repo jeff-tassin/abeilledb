@@ -1,14 +1,11 @@
 package com.jeta.abeille.gui.queryresults;
 
+import com.jeta.abeille.database.model.TSConnection;
+import com.jeta.abeille.gui.common.MetaDataTableModel;
+import com.jeta.foundation.i18n.I18N;
+
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
-import java.sql.SQLException;
-
-import com.jeta.abeille.database.model.TSConnection;
-
-import com.jeta.abeille.gui.common.MetaDataTableModel;
-
-import com.jeta.foundation.i18n.I18N;
 
 /**
  * This table model is for displaying a single row from a ResultSet in a
@@ -19,12 +16,8 @@ import com.jeta.foundation.i18n.I18N;
 public class TransposedResultModel extends MetaDataTableModel {
 
 	/**
-	 * ctor
-	 * 
-	 * @param tsconn
-	 *            the database connection
-	 * @param rset
-	 *            the result set whose row we wish to display. This result set
+	 * @param tsconn  the database connection
+	 * @param rset the result set whose row we wish to display. This result set
 	 *            must have a valid current row
 	 */
 	public TransposedResultModel(TSConnection tsconn, ResultSet rset) {
