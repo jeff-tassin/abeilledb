@@ -19,6 +19,15 @@ public class RowInstance {
 		m_values = new Object[columns];
 	}
 
+
+	public void truncate(int newLength) {
+		if ( newLength >= m_values.length ) {
+			throw new IllegalArgumentException(String.format("RowInstance.truncate newLength(%s) > m_values.length(%s)", newLength, m_values.length));
+		}
+		Object[] truncated = new Object[newLength];
+		System.arraycopy(m_values, 0, truncated, 0, newLength );
+		m_values = truncated;
+	}
 	/**
 	 * @return the object at the given column index. Note: column indices are
 	 *         ZERO based in this object.

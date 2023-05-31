@@ -13,18 +13,18 @@ import java.sql.ResultSetMetaData;
  * 
  * @author Jeff Tassin
  */
-public class TransposedResultModel extends MetaDataTableModel {
+public class TransposedResultsModel extends MetaDataTableModel {
 
 	/**
 	 * @param tsconn  the database connection
 	 * @param rset the result set whose row we wish to display. This result set
 	 *            must have a valid current row
 	 */
-	public TransposedResultModel(TSConnection tsconn, ResultSet rset) {
+	public TransposedResultsModel(TSConnection tsconn, ResultSet rset) {
 		super(tsconn, null);
 
 		String[] colnames = new String[2];
-		colnames[0] = I18N.getLocalizedMessage("Name");
+		colnames[0] = I18N.getLocalizedMessage("Column Name");
 		colnames[1] = I18N.getLocalizedMessage("Value");
 
 		Class[] coltypes = new Class[2];

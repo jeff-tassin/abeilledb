@@ -1,26 +1,21 @@
 package com.jeta.abeille.gui.queryresults;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
-import java.sql.SQLException;
-import java.sql.Statement;
-
-import javax.swing.JTable;
-import javax.swing.table.DefaultTableModel;
-
 import com.jeta.abeille.database.model.TSConnection;
-import com.jeta.abeille.database.utils.DbUtils;
 import com.jeta.abeille.database.utils.ConnectionReference;
 import com.jeta.abeille.database.utils.ResultSetReference;
-
-import com.jeta.foundation.gui.components.TSPanel;
+import com.jeta.abeille.database.utils.TransposedResultSet;
 import com.jeta.foundation.gui.table.AbstractTablePanel;
 import com.jeta.foundation.gui.table.TableSettings;
 import com.jeta.foundation.gui.table.TableUtils;
 import com.jeta.foundation.interfaces.app.ObjectStore;
-
 import com.jeta.foundation.utils.TSUtils;
+
+import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 /**
  * Utility class for working with query results
@@ -44,6 +39,38 @@ public class QueryUtils {
 		return tpanel;
 	}
 
+	/**
+	 * Runs a query against the metadata connection.
+	 */
+	public static AbstractTablePanel createTransposedQueryResultsView(String viewId, TSConnection tsconn, String sql)
+			throws SQLException {
+		Statement stmt = tsconn.createStatement();
+		ResultSet rset = stmt.executeQuery(sql);
+		QueryResultsModel model = new QueryResultsModel(tsconn, new ResultSetReference(new ConnectionReference(tsconn,
+				stmt.getConnection()), stmt, new TransposedResultSet(rset), sql));
+
+		model.last();
+		AbstractTablePanel tpanel = TableUtils.createBasicTablePanel(model, true);
+		restoreTableSettings(viewId, tsconn, tpanel);
+		return tpanel;
+	}
+
+	/**
+	 * This method gets the current row in the result set and creates a
+	 * transposed table using the values in the row. So, the row becomes two
+	 * column (name,value) and each column becomes a row in the table. Note: the
+	 * result set must contain a valid row and only the current row is
+	 * displayed.
+	 */
+	public static AbstractTablePanel createTransposedResultView(String viewId, TSConnection tsconn, ResultSet rset)
+			throws SQLException {
+		//TransposedResultsModel model = new TransposedResultsModel(tsconn, rset);
+		QueryResultsModel model = new QueryResultsModel(tsconn, new ResultSetReference(new ConnectionReference(tsconn,
+				tsconn.getWriteConnection()), null, new TransposedResultSet(rset), null));
+		AbstractTablePanel tpanel = TableUtils.createBasicTablePanel(model, true);
+		restoreTableSettings(viewId, tsconn, tpanel);
+		return tpanel;
+	}
 
 	/**
 	 * Runs a query against the metadata connection.
@@ -92,20 +119,7 @@ public class QueryUtils {
 		return tpanel;
 	}
 
-	/**
-	 * This method gets the current row in the result set and creates a
-	 * transposed table using the values in the row. So, the row becomes two
-	 * column (name,value) and each column becomes a row in the table. Note: the
-	 * result set must contain a valid row and only the current row is
-	 * displayed.
-	 */
-	public static AbstractTablePanel createTransposedResultView(String viewId, TSConnection tsconn, ResultSet rset)
-			throws SQLException {
-		TransposedResultModel model = new TransposedResultModel(tsconn, rset);
-		AbstractTablePanel tpanel = TableUtils.createBasicTablePanel(model, true);
-		restoreTableSettings(viewId, tsconn, tpanel);
-		return tpanel;
-	}
+
 
 	/**
 	 * Restores the table column widths to their previous settings for the given

@@ -1,64 +1,34 @@
 package com.jeta.abeille.gui.sql;
 
-import java.awt.Rectangle;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
-import java.lang.ref.WeakReference;
-
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.sql.Statement;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.logging.Logger;
-
-import javax.swing.JOptionPane;
-import javax.swing.JTable;
-
-import com.jeta.abeille.database.model.ColumnMetaData;
-import com.jeta.abeille.database.model.DbKey;
-import com.jeta.abeille.database.model.TableId;
 import com.jeta.abeille.database.model.TSConnection;
-
+import com.jeta.abeille.database.model.TableId;
 import com.jeta.abeille.database.utils.ConnectionReference;
-import com.jeta.abeille.database.utils.PreparedStatementWriter;
 import com.jeta.abeille.database.utils.ResultSetReference;
-
 import com.jeta.abeille.gui.command.ModalCommandRunner;
 import com.jeta.abeille.gui.command.QueryCommand;
-
-import com.jeta.abeille.gui.main.MainFrame;
-
 import com.jeta.abeille.gui.queryresults.QueryResultsModel;
-import com.jeta.abeille.gui.queryresults.QueryResultSet;
-import com.jeta.abeille.gui.queryresults.QueryResultsView;
-
 import com.jeta.abeille.gui.update.InstanceFrame;
 import com.jeta.abeille.gui.update.InstanceFrameLauncher;
 import com.jeta.abeille.gui.update.ShowInstanceFrameAction;
-import com.jeta.abeille.gui.update.TableInstanceViewBuilder;
-import com.jeta.abeille.gui.utils.ConfirmCommitPanel;
 import com.jeta.abeille.gui.utils.SQLErrorDialog;
-
 import com.jeta.foundation.componentmgr.ComponentMgr;
 import com.jeta.foundation.componentmgr.ComponentNames;
-import com.jeta.foundation.gui.components.JPanelFrame;
-import com.jeta.foundation.gui.components.JFrameEx;
-import com.jeta.foundation.gui.components.TSComponentNames;
-import com.jeta.foundation.gui.components.TSController;
-import com.jeta.foundation.gui.components.TSDialog;
-import com.jeta.foundation.gui.components.TSWorkspaceFrame;
-import com.jeta.foundation.gui.components.TSInternalFrame;
+import com.jeta.foundation.gui.components.*;
 import com.jeta.foundation.gui.print.PrintPreviewDialog;
-
-import com.jeta.foundation.gui.table.*;
-
+import com.jeta.foundation.gui.table.TSTablePanel;
+import com.jeta.foundation.gui.table.TablePrintable;
 import com.jeta.foundation.gui.utils.TSGuiToolbox;
 import com.jeta.foundation.i18n.I18N;
 import com.jeta.foundation.interfaces.userprops.TSUserProperties;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.lang.ref.WeakReference;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.logging.Logger;
 
 /**
  * This is the controller for the SQLResultsFrame window

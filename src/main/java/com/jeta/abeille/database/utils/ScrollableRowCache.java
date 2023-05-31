@@ -271,8 +271,6 @@ public class ScrollableRowCache extends RowCache {
 	 */
 	public int getRow() throws SQLException {
 		return m_currentrow;
-		// ResultSet resultset = getResultSet();
-		// return resultset.getRow() - 1;
 	}
 
 	/**
