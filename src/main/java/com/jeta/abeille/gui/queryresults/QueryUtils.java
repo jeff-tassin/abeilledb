@@ -47,10 +47,13 @@ public class QueryUtils {
 		Statement stmt = tsconn.createStatement();
 		ResultSet rset = stmt.executeQuery(sql);
 		QueryResultsModel model = new QueryResultsModel(tsconn, new ResultSetReference(new ConnectionReference(tsconn,
-				stmt.getConnection()), stmt, new TransposedResultSet(rset), sql));
+				stmt.getConnection()), stmt, rset, sql));
+
+		QueryResultsModel transposedModel = new QueryResultsModel(tsconn, new ResultSetReference(new ConnectionReference(tsconn,
+				stmt.getConnection()), stmt, new TransposedResultSet(model.getQueryResultSet()), sql));
 
 		model.last();
-		AbstractTablePanel tpanel = TableUtils.createBasicTablePanel(model, true);
+		AbstractTablePanel tpanel = TableUtils.createBasicTablePanel(transposedModel, true);
 		restoreTableSettings(viewId, tsconn, tpanel);
 		return tpanel;
 	}
@@ -62,10 +65,10 @@ public class QueryUtils {
 	 * result set must contain a valid row and only the current row is
 	 * displayed.
 	 */
-	public static AbstractTablePanel createTransposedResultView(String viewId, TSConnection tsconn, ResultSet rset)
+	public static AbstractTablePanel createTransposedResultView(String viewId, TSConnection tsconn, QueryResultSet qset)
 			throws SQLException {
 		QueryResultsModel model = new QueryResultsModel(tsconn, new ResultSetReference(new ConnectionReference(tsconn,
-				tsconn.getWriteConnection()), null, new TransposedResultSet(rset), null));
+				tsconn.getWriteConnection()), null, new TransposedResultSet(qset), null));
 		AbstractTablePanel tpanel = TableUtils.createBasicTablePanel(model, true);
 		restoreTableSettings(viewId, tsconn, tpanel);
 		return tpanel;

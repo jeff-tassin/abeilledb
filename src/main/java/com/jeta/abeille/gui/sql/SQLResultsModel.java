@@ -39,6 +39,14 @@ public class SQLResultsModel extends QueryResultsModel {
 	}
 
 	/**
+	 * ctor
+	 */
+	public SQLResultsModel(TSConnection tsconn, QueryResultSet qset) throws SQLException {
+		super(tsconn, qset, null);
+	}
+
+	
+	/**
 	 * @return the user settings object for this sql results
 	 */
 	public SQLSettings getSettings() {

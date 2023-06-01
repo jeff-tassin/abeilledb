@@ -1,6 +1,7 @@
 package com.jeta.abeille.database.utils;
 
 import com.jeta.abeille.database.model.ColumnMetaData;
+import com.jeta.abeille.gui.queryresults.QueryResultSet;
 
 import java.io.InputStream;
 import java.io.Reader;
@@ -24,23 +25,23 @@ public class TransposedResultSet implements ResultSet {
     private ResultSetMetaData m_metadata = new TransposedMetaData();
     private int m_pos = -1;
 
-    public TransposedResultSet(ResultSet rset) throws SQLException {
-        ResultSetMetaData metadata = rset.getMetaData();
+
+    public TransposedResultSet(QueryResultSet qset) throws SQLException {
+        ResultSetMetaData metadata = qset.getMetaData();
 
         ColumnMetaData cmd = new ColumnMetaData( "Column Name", Types.OTHER, 0, null, ResultSetMetaData.columnNoNulls );
         m_columnsByName.put( "Column Name", 1 );
 
         int MAX_ROWS = 20;
         int i = 1;
-        for( ; i <= MAX_ROWS && rset.next(); i++ ) {
-
+        for( ; i <= MAX_ROWS && qset.next(); i++ ) {
             for (int j = 0; j < metadata.getColumnCount(); j++) {
                 RowInstance row = m_rows.get(j);
                 if ( row == null ) {
                     row = new RowInstance(MAX_ROWS+1);
                     m_rows.put(j, row);
                 }
-                row.setObject(i, rset.getObject(j+1));
+                row.setObject(i, qset.getRowInstance(qset.getRow()).getObject(j));
 
                 if ( i == 1 ) {
                     row.setObject(0, metadata.getColumnName(j+1));
@@ -56,6 +57,8 @@ public class TransposedResultSet implements ResultSet {
         for( int k = 0; k < m_rows.size(); k++ ) {
           m_rows.get(k).truncate(i);
         }
+
+        qset.first();
     }
 
     @Override

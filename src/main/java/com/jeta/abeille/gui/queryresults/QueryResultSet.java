@@ -29,6 +29,7 @@ public class QueryResultSet {
 		m_rowcache = rowcache;
 	}
 
+
 	/**
 	 * Moves the result set pointer to the first row
 	 */
