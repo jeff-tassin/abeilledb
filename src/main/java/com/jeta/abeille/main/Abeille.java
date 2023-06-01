@@ -3,7 +3,6 @@ package com.jeta.abeille.main;
 import com.jeta.abeille.database.model.TSConnectionMgr;
 import com.jeta.abeille.gui.main.AbeilleLicenser;
 import com.jeta.abeille.gui.main.MainFrame;
-import com.jeta.abeille.gui.main.MainFrameController;
 import com.jeta.abeille.gui.main.Splash;
 import com.jeta.foundation.componentmgr.ComponentMgr;
 import com.jeta.foundation.componentmgr.ComponentNames;
@@ -117,7 +116,7 @@ public class Abeille implements TSComponent {
 
 		if (launchFrame) {
 			try {
-				MainFrameController.setLookAndFeel();
+				// MainFrameController.setLookAndFeel();
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

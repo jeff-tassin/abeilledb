@@ -37,7 +37,7 @@ public class TransposedResultSet implements ResultSet {
             for (int j = 0; j < metadata.getColumnCount(); j++) {
                 RowInstance row = m_rows.get(j);
                 if ( row == null ) {
-                    row = new RowInstance(MAX_ROWS);
+                    row = new RowInstance(MAX_ROWS+1);
                     m_rows.put(j, row);
                 }
                 row.setObject(i, rset.getObject(j+1));
@@ -290,7 +290,6 @@ public class TransposedResultSet implements ResultSet {
         if ( m_pos < 0 || m_pos >= m_rows.size() ) {
             throw new SQLException("Invalid index " + m_pos );
         }
-        System.out.println("getobject index: " + columnIndex + "   row: " + m_pos + "  value: " +  m_rows.get(m_pos).getObject(columnIndex-1) );
         return m_rows.get(m_pos).getObject(columnIndex-1);
     }
 

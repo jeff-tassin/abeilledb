@@ -75,6 +75,7 @@ public class TSConnectionMgr {
 	public static TSConnection createConnection(ConnectionInfo info) throws SQLException, ClassNotFoundException,
 			InstantiationException, IllegalAccessException {
 
+
 		TSConnection connection = new TSConnection(info);
 		m_connections.put(connection.getId(), connection);
 

@@ -21,12 +21,13 @@ public class RowInstance {
 
 
 	public void truncate(int newLength) {
-		if ( newLength >= m_values.length ) {
+		if ( newLength > m_values.length ) {
 			throw new IllegalArgumentException(String.format("RowInstance.truncate newLength(%s) > m_values.length(%s)", newLength, m_values.length));
+		} else if ( newLength < m_values.length ) {
+			Object[] truncated = new Object[newLength];
+			System.arraycopy(m_values, 0, truncated, 0, newLength);
+			m_values = truncated;
 		}
-		Object[] truncated = new Object[newLength];
-		System.arraycopy(m_values, 0, truncated, 0, newLength );
-		m_values = truncated;
 	}
 	/**
 	 * @return the object at the given column index. Note: column indices are

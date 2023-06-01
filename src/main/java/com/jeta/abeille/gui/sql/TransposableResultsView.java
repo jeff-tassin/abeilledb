@@ -39,9 +39,8 @@ public class TransposableResultsView extends TSPanel {
         try {
             m_transposedView = QueryUtils.createTransposedResultView("transposed", tsconn, model.getQueryResultSet().getResultSet());
         } catch( Exception e ) {
-            System.out.println(e);
+            e.printStackTrace();
         }
-
     }
 
     public ResultsView getResultsView() {
@@ -62,7 +61,7 @@ public class TransposableResultsView extends TSPanel {
 
     class TransposeViewAction implements ActionListener {
         public void actionPerformed(ActionEvent evt) {
-            System.out.println("transpose view");
+            System.out.println("transpose view " + m_transposedView);
             remove(m_resultsView);
             remove(m_transposedView);
             if ( m_isTransposed ) {

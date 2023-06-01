@@ -1,14 +1,12 @@
 package com.jeta.abeille.database.model;
 
+import com.jeta.foundation.common.JETAExternalizable;
+import com.jeta.foundation.utils.TSUtils;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
-
-import java.io.ObjectStreamException;
-import java.io.IOException;
-
-import com.jeta.foundation.common.JETAExternalizable;
-import com.jeta.foundation.utils.TSUtils;
 
 /**
  * This class represents the information needed to establish a connection to a
@@ -98,6 +96,16 @@ public class ConnectionInfo implements JETAExternalizable, Cloneable {
 		m_name = name;
 	}
 
+	public ConnectionInfo(Database database, String uid, String name, String server, int port) {
+		m_database = database;
+		m_uid = uid;
+		m_driver = null;
+		m_server = server;
+		m_port = port;
+		m_name = name;
+	}
+
+	
 	public Object clone() {
 		ConnectionInfo ci = new ConnectionInfo();
 		ci.m_driver = m_driver;

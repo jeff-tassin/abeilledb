@@ -64,7 +64,6 @@ public class QueryUtils {
 	 */
 	public static AbstractTablePanel createTransposedResultView(String viewId, TSConnection tsconn, ResultSet rset)
 			throws SQLException {
-		//TransposedResultsModel model = new TransposedResultsModel(tsconn, rset);
 		QueryResultsModel model = new QueryResultsModel(tsconn, new ResultSetReference(new ConnectionReference(tsconn,
 				tsconn.getWriteConnection()), null, new TransposedResultSet(rset), null));
 		AbstractTablePanel tpanel = TableUtils.createBasicTablePanel(model, true);
