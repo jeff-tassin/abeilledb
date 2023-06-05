@@ -3,21 +3,9 @@ package com.jeta.foundation.gui.table;
 import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.Point;
-import java.awt.event.AdjustmentEvent;
-import java.awt.event.AdjustmentListener;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.InputEvent;
-import java.awt.event.KeyEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.LinkedList;
+import java.util.*;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -61,6 +49,8 @@ import com.jeta.open.gui.framework.UIDirector;
  * @author Jeff Tassin
  */
 public class TSTablePanel extends AbstractTablePanel {
+
+	private List<MouseListener> m_listeners = new LinkedList<MouseListener>();
 
 	/** the custom splitter window */
 	private CustomSplitPane m_split;
@@ -189,6 +179,26 @@ public class TSTablePanel extends AbstractTablePanel {
 			model.addColumn(column);
 		}
 		return model;
+	}
+
+	public void addMouseListener(MouseListener listener) {
+		m_listeners.add( listener );
+		if ( m_table1 != null ) {
+			m_table1.addMouseListener(listener);
+		}
+		if ( m_table2 != null ) {
+			m_table2.addMouseListener(listener);
+		}
+	}
+
+	public void removeMouseListener(MouseListener listener) {
+		m_listeners.remove( listener );
+		if ( m_table1 != null ) {
+			m_table1.removeMouseListener(listener);
+		}
+		if ( m_table2 != null ) {
+			m_table2.removeMouseListener(listener);
+		}
 	}
 
 	/**
@@ -528,6 +538,8 @@ public class TSTablePanel extends AbstractTablePanel {
 			select_all_btn.addActionListener(new SelectAllListener(table));
 			scroll.setCorner(JScrollPane.UPPER_LEFT_CORNER, select_all_btn);
 		}
+
+		m_listeners.forEach(table::addMouseListener);
 	}
 
 	/**
@@ -662,6 +674,12 @@ public class TSTablePanel extends AbstractTablePanel {
 
 		m_viewmode = NORMAL;
 
+		if ( m_table2 != null ) {
+			m_listeners.forEach( (listener) -> m_table2.removeMouseListener(listener) );
+		}
+		if ( m_table1 != null ) {
+			m_listeners.forEach( (listener) -> m_table1.removeMouseListener(listener) );
+		}
 		m_table2 = null;
 		m_rowheader2 = null;
 

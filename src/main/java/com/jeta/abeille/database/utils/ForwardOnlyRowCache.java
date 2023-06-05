@@ -97,7 +97,6 @@ public class ForwardOnlyRowCache extends RowCache {
 	 * ctor
 	 */
 	public ForwardOnlyRowCache(Catalog catalog, ResultSetReference rsetref, boolean force_cache) throws SQLException {
-		TSUtils.printMessage(">>>>>>>>>>>>>>>>  Created ForwardOnlyRowCache for " + rsetref.getSQL());
 		m_catalog = catalog;
 		m_force_cache = force_cache;
 		m_resultset = rsetref.getResultSet();

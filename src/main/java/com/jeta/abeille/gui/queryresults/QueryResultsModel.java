@@ -11,6 +11,9 @@ import javax.swing.event.TableModelEvent;
 import javax.swing.table.AbstractTableModel;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
+import java.util.Arrays;
+import java.util.Objects;
+import java.util.Optional;
 
 /**
  * This class is used to represent a result set for a SQL query in a JTable.
@@ -168,6 +171,10 @@ public class QueryResultsModel extends AbstractTableModel {
 		return m_queryresults.getRow();
 	}
 
+	public RowInstance getRowInstance(int row) throws SQLException {
+		return m_queryresults.getRowInstance(row);
+	}
+
 	/**
 	 * AbstractTableModel implementation
 	 * 
@@ -280,6 +287,22 @@ public class QueryResultsModel extends AbstractTableModel {
 		}
 	}
 
+	/**
+	 * @return the value for the given row and column name
+	 *
+	 */
+	public Object getValueAt(int row, String cname) {
+		int col = 0;
+		for( ; col < m_columns.length; col++ ) {
+			if (Objects.equals(m_columns[col].getColumnName(), cname)) {
+				break;
+			}
+		}
+		if ( col < m_columns.length )
+			return getValueAt(row, col );
+		else
+			return null;
+	}
 
 	/**
 	 * @return true, if this model has no query results

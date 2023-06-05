@@ -352,7 +352,7 @@ public class TableUtils {
 	 * settings object. The table panel must already be initialized.
 	 * Furthermore, the columns in the table panel must match those in the
 	 * settings (i.e. column names and indices are the same between the two). If
-	 * both are consitent, then this method will iterate over the columns and
+	 * both are consistent, then this method will iterate over the columns and
 	 * set the column widths in the tabelpanel to those found in the settings.
 	 * 
 	 * @return true if the table settings were successfully restored. false is
@@ -400,6 +400,8 @@ public class TableUtils {
 				tablepanel.resizeColumns();
 			}
 		}
+		System.out.println("restored stable settings");
+		settings.print();
 		return bresult;
 	}
 

@@ -9,7 +9,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 
-import java.lang.ref.WeakReference;
 
 /**
  * This is the main notifier class for the VM. Objects can register with an
@@ -27,7 +26,7 @@ import java.lang.ref.WeakReference;
  */
 public class TSNotifier {
 	// @todo keep references to listeners as WeakReferences
-	private HashMap m_listeners = new HashMap();
+	private HashMap<String,LinkedList<TSListener>> m_listeners = new HashMap();
 
 	/**
 	 * The identifer for this notifier instance
@@ -77,12 +76,11 @@ public class TSNotifier {
 	 *            the evt to send
 	 */
 	synchronized public void fireEvent(TSEvent evt) {
-		LinkedList list = (LinkedList) m_listeners.get(evt.getGroup());
+		LinkedList<TSListener> list = m_listeners.get(evt.getGroup());
 		if (list != null) {
-			Iterator iter = list.iterator();
+			Iterator<TSListener> iter = list.iterator();
 			while (iter.hasNext()) {
-				WeakReference wr = (WeakReference) iter.next();
-				TSListener listener = (TSListener) wr.get();
+				TSListener listener = iter.next();
 				if (listener == null) // listener was garbage collected
 				{
 					// System.out.println(
@@ -122,21 +120,13 @@ public class TSNotifier {
 	/**
 	 * Registers a listener to receive events for a given messageGroup
 	 * 
-	 * @param listener
-	 *            the object to receive the events
-	 * @param messageGroup
-	 *            the message group
+	 * @param listener the object to receive the events
+	 * @param messageGroup the message group
 	 */
 	synchronized public void registerInterest(TSListener listener, String messageGroup) {
-		// System.out.println( "TSNotifier.registerInterest: " + listener );
-		LinkedList list = (LinkedList) m_listeners.get(messageGroup);
-		if (list == null) {
-			list = new LinkedList();
-			m_listeners.put(messageGroup, list);
-		}
-
-		WeakReference wl = new WeakReference(listener);
-		list.add(wl);
+		// System.out.println( "TSNotifier.registerInterest: " + listener  + " messageGroup: " + messageGroup);
+		LinkedList<TSListener> list = m_listeners.computeIfAbsent(messageGroup, k -> new LinkedList<>());
+		list.add(listener);
 	}
 
 	/**
@@ -146,19 +136,16 @@ public class TSNotifier {
 	 *            the object to remove
 	 */
 	synchronized public void removeListener(TSListener listener) {
-		Iterator iter = m_listeners.keySet().iterator();
+		Iterator<String> iter = m_listeners.keySet().iterator();
 		while (iter.hasNext()) {
-			String key = (String) iter.next();
-			LinkedList list = (LinkedList) m_listeners.get(key);
+			String key = iter.next();
+			LinkedList<TSListener> list = m_listeners.get(key);
 			if (list != null) {
-				Iterator liter = list.iterator();
+				Iterator<TSListener> liter = list.iterator();
 				while (liter.hasNext()) {
-					WeakReference wl = (WeakReference) liter.next();
-					TSListener ref = (TSListener) wl.get();
-					// check if the listener is the object to remove OR if
-					// any other listener may have been garbage collected
-					if (ref == null || ref == listener)
-						liter.remove();
+					if ( listener == liter.next() ) {
+						iter.remove();
+					}
 				}
 			}
 		}

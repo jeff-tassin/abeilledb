@@ -14,6 +14,7 @@ import java.util.Map;
 
 public class TransposedResultSet implements ResultSet {
 
+    // 0-based index
     private Map<Integer,RowInstance> m_rows = new HashMap<>();
 
     // map of pseudo-column names to column index
@@ -32,6 +33,8 @@ public class TransposedResultSet implements ResultSet {
         ColumnMetaData cmd = new ColumnMetaData( "Column Name", Types.OTHER, 0, null, ResultSetMetaData.columnNoNulls );
         m_columnsByName.put( "Column Name", 1 );
 
+        qset.first();
+        qset.previous(); // move before first
         int MAX_ROWS = 20;
         int i = 1;
         for( ; i <= MAX_ROWS && qset.next(); i++ ) {

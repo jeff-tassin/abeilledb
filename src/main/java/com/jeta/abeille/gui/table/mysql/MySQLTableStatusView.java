@@ -83,8 +83,8 @@ public class MySQLTableStatusView extends TSPanel {
 					String tablename = rset.getString("Name");
 					if (tableId.getTableName().equals(tablename)) {
 						saveViewSettings();
-						m_tablepanel = QueryUtils.createTransposedResultView(VIEW_ID, m_connection, rset);
-						add(m_tablepanel, BorderLayout.CENTER);
+						//m_tablepanel = QueryUtils.createTransposedResultView(VIEW_ID, m_connection, rset);
+						//add(m_tablepanel, BorderLayout.CENTER);
 						break;
 					}
 				}

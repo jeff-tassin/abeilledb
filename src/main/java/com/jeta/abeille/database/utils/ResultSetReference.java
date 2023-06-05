@@ -66,6 +66,13 @@ public class ResultSetReference {
 		m_sql = sql;
 	}
 
+	public static ResultSetReference build( TSConnection tsconn, String sql, String rawSql) throws SQLException {
+		Statement stmt = tsconn.createStatement();
+		ResultSetReference rref = new ResultSetReference(new ConnectionReference(tsconn, stmt.getConnection()), stmt, stmt.executeQuery(sql), sql);
+		rref.setUnprocessedSQL(rawSql);
+		return rref;
+	}
+
 	/**
 	 * Caches the metadata for the result set. This is needed in case the
 	 * resultset is closed but we still need to access the set data. This can

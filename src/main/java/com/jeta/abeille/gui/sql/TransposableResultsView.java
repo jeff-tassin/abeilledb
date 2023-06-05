@@ -4,10 +4,7 @@ import com.jeta.abeille.database.model.TSConnection;
 import com.jeta.abeille.database.utils.ConnectionReference;
 import com.jeta.abeille.database.utils.ResultSetReference;
 import com.jeta.abeille.database.utils.TransposedResultSet;
-import com.jeta.abeille.gui.queryresults.QueryResultsModel;
-import com.jeta.abeille.gui.queryresults.QueryUtils;
 import com.jeta.foundation.gui.components.TSPanel;
-import com.jeta.foundation.gui.table.AbstractTablePanel;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -40,8 +37,10 @@ public class TransposableResultsView extends TSPanel {
 
         try {
             TransposedResultSet tset = new TransposedResultSet(model.getQueryResultSet());
-            ResultSetReference rref = new ResultSetReference(new ConnectionReference(tsconn, tsconn.getWriteConnection()), null, tset, null);
-            m_transposedView = new ResultsView(launcher, tsconn, new SQLResultsModel(tsconn, rref, null));
+            ResultSetReference rref = new ResultSetReference(new ConnectionReference(tsconn, tsconn.getWriteConnection()), null, tset, model.getUnprocessedSQL() + " --transposed");
+            SQLResultsModel tmodel = new SQLResultsModel(tsconn, rref);
+            m_transposedView = new ResultsView(launcher, tsconn, tmodel);
+            tmodel.last();
         } catch( Exception e ) {
             e.printStackTrace();
         }
@@ -56,6 +55,10 @@ public class TransposableResultsView extends TSPanel {
         return m_resultsView;
     }
 
+    public ResultsView getTransposedView() {
+        return m_transposedView;
+    }
+
     /**
      * Cleans up this view to assist in garbage collection.
      */
@@ -66,19 +69,24 @@ public class TransposableResultsView extends TSPanel {
 
     public void saveFrame() {
         m_resultsView.saveFrame();
+        m_transposedView.saveFrame();
+    }
+
+    public void transpose() {
+        remove(m_resultsView);
+        remove(m_transposedView);
+        if ( m_isTransposed ) {
+            add( m_resultsView, BorderLayout.CENTER );
+        } else {
+            add( m_transposedView, BorderLayout.CENTER );
+        }
+        m_isTransposed = !m_isTransposed;
+        validate();
     }
 
     class TransposeViewAction implements ActionListener {
         public void actionPerformed(ActionEvent evt) {
-            remove(m_resultsView);
-            remove(m_transposedView);
-            if ( m_isTransposed ) {
-                add( m_resultsView, BorderLayout.CENTER );
-            } else {
-                add( m_transposedView, BorderLayout.CENTER );
-            }
-            m_isTransposed = !m_isTransposed;
-            validate();
+            transpose();
         }
     }
 

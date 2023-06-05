@@ -30,6 +30,12 @@ public class SQLResultsModel extends QueryResultsModel {
 	public SQLResultsModel(TSConnection tsconn, ResultSetReference ref, TableId tableId) throws SQLException {
 		super(tsconn, ref, tableId);
 	}
+	/**
+	 * ctor
+	 */
+	public SQLResultsModel(TSConnection tsconn, ResultSetReference ref) throws SQLException {
+		super(tsconn, ref, null);
+	}
 
 	/**
 	 * ctor

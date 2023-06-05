@@ -11,7 +11,14 @@ import com.jeta.foundation.i18n.I18N;
 import com.jeta.foundation.utils.TSUtils;
 
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.TableColumnModelEvent;
+import javax.swing.event.TableColumnModelListener;
+import javax.swing.table.TableColumn;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.lang.ref.WeakReference;
 
 /**
@@ -112,6 +119,16 @@ public class ResultsView extends TSPanel {
 
 		m_model = model;
 		m_view = new QueryResultsView(m_model);
+		m_view.getTablePanel()
+				.getTable()
+				.getTableHeader()
+				.addMouseListener( new MouseAdapter() {
+					public void mouseReleased(MouseEvent arg0) {
+						// saveFrame on column resize events
+						saveFrame();
+					}
+				});
+
 		add(m_view, BorderLayout.CENTER);
 		add(m_statusbar, BorderLayout.SOUTH);
 		add(createToolBar(), BorderLayout.NORTH);
@@ -131,6 +148,8 @@ public class ResultsView extends TSPanel {
 			String trimsql = smgr.trim(sql);
 
 			SQLSettings settings = smgr.get(trimsql);
+			System.out.println("resultsview created settings " + settings + "  conn: " + m_connection.getId().getUID() );
+			System.out.println("        sql " + trimsql);
 			if (settings == null) {
 				settings = new SQLSettings(trimsql);
 				smgr.add(settings);
@@ -276,9 +295,6 @@ public class ResultsView extends TSPanel {
 
 			sqlsettings.setTableSettings(tablesettings);
 			smgr.add(sqlsettings);
-
-			// @todo we probably could optimize this and not save the entire
-			// SQLSettingsMgr every time
 			smgr.save();
 		}
 	}
@@ -286,4 +302,7 @@ public class ResultsView extends TSPanel {
 	public void configureTableOptions() {
 		m_view.configureTableOptions();
 	}
+
+
+
 }
