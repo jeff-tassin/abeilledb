@@ -400,8 +400,6 @@ public class TableUtils {
 				tablepanel.resizeColumns();
 			}
 		}
-		System.out.println("restored stable settings");
-		settings.print();
 		return bresult;
 	}
 

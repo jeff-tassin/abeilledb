@@ -4,11 +4,15 @@ import com.jeta.abeille.database.model.TSConnection;
 import com.jeta.abeille.database.utils.ConnectionReference;
 import com.jeta.abeille.database.utils.ResultSetReference;
 import com.jeta.abeille.database.utils.TransposedResultSet;
+import com.jeta.foundation.gui.components.TSComponentNames;
 import com.jeta.foundation.gui.components.TSPanel;
+import scala.Array;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Arrays;
+import java.util.Objects;
 
 
 /**
@@ -45,9 +49,9 @@ public class TransposableResultsView extends TSPanel {
             e.printStackTrace();
         }
 
-        SQLResultsController controller1 = new SQLResultsController(m_resultsView);
+        SQLResultsController controller1 = new TransposableController(m_resultsView);
         controller1.assignAction(SQLResultsNames.ID_TRANSPOSE, new TransposeViewAction());
-        SQLResultsController controller2 = new SQLResultsController(m_transposedView);
+        SQLResultsController controller2 = new TransposableController(m_transposedView);
         controller2.assignAction(SQLResultsNames.ID_TRANSPOSE, new TransposeViewAction());
     }
 
@@ -90,4 +94,22 @@ public class TransposableResultsView extends TSPanel {
         }
     }
 
+    static class TransposableController extends SQLResultsController {
+        public TransposableController(ResultsView view) {
+            super(view);
+        }
+
+        /** to eliminate missing component messages */
+        public void assignAction(String compName, ActionListener action) {
+            String[] excluded = {
+                    SQLResultsNames.ID_EXPORT_ALL,
+                    SQLResultsNames.ID_EXPORT_SELECTION,
+                    TSComponentNames.ID_PRINT_PREVIEW,
+                    SQLResultsNames.ID_PREFERENCES
+            };
+            if (!Arrays.asList(excluded).contains(compName)) {
+                super.assignAction(compName, action);
+            }
+        }
+    }
 }

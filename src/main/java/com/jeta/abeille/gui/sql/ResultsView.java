@@ -148,8 +148,6 @@ public class ResultsView extends TSPanel {
 			String trimsql = smgr.trim(sql);
 
 			SQLSettings settings = smgr.get(trimsql);
-			System.out.println("resultsview created settings " + settings + "  conn: " + m_connection.getId().getUID() );
-			System.out.println("        sql " + trimsql);
 			if (settings == null) {
 				settings = new SQLSettings(trimsql);
 				smgr.add(settings);

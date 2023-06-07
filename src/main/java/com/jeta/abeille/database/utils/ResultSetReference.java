@@ -110,7 +110,7 @@ public class ResultSetReference {
 		m_metadatacache = null;
 
 		if (TSUtils.isDebug()) {
-			TSUtils.printDebugMessage("ResultSetReference.finalize: " + m_sql);
+			// TSUtils.printDebugMessage("ResultSetReference.finalize: " + m_sql);
 		}
 	}
 
