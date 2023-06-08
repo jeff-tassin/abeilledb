@@ -53,8 +53,6 @@ public class Abeille implements TSComponent {
 	}
 
 	public void launch() {
-		m_splash = new Splash();
-
 		ComponentMgr.setAppShutdown(this);
 		try {
 			if (checkLockFile()) {
@@ -84,37 +82,23 @@ public class Abeille implements TSComponent {
 		JETAInitializer ji = new JETAInitializer();
 		ji.initialize(args);
 
-
-		// start..... create some dummy objects here just to throw off any code
-		// snoopers
-		new com.jeta.foundation.gui.utils.ControlsAlignLayout();
-		new com.jeta.foundation.gui.utils.RegexFormatter();
 		new com.jeta.abeille.logger.SystemConsoleLogger();
 		new com.jeta.foundation.app.UserPropertiesStore();
-		new com.jeta.foundation.app.AppResourceLoader("jeta");
-		ComponentMgr.lookup("license");
-		ComponentMgr.lookup("license2");
-		ComponentMgr.lookup("license3");
-		ComponentMgr.lookup("license4");
+		// new com.jeta.foundation.app.AppResourceLoader("jeta");
 
 		ComponentMgr.registerComponent(DocumentManager.COMPONENT_ID, new DocumentManager());
 		ComponentMgr.registerComponent(AbeilleLicenser.COMPONENT_ID, new AbeilleLicenser());
-		// new com.jeta.abeille.licensemgr.InternalComponentInitializer();
 		com.jeta.foundation.app.UserPropertiesStore ups = new com.jeta.foundation.app.UserPropertiesStore();
 
 		ups.startup();
 		com.jeta.abeille.logger.DbLogger dblogger = new com.jeta.abeille.logger.DbLogger();
 		dblogger.startup();
 
-		// System.setErr( new PrintStream(new
-		// com.jeta.abeille.logger.SystemConsoleLogger()) );
-		// System.setOut( new PrintStream(new
-		// com.jeta.abeille.logger.SystemConsoleLogger()) );
-
 		com.jeta.foundation.gui.editor.KeyBindingMgr kmgr = new com.jeta.foundation.gui.editor.KeyBindingMgr();
 		kmgr.startup();
 
 		if (launchFrame) {
+			m_splash = new Splash();
 			try {
 				// MainFrameController.setLookAndFeel();
 			} catch (Exception e) {
