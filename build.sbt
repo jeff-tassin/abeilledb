@@ -1,7 +1,14 @@
+
 ThisBuild / version := "0.1.0-SNAPSHOT"
 
 ThisBuild / scalaVersion := "3.2.2"
 val Http4sVersion = "1.0.0-M39"
+
+
+ThisBuild / assemblyMergeStrategy := {
+  case PathList("META-INF", xs_*) => MergeStrategy.discard
+  case _ => MergeStrategy.first
+}
 
 lazy val root = (project in file("."))
   .settings(
@@ -12,8 +19,12 @@ lazy val root = (project in file("."))
       "io.circe" %% "circe-generic" % "0.14.5",
       "io.circe" %% "circe-parser" % "0.14.5",
     ),
-    fork := true
+    fork := true,
+    assembly / mainClass := Some("com.jeta.abeille.main.Main"),
+    assembly / assemblyJarName := "abeilledb.jar"
   )
 
 Compile / mainClass := Some("com.jeta.abeille.main.Main")
 Compile / resourceDirectory := baseDirectory.value / "assets"
+Compile / packageBin / packageOptions +=
+  Package.ManifestAttributes(java.util.jar.Attributes.Name.SEALED -> "true")
