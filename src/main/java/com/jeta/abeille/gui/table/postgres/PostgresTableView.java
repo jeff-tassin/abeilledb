@@ -1,52 +1,29 @@
 package com.jeta.abeille.gui.table.postgres;
 
-import java.awt.Cursor;
-import java.awt.BorderLayout;
-
-import javax.swing.BorderFactory;
-import javax.swing.JPanel;
-import javax.swing.JTabbedPane;
-
-import com.jeta.abeille.database.model.Database;
-import com.jeta.abeille.database.model.DbObjectType;
+import com.jeta.abeille.database.model.TSConnection;
 import com.jeta.abeille.database.model.TableId;
 import com.jeta.abeille.database.model.TableIdGetter;
 import com.jeta.abeille.database.model.TableMetaData;
-import com.jeta.abeille.database.model.TSConnection;
 import com.jeta.abeille.database.utils.DbUtils;
-
-import com.jeta.abeille.gui.common.DefaultTableSelectorModel;
-import com.jeta.abeille.gui.help.SQLHelpPanel;
-import com.jeta.abeille.gui.help.SQLReferenceType;
-import com.jeta.abeille.gui.model.ModelerModel;
-
-import com.jeta.abeille.gui.modeler.AlterForeignKeysController;
-import com.jeta.abeille.gui.modeler.AlterColumnsController;
-import com.jeta.abeille.gui.modeler.ColumnsGuiModel;
-import com.jeta.abeille.gui.modeler.ColumnsPanel;
-import com.jeta.abeille.gui.modeler.ForeignKeysModel;
-import com.jeta.abeille.gui.modeler.ForeignKeysView;
-import com.jeta.abeille.gui.modeler.PrimaryKeyView;
-import com.jeta.abeille.gui.modeler.SQLPanel;
-
-import com.jeta.abeille.gui.indexes.IndexesView;
-import com.jeta.abeille.gui.indexes.generic.GenericIndexesModel;
-import com.jeta.abeille.gui.indexes.postgres.IndexesViewController;
 import com.jeta.abeille.gui.checks.postgres.ChecksModel;
 import com.jeta.abeille.gui.checks.postgres.ChecksView;
+import com.jeta.abeille.gui.help.SQLHelpPanel;
+import com.jeta.abeille.gui.help.SQLReferenceType;
+import com.jeta.abeille.gui.indexes.IndexesView;
+import com.jeta.abeille.gui.indexes.generic.GenericIndexesModel;
+import com.jeta.abeille.gui.jdbc.ColumnInfoPanel;
+import com.jeta.abeille.gui.model.ModelerModel;
+import com.jeta.abeille.gui.modeler.*;
 import com.jeta.abeille.gui.rules.postgres.RulesModel;
 import com.jeta.abeille.gui.rules.postgres.RulesView;
-import com.jeta.abeille.gui.triggers.TriggersView;
-import com.jeta.abeille.gui.triggers.TriggersModel;
-import com.jeta.abeille.gui.jdbc.ColumnInfoPanel;
-
 import com.jeta.abeille.gui.table.TableView;
-
+import com.jeta.abeille.gui.triggers.TriggersModel;
+import com.jeta.abeille.gui.triggers.TriggersView;
 import com.jeta.foundation.gui.components.TSPanel;
-import com.jeta.foundation.gui.utils.TSGuiToolbox;
-
 import com.jeta.foundation.i18n.I18N;
 import com.jeta.foundation.utils.TSUtils;
+
+import javax.swing.*;
 
 /**
  * This view displays all the properties for a table in a JTabbedPane
@@ -102,8 +79,9 @@ public class PostgresTableView extends TableView implements TableIdGetter {
 	 */
 	private TSPanel createColumnsView() {
 		m_colsmodel = new ColumnsGuiModel(getConnection(), false, null, false);
-		ColumnsPanel colsview = new ColumnsPanel(m_colsmodel, false);
-		return new SQLHelpPanel(getConnection(), colsview, SQLReferenceType.ALTER_TABLE_COLUMNS);
+		ColumnsPanel view = new ColumnsPanel(m_colsmodel, false);
+		view.setController( new TableColumnsPanelController(view));
+		return view;
 	}
 
 	/**

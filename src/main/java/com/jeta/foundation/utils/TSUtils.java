@@ -1,28 +1,13 @@
-/* 
- * Copyright 2004 JETA Software, Inc. All rights reserved.
- * JETA SOFTWARE PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
- */
-
 package com.jeta.foundation.utils;
-
-import java.io.IOException;
-import java.io.FileWriter;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-
-import java.util.ArrayList;
-import java.util.logging.Logger;
-
-import javax.swing.text.JTextComponent;
 
 import com.jeta.foundation.componentmgr.ComponentMgr;
 import com.jeta.foundation.componentmgr.ComponentNames;
-
 import com.jeta.foundation.gui.java.AttributeWrapper;
 import com.jeta.foundation.gui.java.StringWrapper;
+
+import javax.swing.text.JTextComponent;
+import java.io.*;
+import java.util.ArrayList;
 
 public class TSUtils {
 
@@ -47,15 +32,15 @@ public class TSUtils {
 
 	static {
 		for (int index = 0; index < m_ints.length; index++) {
-			m_ints[index] = new Integer(index);
+			m_ints[index] = index;
 		}
 
 		for (int index = 0; index < m_neg_ints.length; index++) {
-			m_neg_ints[index] = new Integer(-(index + 1));
+			m_neg_ints[index] = -(index + 1);
 		}
 
 		for (int index = 0; index < m_2000ints.length; index++) {
-			m_2000ints[index] = new Integer(index + 2000);
+			m_2000ints[index] = index + 2000;
 		}
 
 	}
@@ -130,7 +115,7 @@ public class TSUtils {
 		} else if (ival >= 2000 && ival <= 2099) {
 			return m_2000ints[ival - 2000];
 		} else {
-			return new Integer(ival);
+			return ival;
 		}
 	}
 
@@ -356,6 +341,7 @@ public class TSUtils {
 			printAttributes(obj.getClass(), obj);
 		}
 	}
+
 
 	/**
 	 * Uses reflection to print the members of an object

@@ -11,11 +11,6 @@ import com.jeta.foundation.i18n.I18N;
 import com.jeta.foundation.utils.TSUtils;
 
 import javax.swing.*;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.TableColumnModelEvent;
-import javax.swing.event.TableColumnModelListener;
-import javax.swing.table.TableColumn;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -86,6 +81,7 @@ public class ResultsView extends TSPanel {
 	 */
 	protected JToolBar createToolBar() {
 		JToolBar toolbar = new JToolBar();
+		toolbar.setFloatable(false);
 		toolbar.add(i18n_createToolBarButton("incors/16x16/copy.png", TSComponentNames.ID_COPY,  "Copy"));
 		toolbar.addSeparator();
 
@@ -109,7 +105,7 @@ public class ResultsView extends TSPanel {
 		toolbar.add(i18n_createToolBarButton( "incors/16x16/information.png", SQLResultsNames.ID_QUERY_INFO, "Query Information"));
 
 		toolbar.add(javax.swing.Box.createHorizontalStrut(16));
-		toolbar.add(i18n_createToolBarButton( "incors/16x16/information.png", SQLResultsNames.ID_SHOW_IN_FRAME_WINDOW, "Detach Window"));
+		toolbar.add(i18n_createToolBarButton( "incors/16x16/windows.png", SQLResultsNames.ID_SHOW_IN_FRAME_WINDOW, "Detach Window"));
 		return toolbar;
 
 	}

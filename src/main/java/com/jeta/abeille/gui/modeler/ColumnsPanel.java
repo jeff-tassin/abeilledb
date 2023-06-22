@@ -1,56 +1,29 @@
 package com.jeta.abeille.gui.modeler;
 
-import java.awt.BorderLayout;
-import java.awt.Component;
-import java.awt.Container;
-import java.awt.Dimension;
-import java.awt.FocusTraversalPolicy;
-import java.awt.Window;
-
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.LinkedList;
-
-import javax.swing.BorderFactory;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JComponent;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.JToolBar;
-import javax.swing.JTextField;
-import javax.swing.ListSelectionModel;
-import javax.swing.table.TableCellEditor;
-import javax.swing.table.TableColumnModel;
-import javax.swing.table.TableModel;
-
 import com.jeta.abeille.database.model.DbKey;
 import com.jeta.abeille.database.model.TSConnection;
 import com.jeta.abeille.database.model.TSDatabase;
-
 import com.jeta.abeille.gui.common.TableSelectorPanel;
-import com.jeta.abeille.gui.common.MetaDataTableRenderer;
 import com.jeta.abeille.gui.store.ColumnInfo;
-
-import com.jeta.abeille.database.utils.DbUtils;
-
 import com.jeta.foundation.gui.components.TSComboBox;
 import com.jeta.foundation.gui.components.TSComponentNames;
 import com.jeta.foundation.gui.components.TSDialog;
 import com.jeta.foundation.gui.components.TSPanel;
-import com.jeta.foundation.gui.utils.TSGuiToolbox;
-
 import com.jeta.foundation.gui.table.AbstractTablePanel;
 import com.jeta.foundation.gui.table.TableSelection;
 import com.jeta.foundation.gui.table.TableUtils;
-
+import com.jeta.foundation.gui.utils.TSGuiToolbox;
 import com.jeta.foundation.i18n.I18N;
+
+import javax.swing.*;
+import javax.swing.table.TableCellEditor;
+import javax.swing.table.TableColumnModel;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
 
 /**
  * This is a panel for editing columns in a RDBMS table.
@@ -85,6 +58,10 @@ public class ColumnsPanel extends TSPanel {
 	public final static String ID_REMOVE_COLUMN = "removecolumn";
 	public final static String ID_IMPORT_TABLE = "import";
 
+
+	public static String ID_GENERATE_INSERT_SQL = "generate.insert.sql";
+
+
 	public static final String ID_ALTER_TABLE_COLUMNS = "checked.feature.alter.table.columns";
 
 	/**
@@ -113,6 +90,14 @@ public class ColumnsPanel extends TSPanel {
 			setFocusTraversalPolicy(new ColumnsPanelFocusPolicy(getFocusTraversalPolicy()));
 		}
 	}
+
+	protected JToolBar createToolBar() {
+		JToolBar toolbar = new JToolBar();
+		toolbar.setFloatable(false);
+		toolbar.add(i18n_createToolBarButton("incors/16x16/row_add.png", ID_GENERATE_INSERT_SQL,  "Generate Insert SQL"));
+		return toolbar;
+	}
+
 
 	public String getCatalog() {
 		return null;
@@ -156,6 +141,15 @@ public class ColumnsPanel extends TSPanel {
 			return (ColumnInfo) m_model.getRow(index);
 		else
 			return null;
+	}
+
+	public ColumnInfo[] getSelectedItems() {
+		int[] rows = m_columnstable.getSelectedRows();
+		ArrayList<ColumnInfo> results = new ArrayList<ColumnInfo>();
+		for (int row : rows) {
+			results.add((ColumnInfo) m_model.getRow(TableUtils.convertTableToModelIndex(m_columnstable, row)));
+		}
+		return results.toArray(new ColumnInfo[0]);
 	}
 
 	/**
@@ -214,7 +208,9 @@ public class ColumnsPanel extends TSPanel {
 		DataTypeCellEditor celleditor = new DataTypeCellEditor(m_model.getConnection());
 		cmodel.getColumn(ColumnsGuiModel.DATATYPE_COLUMN).setCellEditor(celleditor);
 
+		add(createToolBar(), BorderLayout.NORTH );
 		add(m_columns_table_panel, BorderLayout.CENTER);
+
 		createToolBar(bprototype);
 	}
 

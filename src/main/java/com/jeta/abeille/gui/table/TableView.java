@@ -1,25 +1,12 @@
 package com.jeta.abeille.gui.table;
 
-import java.awt.BorderLayout;
-import java.awt.BorderLayout;
-import java.awt.Component;
-import java.awt.Container;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.FontMetrics;
-import java.awt.Rectangle;
-
-import java.util.HashMap;
-
-import javax.swing.JTabbedPane;
-import javax.swing.JTable;
-
-import com.jeta.abeille.database.model.TableId;
 import com.jeta.abeille.database.model.TSConnection;
-
+import com.jeta.abeille.database.model.TableId;
 import com.jeta.foundation.gui.components.TSPanel;
-import com.jeta.foundation.gui.utils.TSGuiToolbox;
-import com.jeta.foundation.utils.TSUtils;
+
+import javax.swing.*;
+import java.awt.*;
+import java.util.HashMap;
 
 public class TableView extends TSPanel {
 	/** the table id */
@@ -53,6 +40,7 @@ public class TableView extends TSPanel {
 		setLayout(new BorderLayout());
 		add(m_tabpane, BorderLayout.CENTER);
 	}
+
 
 	/**
 	 * Adds a view to the tab component
