@@ -46,6 +46,10 @@ public class ResultSetReference {
 	 */
 	private String m_rawsql;
 
+
+	private ResultSetReference() {
+	}
+
 	/**
 	 * ctor
 	 */
@@ -70,6 +74,15 @@ public class ResultSetReference {
 		Statement stmt = tsconn.createStatement();
 		ResultSetReference rref = new ResultSetReference(new ConnectionReference(tsconn, stmt.getConnection()), stmt, stmt.executeQuery(sql), sql);
 		rref.setUnprocessedSQL(rawSql);
+		return rref;
+	}
+
+	public static ResultSetReference empty( TSConnection tsconn ) throws SQLException {
+		ResultSetReference rref = new ResultSetReference();
+		rref.m_rawsql = "select * from (select 0 as col1 from dual) ALWAYS_EMPTY where ALWAYS_EMPTY.col1 = 1";
+		rref.m_sql = rref.m_rawsql;
+		rref.m_connectionref = new ConnectionReference(tsconn, tsconn.getWriteConnection());
+		rref.m_rset = new EmptyResultSet();
 		return rref;
 	}
 
