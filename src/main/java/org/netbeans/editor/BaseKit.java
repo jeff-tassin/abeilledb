@@ -13,37 +13,15 @@
 
 package org.netbeans.editor;
 
-import java.awt.Point;
-import java.awt.Font;
-import java.awt.Rectangle;
+import javax.swing.*;
+import javax.swing.text.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.awt.event.KeyEvent;
-import java.awt.event.InputEvent;
+import java.io.IOException;
 import java.io.Reader;
 import java.io.Writer;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.io.IOException;
-import java.util.Map;
-import java.util.HashMap;
-import java.util.Hashtable;
-import java.util.Iterator;
 import java.util.List;
-import java.util.ArrayList;
-import javax.swing.Action;
-import javax.swing.JEditorPane;
-import javax.swing.KeyStroke;
-import javax.swing.SwingConstants;
-import javax.swing.text.Document;
-import javax.swing.text.DefaultEditorKit;
-import javax.swing.text.BadLocationException;
-import javax.swing.text.ViewFactory;
-import javax.swing.text.Caret;
-import javax.swing.text.TextAction;
-import javax.swing.text.Keymap;
-import javax.swing.text.JTextComponent;
+import java.util.*;
 
 /**
  * Editor kit implementation for base document
@@ -1075,7 +1053,6 @@ public class BaseKit extends DefaultEditorKit {
 					target.getToolkit().beep();
 					return;
 				}
-
 				target.cut();
 			}
 		}

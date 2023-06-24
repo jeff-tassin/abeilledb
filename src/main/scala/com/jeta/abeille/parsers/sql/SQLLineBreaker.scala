@@ -2,14 +2,14 @@ package com.jeta.abeille.parsers.sql
 
 import cats.effect.{ExitCode, IO, IOApp, Resource}
 import cats.implicits.*
-import com.jeta.abeille.parsers.sql.SQLWrap.splitFirst
+import com.jeta.abeille.parsers.sql.SQLLineBreaker.splitFirst
 
 import java.io.{File, FileInputStream, FileReader}
 import scala.::
 import scala.io.Source
 import scala.util.matching.Regex
 
-object SQLWrap {
+object SQLLineBreaker {
 
   def inputStream(f: File): Resource[IO, FileInputStream] =
     Resource.make {
@@ -59,12 +59,19 @@ object SQLWrap {
     regex.replaceAllIn(str,m => s"\n${m.matched}")
   }
 
-  def processSql(str: String) : Unit = {
-    val (cols, from) = splitFirst( str, "(?i)FROM".r )
-    val wrappedSql = Array(
+
+  private def processInternal(str: String) : String = {
+    var (cols, from) = splitFirst( str, "(?i)FROM".r )
+    if ( splitFirst( from, "(?i)FROM".r )._2 != "" ) {
+      from = processInternal(from)
+    }
+    Array(
       wrapAll( cols, "(?i),".r),
-      "FROM" + wrapAll( from, Array("INNER JOIN", "LEFT OUTER"))
+      "FROM" + wrapAll( from, Array("INNER JOIN ", "LEFT OUTER ", "WHERE "))
     ).mkString("\n")
-    println(wrappedSql)
+  }
+
+  def process(str: String) : String = {
+    "\\n+".r.replaceAllIn( processInternal(str), "\n")
   }
 }

@@ -34,5 +34,6 @@ public class SQLNames {
 	public static final String ID_RUN_DELETE_MACRO = "run.delete.macro";
 
 	public static final String ID_SQL_REFERENCE = "sql.reference";
+	public static final String ID_WRAP_SQL = "sql.format.wrap";
 
 }

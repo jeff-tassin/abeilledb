@@ -1,45 +1,19 @@
 package com.jeta.abeille.gui.sql;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Container;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.FocusTraversalPolicy;
-import java.awt.GridBagLayout;
-import java.awt.GridBagConstraints;
-import java.awt.LayoutManager;
-import java.sql.Connection;
-import java.util.Collection;
-import java.util.Iterator;
-
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JComponent;
-import javax.swing.JLayeredPane;
-import javax.swing.JPanel;
-import javax.swing.JRadioButton;
-import javax.swing.JTabbedPane;
-import javax.swing.InternalFrameFocusTraversalPolicy;
-
 import com.jeta.abeille.database.model.DbModelEvent;
 import com.jeta.abeille.database.model.DbModelListener;
 import com.jeta.abeille.database.model.TSConnection;
-import com.jeta.foundation.gui.components.TSInternalFrame;
 import com.jeta.foundation.gui.components.MenuDefinition;
 import com.jeta.foundation.gui.components.MenuTemplate;
 import com.jeta.foundation.gui.components.TSToolBarTemplate;
-import com.jeta.foundation.gui.editor.Buffer;
-import com.jeta.foundation.gui.editor.BufferEvent;
-import com.jeta.foundation.gui.editor.BufferMgr;
-import com.jeta.foundation.gui.editor.EditorController;
-import com.jeta.foundation.gui.editor.EditorFrame;
-import com.jeta.foundation.gui.editor.FrameKit;
-import com.jeta.foundation.gui.editor.TSEditorUtils;
-import com.jeta.foundation.gui.editor.TSTextNames;
+import com.jeta.foundation.gui.editor.*;
 import com.jeta.foundation.gui.utils.TSGuiToolbox;
 import com.jeta.foundation.i18n.I18N;
+
+import javax.swing.*;
+import java.awt.*;
+import java.util.Collection;
+import java.util.Iterator;
 
 /**
  * This is the Frame window for the sql editor. It contains the SQLEditor window
@@ -249,6 +223,9 @@ public class SQLFrame extends EditorFrame implements DbModelListener {
 		template.add(btn);
 
 		template.addSeparator();
+		template.add(i18n_createToolBarButton(SQLNames.ID_WRAP_SQL, "incors/16x16/format_sql.png",
+				"Format SQL With Line Breaks"));
+
 		template.add(i18n_createToolBarButton(SQLNames.ID_RUN_INSERT_MACRO, "incors/16x16/row_add.png",
 				"Run Insert Macro"));
 		template.add(i18n_createToolBarButton(SQLNames.ID_RUN_UPDATE_MACRO, "incors/16x16/row_update.png",

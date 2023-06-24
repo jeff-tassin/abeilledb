@@ -1,88 +1,45 @@
 package com.jeta.abeille.gui.sql;
 
-import java.awt.Component;
-import java.awt.Container;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
-import java.io.File;
-
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-
-import java.text.SimpleDateFormat;
-
-import java.util.Calendar;
-import java.util.Collection;
-import java.util.Iterator;
-
-import javax.swing.JEditorPane;
-import javax.swing.SwingUtilities;
-import javax.swing.event.InternalFrameListener;
-import javax.swing.event.InternalFrameEvent;
-import javax.swing.text.Caret;
-import javax.swing.text.JTextComponent;
-import javax.swing.text.Segment;
-
-import org.netbeans.editor.BaseAction;
-import org.netbeans.editor.BaseKit;
-import org.netbeans.editor.BaseDocument;
-import org.netbeans.editor.EditorUI;
-import org.netbeans.editor.Syntax;
-import org.netbeans.editor.TokenID;
-import org.netbeans.editor.TokenCategory;
-import org.netbeans.editor.Utilities;
-
-import org.netbeans.editor.ext.Completion;
-import org.netbeans.editor.ext.ExtUtilities;
-import org.netbeans.editor.ext.ExtKit;
-
-import com.jeta.abeille.database.model.TableId;
 import com.jeta.abeille.database.model.TSConnection;
 import com.jeta.abeille.database.model.TSDatabase;
-import com.jeta.abeille.database.model.TSResultSet;
-import com.jeta.abeille.database.utils.DbUtils;
-import com.jeta.abeille.gui.common.TableSelectorPanel;
 import com.jeta.abeille.gui.main.MainFrameNames;
 import com.jeta.abeille.gui.utils.SQLErrorDialog;
-
+import com.jeta.abeille.parsers.sql.SQLLineBreaker;
 import com.jeta.foundation.componentmgr.ComponentMgr;
-import com.jeta.foundation.componentmgr.TSEvent;
-import com.jeta.foundation.componentmgr.TSNotifier;
-import com.jeta.foundation.gui.components.JETAFrameListener;
 import com.jeta.foundation.gui.components.JETAFrameEvent;
+import com.jeta.foundation.gui.components.JETAFrameListener;
 import com.jeta.foundation.gui.components.TSDialog;
-
 import com.jeta.foundation.gui.components.TSWorkspaceFrame;
-import com.jeta.foundation.gui.editor.Buffer;
-import com.jeta.foundation.gui.editor.BufferEvent;
-import com.jeta.foundation.gui.editor.BufferMgr;
-import com.jeta.foundation.gui.editor.EditorController;
-import com.jeta.foundation.gui.editor.EditorDropListener;
-import com.jeta.foundation.gui.editor.FrameKit;
-import com.jeta.foundation.gui.editor.KitInfo;
-import com.jeta.foundation.gui.editor.TSEditorMgr;
-import com.jeta.foundation.gui.editor.TSEditorUtils;
-import com.jeta.foundation.gui.editor.TSKit;
-import com.jeta.foundation.gui.editor.TSPlainKit;
-import com.jeta.foundation.gui.editor.TSTextNames;
+import com.jeta.foundation.gui.editor.*;
 import com.jeta.foundation.gui.editor.macros.Macro;
 import com.jeta.foundation.gui.editor.macros.MacroMgr;
 import com.jeta.foundation.gui.editor.macros.MacroModel;
 import com.jeta.foundation.gui.editor.macros.RunMacroAction;
-
 import com.jeta.foundation.gui.filechooser.TSFileChooserFactory;
-
 import com.jeta.foundation.gui.utils.TSGuiToolbox;
-import com.jeta.foundation.interfaces.app.ObjectStore;
-import com.jeta.foundation.interfaces.userprops.TSUserProperties;
 import com.jeta.foundation.i18n.I18N;
-import com.jeta.foundation.utils.TSUtils;
 import com.jeta.foundation.interfaces.license.LicenseManager;
-
+import com.jeta.foundation.interfaces.userprops.TSUserProperties;
+import com.jeta.foundation.utils.TSUtils;
 import com.jeta.open.gui.framework.JETAController;
+import org.netbeans.editor.BaseDocument;
+import org.netbeans.editor.Utilities;
+import org.netbeans.editor.ext.Completion;
+import org.netbeans.editor.ext.ExtKit;
+import org.netbeans.editor.ext.ExtUtilities;
+
+import javax.swing.*;
+import javax.swing.text.Caret;
+import javax.swing.text.JTextComponent;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.File;
+import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Collection;
+import java.util.Iterator;
 
 /**
  * This is the controller for the SQLFrame window
@@ -115,6 +72,7 @@ public class SQLController extends EditorController implements JETAFrameListener
 		assignAction(SQLNames.ID_EXECUTE_CURRENT, new ExecuteCurrentAction(true));
 		assignAction(SQLNames.ID_EXECUTE_CURRENT_ALL, new ExecuteCurrentAction(false));
 		assignAction(SQLNames.ID_STOP, new StopAction());
+		assignAction(SQLNames.ID_WRAP_SQL, new WrapSQLAction());
 
 		assignAction(SQLNames.ID_RUN_INSERT_MACRO, new RunInsertMacro());
 		assignAction(SQLNames.ID_RUN_UPDATE_MACRO, new RunUpdateMacro());
@@ -607,6 +565,22 @@ public class SQLController extends EditorController implements JETAFrameListener
 		}
 	}
 
+	/**
+	 */
+	public class WrapSQLAction implements ActionListener {
+		public void actionPerformed(ActionEvent evt) {
+			Buffer buff = getBufferMgr().getCurrentBuffer();
+			if (buff instanceof SQLBuffer) {
+				JEditorPane target = buff.getEditor();
+				if (target != null) {
+					String selectedText = target.getSelectedText();
+					if ( selectedText.length() > 0 ) {
+						target.replaceSelection(SQLLineBreaker.process(selectedText));
+					}
+				}
+			}
+		}
+	}
 	public class SQLKillBufferAction implements ActionListener {
 		public void actionPerformed(ActionEvent evt) {
 			Buffer buff = m_frame.getCurrentBuffer();

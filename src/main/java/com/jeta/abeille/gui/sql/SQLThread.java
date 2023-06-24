@@ -1,48 +1,25 @@
 package com.jeta.abeille.gui.sql;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.HashMap;
-
-import java.util.logging.Logger;
-import java.util.logging.Level;
-
-import javax.swing.JScrollPane;
-import javax.swing.SwingUtilities;
-import javax.swing.text.Segment;
-
-import org.netbeans.editor.BaseDocument;
-import org.netbeans.editor.Syntax;
-import org.netbeans.editor.TokenID;
-import org.netbeans.editor.TokenCategory;
-import org.netbeans.editor.Utilities;
-
-import com.jeta.abeille.database.model.Database;
-import com.jeta.abeille.database.model.TSConnection;
-
 import com.jeta.abeille.database.utils.ConnectionReference;
-import com.jeta.abeille.database.utils.DbUtils;
 import com.jeta.abeille.database.utils.ResultSetReference;
-
+import com.jeta.abeille.gui.queryresults.ResultsManager;
 import com.jeta.abeille.gui.sql.input.SQLInput;
 import com.jeta.abeille.gui.sql.input.SQLInputDialog;
 import com.jeta.abeille.gui.sql.input.SQLInputModel;
-
-import com.jeta.abeille.gui.queryresults.ResultsManager;
-
-import com.jeta.abeille.gui.utils.SQLErrorDialog;
-
 import com.jeta.foundation.componentmgr.ComponentNames;
-import com.jeta.foundation.gui.components.TSDialog;
 import com.jeta.foundation.gui.components.TSWorkspaceFrame;
 import com.jeta.foundation.gui.utils.TSGuiToolbox;
-
 import com.jeta.foundation.utils.TSUtils;
+import org.netbeans.editor.BaseDocument;
+
+import javax.swing.*;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * The class runs a sql command in a background thread. It interacts with the
@@ -285,7 +262,7 @@ public class SQLThread {
 						m_mediator.beginExecuteStatement(parser.getStartPos(), parser.getEndPos());
 
 						if (TSUtils.isDebug()) {
-							System.out.println("SQLThread.executing sql: " + sql);
+							// System.out.println("SQLThread.executing sql: " + sql);
 							/** for testing only */
 							// sleep( 1000 );
 						}
