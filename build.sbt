@@ -18,6 +18,8 @@ lazy val root = (project in file("."))
       "io.circe" %% "circe-core" % "0.14.5",
       "io.circe" %% "circe-generic" % "0.14.5",
       "io.circe" %% "circe-parser" % "0.14.5",
+      "org.typelevel" %% "cats-core" % "2.9.0",
+      "org.typelevel" %% "cats-effect" % "3.6-0142603"
     ),
     fork := true,
     assembly / mainClass := Some("com.jeta.abeille.main.Main"),
