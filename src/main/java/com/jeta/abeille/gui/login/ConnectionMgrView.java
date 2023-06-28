@@ -1,37 +1,15 @@
 package com.jeta.abeille.gui.login;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.GradientPaint;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Paint;
-
-import java.util.Collection;
-import java.util.Iterator;
-
-import javax.swing.BorderFactory;
-import javax.swing.Box;
-import javax.swing.DefaultListModel;
-import javax.swing.JButton;
-import javax.swing.JPanel;
-import javax.swing.JLabel;
-import javax.swing.JLayeredPane;
-import javax.swing.JList;
-import javax.swing.JScrollPane;
-import javax.swing.SwingConstants;
-
 import com.jeta.abeille.database.model.ConnectionInfo;
-
-import com.jeta.foundation.gui.components.TSPanel;
-import com.jeta.foundation.gui.utils.TSGuiToolbox;
-
-import com.jeta.foundation.i18n.I18N;
-
 import com.jeta.forms.components.panel.FormPanel;
 import com.jeta.forms.gui.form.FormAccessor;
+import com.jeta.foundation.gui.components.TSPanel;
+import com.jeta.foundation.i18n.I18N;
+
+import javax.swing.*;
+import java.awt.*;
+import java.util.Collection;
+import java.util.Iterator;
 
 /**
  * This view allows the user to manage connections. It basically has two

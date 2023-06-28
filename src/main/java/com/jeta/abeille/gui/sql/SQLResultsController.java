@@ -42,7 +42,10 @@ public class SQLResultsController extends TSController {
 	public SQLResultsController(ResultsView frame) {
 		super(frame);
 		m_frame = frame;
+		initialize();
+	}
 
+	private void initialize() {
 		assignAction(TSComponentNames.ID_COPY, new CopyAction());
 		assignAction(SQLResultsNames.ID_EXPORT_ALL, new ExportAllAction());
 		assignAction(SQLResultsNames.ID_EXPORT_SELECTION, new ExportSelectionAction());
@@ -227,6 +230,7 @@ public class SQLResultsController extends TSController {
 		public void actionPerformed(ActionEvent evt) {
 			try {
 				m_frame.saveFrame();
+				m_frame.showBusy();
 				SQLResultsModel model = (SQLResultsModel) m_frame.getModel();
 				ConnectionReference cref = model.getConnectionReference();
 				ResultSetReference ref = model.getResultSetReference();
@@ -244,11 +248,13 @@ public class SQLResultsController extends TSController {
 					ref.setSQL(sql);
 					ref.setUnprocessedSQL(model.getUnprocessedSQL());
 					SQLResultsModel smodel = new SQLResultsModel(tsconn, ref, model.getTableId());
-					m_frame.setResults(smodel);
+					Timer timer = new Timer(1000, e -> m_frame.setResults(smodel));
+					timer.setRepeats(false);
+					timer.start();
 				}
 			} catch (SQLException e) {
 				showError(e);
-			}
+			} 
 		}
 	}
 

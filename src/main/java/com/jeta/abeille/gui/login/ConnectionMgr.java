@@ -1,13 +1,12 @@
 package com.jeta.abeille.gui.login;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.OutputStream;
-
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.ListIterator;
+import com.jeta.abeille.database.model.ConnectionInfo;
+import com.jeta.abeille.database.model.Database;
+import com.jeta.foundation.componentmgr.ComponentMgr;
+import com.jeta.foundation.interfaces.resources.ResourceLoader;
+import com.jeta.foundation.utils.TSUtils;
+import com.jeta.foundation.xml.XMLUtils;
+import org.w3c.dom.*;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -15,28 +14,10 @@ import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
-
-import com.jeta.abeille.database.model.Catalog;
-import com.jeta.abeille.database.model.ConnectionInfo;
-import com.jeta.abeille.database.model.Database;
-
-import com.jeta.foundation.componentmgr.ComponentMgr;
-import com.jeta.foundation.interfaces.resources.ResourceLoader;
-
-import com.jeta.foundation.utils.TSUtils;
-import com.jeta.foundation.xml.XMLUtils;
-
-import org.w3c.dom.Attr;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.DOMException;
-import org.w3c.dom.NamedNodeMap;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-import org.w3c.dom.Text;
-
-import org.xml.sax.SAXException;
-import org.xml.sax.SAXParseException;
+import java.io.File;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.util.*;
 
 /**
  * This model stores the defined database connections that the user can select
@@ -187,7 +168,7 @@ public class ConnectionMgr {
 	 * Loads the connection definitions from the connections.xml file
 	 */
 	private void loadConnections() {
-		m_connections = new LinkedList();
+		LinkedList<ConnectionInfo> connections = new LinkedList<ConnectionInfo>();
 		ResourceLoader loader = (ResourceLoader) ComponentMgr.lookup(ResourceLoader.COMPONENT_ID);
 		if (loader != null) {
 			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
@@ -208,7 +189,7 @@ public class ConnectionMgr {
 						if (elname.equalsIgnoreCase("Connection")) {
 							ConnectionInfo info = parseConnection(element);
 							if (info != null)
-								m_connections.add(info);
+								connections.add(info);
 						}
 					}
 				}
@@ -219,6 +200,8 @@ public class ConnectionMgr {
 				e.printStackTrace();
 			}
 		}
+		connections.sort((c1, c2) ->  c1.getDescription().compareToIgnoreCase(c2.getDescription()) );
+		m_connections = connections;
 	}
 
 	/**

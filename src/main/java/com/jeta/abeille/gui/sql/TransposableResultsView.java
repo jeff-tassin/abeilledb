@@ -6,13 +6,11 @@ import com.jeta.abeille.database.utils.ResultSetReference;
 import com.jeta.abeille.database.utils.TransposedResultSet;
 import com.jeta.foundation.gui.components.TSComponentNames;
 import com.jeta.foundation.gui.components.TSPanel;
-import scala.Array;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Arrays;
-import java.util.Objects;
 
 
 /**
@@ -41,7 +39,7 @@ public class TransposableResultsView extends TSPanel {
 
         try {
             TransposedResultSet tset = new TransposedResultSet(model.getQueryResultSet());
-            ResultSetReference rref = new ResultSetReference(new ConnectionReference(tsconn, tsconn.getWriteConnection()), null, tset, model.getUnprocessedSQL() + " --transposed");
+            ResultSetReference rref = new ResultSetReference(new ConnectionReference(tsconn, tsconn.getWriteConnection()), null, tset, model.getSQL() + " --transposed");
             SQLResultsModel tmodel = new SQLResultsModel(tsconn, rref);
             m_transposedView = new ResultsView(launcher, tsconn, tmodel);
             tmodel.last();
@@ -94,7 +92,7 @@ public class TransposableResultsView extends TSPanel {
         }
     }
 
-    static class TransposableController extends SQLResultsController {
+    class TransposableController extends SQLResultsController {
         public TransposableController(ResultsView view) {
             super(view);
         }

@@ -42,6 +42,8 @@ public class ResultsView extends TSPanel {
 
 	private Object m_launcher;
 
+	private JPanel m_busyPanel =  new JPanel();
+
 	/** status bar cell ids */
 	public static final String ROW_COUNT_CELL = "row.count.cell";
 	public static final String MAX_ROWS_CELL = "max.rows.cell";
@@ -72,6 +74,9 @@ public class ResultsView extends TSPanel {
 		TSCell cell3 = new TSCell(SQL_CELL, "#####");
 		cell3.setMain(true);
 		m_statusbar.addCell(cell3);
+
+		add(m_statusbar, BorderLayout.SOUTH);
+		add(createToolBar(), BorderLayout.NORTH);
 
 		setResults(model);
 	}
@@ -110,8 +115,17 @@ public class ResultsView extends TSPanel {
 
 	}
 
+	public void showBusy() {
+		remove( m_view );
+		m_busyPanel = new JPanel();
+		m_busyPanel.setLayout(new BorderLayout());
+		m_busyPanel.add( new JLabel("Working..."), BorderLayout.NORTH);
+		add( m_busyPanel, BorderLayout.CENTER );
+		revalidate();
+	}
+
 	public void setResults(SQLResultsModel model) {
-		removeAll();
+		remove(m_busyPanel);
 
 		m_model = model;
 		m_view = new QueryResultsView(m_model);
@@ -126,8 +140,6 @@ public class ResultsView extends TSPanel {
 				});
 
 		add(m_view, BorderLayout.CENTER);
-		add(m_statusbar, BorderLayout.SOUTH);
-		add(createToolBar(), BorderLayout.NORTH);
 
 		// restore any table settings that we associated with the sql statement
 		// in a previous

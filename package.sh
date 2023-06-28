@@ -1,5 +1,7 @@
 #!/bin/sh
 
+sbt assembly
+
 # Package for Mac
 rm -rf dist
 mkdir dist

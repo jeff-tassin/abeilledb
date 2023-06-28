@@ -15,31 +15,32 @@ public class TransposedResultSet extends AbstractResultSet {
         m_columnsByName.put( "Column Name", 1 );
 
         qset.first();
-        qset.previous(); // move before first
-        int MAX_ROWS = 20;
+        int MAX_ROWS = 10;
         int i = 1;
-        for( ; i <= MAX_ROWS && qset.next(); i++ ) {
+        do {
             for (int j = 0; j < metadata.getColumnCount(); j++) {
                 RowInstance row = m_rows.get(j);
                 if ( row == null ) {
                     row = new RowInstance(MAX_ROWS+1);
                     m_rows.put(j, row);
                 }
-                row.setObject(i, qset.getRowInstance(qset.getRow()).getObject(j));
 
                 if ( i == 1 ) {
                     row.setObject(0, metadata.getColumnName(j+1));
+                } else if (!qset.isEmpty()) {
+                    row.setObject(i-1, qset.getRowInstance(i-1).getObject(j));
                 }
             }
 
             ColumnMetaData rcmd = new ColumnMetaData( "Row " + i, Types.OTHER, 0, null, ResultSetMetaData.columnNoNulls );
             m_columnsByName.put( rcmd.getColumnName(), i + 1 );
             m_columnsByIndex.put( i + 1, rcmd );
-        }
+        } while( qset.next() && ++i <= MAX_ROWS );
 
         m_columnsByIndex.put(1, cmd );
+
         for( int k = 0; k < m_rows.size(); k++ ) {
-          m_rows.get(k).truncate(i);
+          m_rows.get(k).truncate(i+1);
         }
         qset.first();
     }
