@@ -1,35 +1,24 @@
 package com.jeta.abeille.gui.sql;
 
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.FontMetrics;
-import java.awt.Rectangle;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import com.jeta.abeille.gui.common.MetaDataPopupRenderer;
+import com.jeta.foundation.gui.components.PopupList;
+import com.jeta.foundation.gui.components.SortedListModel;
+import com.jeta.foundation.gui.utils.TSGuiToolbox;
+import com.jeta.foundation.utils.TSUtils;
+import com.jeta.open.gui.utils.JETAToolbox;
+import org.netbeans.editor.ext.CompletionPane;
+import org.netbeans.editor.ext.CompletionQuery;
+import org.netbeans.editor.ext.CompletionView;
+import org.netbeans.editor.ext.ExtEditorUI;
 
-import java.util.List;
-
-import javax.swing.BorderFactory;
-import javax.swing.JList;
+import javax.swing.*;
 import javax.swing.text.Caret;
 import javax.swing.text.Document;
 import javax.swing.text.JTextComponent;
-
-import org.netbeans.editor.ext.ExtEditorUI;
-import org.netbeans.editor.ext.CompletionView;
-import org.netbeans.editor.ext.CompletionPane;
-import org.netbeans.editor.ext.CompletionQuery;
-
-import com.jeta.foundation.gui.components.PopupList;
-import com.jeta.foundation.gui.components.SortedListModel;
-import com.jeta.foundation.gui.components.TSDialog;
-import com.jeta.foundation.gui.utils.TSGuiToolbox;
-import com.jeta.foundation.utils.TSUtils;
-
-import com.jeta.abeille.database.model.ColumnMetaDataComparator;
-import com.jeta.abeille.gui.common.MetaDataPopupRenderer;
-
-import com.jeta.open.gui.utils.JETAToolbox;
+import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.util.List;
 
 /**
  * This is the popup for handling SQL completions This class implements both the
@@ -237,11 +226,17 @@ public class SQLCompletionPopup implements CompletionView, CompletionPane {
 	public void setTitle(String title) {
 
 	}
+	public void setVisible(boolean visible){
+		// no-op
+	}
 
 	/**
 	 * CompletionPane implementation Show/Hide the popup on the screen
 	 */
-	public void setVisible(boolean visible) {
+	public void setVisible_back(boolean visible) {
+
+
+
 		if (visible) {
 			try {
 				JTextComponent editor = getEditor();

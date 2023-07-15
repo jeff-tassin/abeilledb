@@ -1,15 +1,11 @@
 package com.jeta.abeille.database.model;
 
-import java.util.*;
-import java.lang.*;
-
-import java.io.ObjectStreamException;
-import java.io.IOException;
-
 import com.jeta.foundation.common.JETAExternalizable;
-
 import com.jeta.foundation.utils.EmptyCollection;
 import com.jeta.foundation.utils.TSUtils;
+
+import java.io.IOException;
+import java.util.*;
 
 /**
  * This class represents a TABLE object in a RDBMS.
@@ -291,7 +287,7 @@ public class TableMetaData implements Cloneable, Comparable, JETAExternalizable,
 	 * @return the collection of columns (ColumnMetaData objects) that make up
 	 *         this table
 	 */
-	public Collection getColumns() {
+	public Collection<ColumnMetaData> getColumns() {
 		return m_columns;
 	}
 

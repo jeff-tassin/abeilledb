@@ -46,4 +46,8 @@ public class RowInstance {
 		m_values[index] = value;
 	}
 
+	public Integer getLength() {
+		return m_values.length;
+	}
+
 }

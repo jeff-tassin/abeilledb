@@ -1,20 +1,9 @@
 package com.jeta.abeille.gui.model;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.LinkedList;
-
-import com.jeta.abeille.database.model.Catalog;
-import com.jeta.abeille.database.model.ColumnMetaData;
-import com.jeta.abeille.database.model.DbModel;
-import com.jeta.abeille.database.model.Schema;
-import com.jeta.abeille.database.model.TableId;
-import com.jeta.abeille.database.model.TableMetaData;
-import com.jeta.abeille.database.model.TSConnection;
-
-import com.jeta.foundation.interfaces.app.ObjectStore;
+import com.jeta.abeille.database.model.*;
 import com.jeta.foundation.utils.TSUtils;
+
+import java.util.Arrays;
 
 /**
  * Base TableTreeModel is the GUI model for the tree view of the database This
@@ -37,18 +26,18 @@ public abstract class TableTreeBaseModel extends DbObjectClassModel {
 	 * Adds the fields that make up the given table to the tree node object that
 	 * is associated with the table.
 	 * 
-	 * @param tableNode
-	 *            the tree node object that is associated with the table
-	 * @param the
-	 *            table whose fields we want to add
+	 * @param tableNode the tree node object that is associated with the table
+	 * @param tmd the table whose fields we want to add
 	 */
 	protected void addFields(ObjectTreeNode tableNode, TableMetaData tmd) {
 		if (tmd == null || tableNode == null)
 			return;
 
-		Iterator fielditer = tmd.getColumns().iterator();
-		while (fielditer.hasNext()) {
-			ColumnMetaData cmd = (ColumnMetaData) fielditer.next();
+
+		ColumnMetaData[] cols = tmd.getColumnsArray().clone();
+		Arrays.sort(cols, (a, b) -> a.getColumnName().compareToIgnoreCase(b.getColumnName()));
+		for( int index=0; index < cols.length; index++ ) {
+			ColumnMetaData cmd = cols[index];
 			ObjectTreeNode newcolnode = new ObjectTreeNode(cmd);
 			insertNodeInto(newcolnode, tableNode, tableNode.getChildCount());
 		}

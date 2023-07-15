@@ -4,6 +4,8 @@ import com.jeta.abeille.database.model.ColumnMetaData;
 import com.jeta.abeille.gui.queryresults.QueryResultSet;
 
 import java.sql.*;
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class TransposedResultSet extends AbstractResultSet {
@@ -25,10 +27,9 @@ public class TransposedResultSet extends AbstractResultSet {
                     m_rows.put(j, row);
                 }
 
-                if ( i == 1 ) {
-                    row.setObject(0, metadata.getColumnName(j+1));
-                } else if (!qset.isEmpty()) {
-                    row.setObject(i-1, qset.getRowInstance(i-1).getObject(j));
+                row.setObject(0, metadata.getColumnName(j+1));
+                if (!qset.isEmpty()) {
+                    row.setObject(i, qset.getRowInstance(i-1).getObject(j));
                 }
             }
 
@@ -43,6 +44,27 @@ public class TransposedResultSet extends AbstractResultSet {
           m_rows.get(k).truncate(i+1);
         }
         qset.first();
+    }
+
+    public void dump() {
+        System.out.println("Columns by Name---------");
+        for (Map.Entry<String,Integer> entry : m_columnsByName.entrySet()) {
+            System.out.println( entry.getKey() + " = " + entry.getValue() );
+        }
+        System.out.println("Columns by Index---------");
+        for (Map.Entry<Integer, ColumnMetaData> entry : m_columnsByIndex.entrySet()) {
+            System.out.println( entry.getKey() + " = " + entry.getValue().getColumnName() );
+        }
+        System.out.println("Rows---------");
+        for (Map.Entry<Integer,RowInstance> entry : m_rows.entrySet()) {
+            RowInstance row = entry.getValue();
+            System.out.println( entry.getKey() + ":  length=" + row.getLength() );
+            for( int col = 0; col < row.getLength(); col++ ) {
+                String colName = m_columnsByIndex.get(col+1).getColumnName();
+                System.out.println( "   " + colName + " = " + row.getObject(col) );
+            }
+            break;
+        }
     }
 
 }
