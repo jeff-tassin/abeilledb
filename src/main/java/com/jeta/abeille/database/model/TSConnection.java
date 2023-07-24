@@ -259,22 +259,17 @@ public class TSConnection implements JETAExternalizable {
 	public Connection createConnection(ConnectionInfo cinfo) throws SQLException, ClassNotFoundException {
 		Connection connection = null;
 		try {
-			if ( cinfo.getDatabase() == Database.ORACLE ) {
-				// driver must be in classpath
-				connection = DriverManager.getConnection( cinfo.getUrl(), cinfo.getUserName(), cinfo.getPassword() );
-			} else {
-				java.util.Properties info = new java.util.Properties();
-				info.put("user", cinfo.getUserName());
-				info.put("password", cinfo.getPassword());
+			java.util.Properties info = new java.util.Properties();
+			info.put("user", cinfo.getUserName());
+			info.put("password", cinfo.getPassword());
 
-				if (m_driver == null) {
-					ClassLoader cloader = cinfo.getClassLoader();
-					assert( cloader != null);
-					Class dc = cloader.loadClass(cinfo.getDriver());
-					m_driver = (Driver) dc.newInstance();
-				}
-				connection = m_driver.connect(cinfo.getUrl(), info);
+			if (m_driver == null) {
+				ClassLoader cloader = cinfo.getClassLoader();
+				assert (cloader != null);
+				Class dc = cloader.loadClass(cinfo.getDriver());
+				m_driver = (Driver) dc.newInstance();
 			}
+			connection = m_driver.connect(cinfo.getUrl(), info);
 			connection.setAutoCommit(true);
 
 			if (TSUtils.isDebug()) {
