@@ -265,11 +265,18 @@ public class TSConnection implements JETAExternalizable {
 
 			if (m_driver == null) {
 				ClassLoader cloader = cinfo.getClassLoader();
-				assert (cloader != null);
-				Class dc = cloader.loadClass(cinfo.getDriver());
-				m_driver = (Driver) dc.newInstance();
+				if(cloader != null) {
+					Class dc = cloader.loadClass(cinfo.getDriver());
+					m_driver = (Driver) dc.newInstance();
+				}
 			}
-			connection = m_driver.connect(cinfo.getUrl(), info);
+			if ( m_driver == null ) {
+				// cinfo.getDatabase() == Database.ORACLE
+				// driver must be in classpath
+				connection = DriverManager.getConnection(cinfo.getUrl(), cinfo.getUserName(), cinfo.getPassword());
+			} else {
+				connection = m_driver.connect(cinfo.getUrl(), info);
+			}
 			connection.setAutoCommit(true);
 
 			if (TSUtils.isDebug()) {

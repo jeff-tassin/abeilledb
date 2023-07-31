@@ -245,7 +245,7 @@ public class AbeilleFrameManager extends JFrameManager {
 			}
 		}
 
-		if (frame instanceof SQLFrame)
+		if (frame instanceof SQLFrame || frame instanceof SQLResultsFrame )
 			frame.requestFocus();
 	}
 

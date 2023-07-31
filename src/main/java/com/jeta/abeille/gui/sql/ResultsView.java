@@ -88,6 +88,8 @@ public class ResultsView extends TSPanel {
 		JToolBar toolbar = new JToolBar();
 		toolbar.setFloatable(false);
 		toolbar.add(i18n_createToolBarButton("incors/16x16/copy.png", TSComponentNames.ID_COPY,  "Copy"));
+		toolbar.add(i18n_createToolBarButton("export_selection.png", SQLResultsNames.ID_EXPORT_SELECTION,  "Export Selection"));
+		toolbar.add(i18n_createToolBarButton("export_all.png", SQLResultsNames.ID_EXPORT_ALL,  "Export All"));
 		toolbar.addSeparator();
 
 		toolbar.add(i18n_createToolBarButton("incors/16x16/form_blue.png", SQLResultsNames.ID_SHOW_INSTANCE, "Row View"));

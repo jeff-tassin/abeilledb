@@ -377,6 +377,7 @@ public class MainFrameController extends TSController implements TSListener, DbM
 	public class CloseWindowAction implements ActionListener {
 		public void actionPerformed(ActionEvent evt) {
 			TSInternalFrame frame = m_frame.getCurrentFrame();
+			System.out.println("CloseWindowAction " + frame);
 			if (frame != null) {
 				m_frame.closeWindow(frame);
 			}

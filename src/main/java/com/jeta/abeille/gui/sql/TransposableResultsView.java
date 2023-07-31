@@ -100,8 +100,6 @@ public class TransposableResultsView extends TSPanel {
         /** to eliminate missing component messages */
         public void assignAction(String compName, ActionListener action) {
             String[] excluded = {
-                    SQLResultsNames.ID_EXPORT_ALL,
-                    SQLResultsNames.ID_EXPORT_SELECTION,
                     TSComponentNames.ID_PRINT_PREVIEW,
                     SQLResultsNames.ID_PREFERENCES
             };
