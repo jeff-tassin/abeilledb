@@ -1,57 +1,34 @@
 package com.jeta.abeille.gui.main;
 
-import java.awt.*;
-import java.awt.event.*;
-
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedHashMap;
-
-import java.util.logging.Logger;
-
-import javax.swing.*;
-
-import java.util.LinkedList;
-import java.util.Iterator;
-
-import com.jeta.abeille.database.model.Catalog;
-import com.jeta.abeille.database.model.ConnectionId;
-import com.jeta.abeille.database.model.ConnectionInfo;
-import com.jeta.abeille.database.model.Schema;
-import com.jeta.abeille.database.model.TSConnection;
-import com.jeta.abeille.database.model.TSConnectionMgr;
-
+import com.jeta.abeille.database.model.*;
 import com.jeta.abeille.database.utils.DbUtils;
-
-import com.jeta.abeille.gui.keyboard.KeyboardManager;
 import com.jeta.abeille.gui.keyboard.KeyBindingsNames;
-
-import com.jeta.abeille.gui.model.ObjectTreeFrame;
-import com.jeta.abeille.gui.model.ModelViewFrame;
+import com.jeta.abeille.gui.keyboard.KeyboardManager;
 import com.jeta.abeille.gui.logger.LoggerFrame;
 import com.jeta.abeille.gui.login.ConnectionMgrFrame;
-import com.jeta.abeille.gui.store.FrameState;
+import com.jeta.abeille.gui.model.ModelViewFrame;
+import com.jeta.abeille.gui.model.ObjectTreeFrame;
 import com.jeta.abeille.gui.store.ConnectionContext;
-
+import com.jeta.abeille.gui.store.FrameState;
 import com.jeta.foundation.componentmgr.ComponentMgr;
 import com.jeta.foundation.componentmgr.ComponentNames;
 import com.jeta.foundation.documents.DocumentFrame;
-
 import com.jeta.foundation.gui.components.*;
-
-import com.jeta.open.gui.framework.UIDirector;
-import com.jeta.foundation.gui.components.TSCell;
-import com.jeta.foundation.gui.components.TSStatusBar;
 import com.jeta.foundation.gui.utils.TSGuiToolbox;
-
 import com.jeta.foundation.i18n.I18N;
-
 import com.jeta.foundation.interfaces.app.ObjectStore;
 import com.jeta.foundation.interfaces.license.LicenseManager;
-import com.jeta.foundation.interfaces.license.LicenseUtils;
 import com.jeta.foundation.utils.TSUtils;
+import com.jeta.open.gui.framework.UIDirector;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.logging.Logger;
 
 /**
  * This is the main frame window for the application.
@@ -212,6 +189,18 @@ public class MainFrame extends TSWorkspaceFrame {
 			addWindow(m_object_tree_frame, otree_fstate.isVisible());
 		}
 		setController(new MainFrameController(this));
+
+		/*
+		Timer timer = new Timer(1000, new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				Component focusOwner = KeyboardFocusManager.getCurrentKeyboardFocusManager().getFocusOwner();
+				boolean isPathBox = focusOwner == m_pathbox;
+				System.out.println("----------------------\n isPathBox: " + isPathBox + "  Current focus: " + (focusOwner == null ? "NULL" : focusOwner.getClass()) );
+			}
+		});
+		timer.start();
+		 */
 	}
 
 	void activateInternalMenu(MenuTemplate template) {
@@ -548,6 +537,7 @@ public class MainFrame extends TSWorkspaceFrame {
 
 		m_pathbox = new JTextField(15);
 		m_pathbox.setEditable(false);
+		m_pathbox.setFocusable(false);
 		d = m_pathbox.getPreferredSize();
 		m_pathbox.setPreferredSize(d);
 		m_pathbox.setMaximumSize(d);
