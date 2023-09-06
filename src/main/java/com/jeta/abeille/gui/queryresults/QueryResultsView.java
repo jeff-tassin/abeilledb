@@ -82,7 +82,7 @@ public class QueryResultsView extends TSPanel {
 
 	public void finalize() throws Throwable {
 		super.finalize();
-		TSUtils.printMessage("QueryResultsView.finalize");
+		// TSUtils.printMessage("QueryResultsView.finalize");
 	}
 
 	public TSConnection getConnection() {
