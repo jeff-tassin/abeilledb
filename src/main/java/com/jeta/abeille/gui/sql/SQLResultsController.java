@@ -74,7 +74,7 @@ public class SQLResultsController extends TSController {
 	 * Invokes a dialog showing the exception. Also, send the exception message
 	 * to the log
 	 */
-	void showError(SQLException e) {
+	protected void showError(SQLException e) {
 		Logger logger = Logger.getLogger(ComponentNames.APPLICATION_LOGGER);
 		logger.fine(e.getLocalizedMessage());
 
@@ -248,13 +248,17 @@ public class SQLResultsController extends TSController {
 					ref.setSQL(sql);
 					ref.setUnprocessedSQL(model.getUnprocessedSQL());
 					SQLResultsModel smodel = new SQLResultsModel(tsconn, ref, model.getTableId());
-					Timer timer = new Timer(1000, e -> m_frame.setResults(smodel));
+					Timer timer = new Timer(1000, e -> setResults(smodel));
 					timer.setRepeats(false);
 					timer.start();
 				}
 			} catch (SQLException e) {
 				showError(e);
 			} 
+		}
+
+		protected void setResults( SQLResultsModel model ) {
+			m_frame.setResults(model);
 		}
 	}
 

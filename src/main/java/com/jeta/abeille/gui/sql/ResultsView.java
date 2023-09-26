@@ -127,8 +127,16 @@ public class ResultsView extends TSPanel {
 	}
 
 	public void setResults(SQLResultsModel model) {
-		remove(m_busyPanel);
-
+		if ( model == null) {
+			return;
+		}
+		if ( m_busyPanel != null ) {
+			remove(m_busyPanel);
+		}
+		if ( m_view != null) {
+			remove(m_view);
+		}
+		
 		m_model = model;
 		m_view = new QueryResultsView(m_model);
 		m_view.getTablePanel()
