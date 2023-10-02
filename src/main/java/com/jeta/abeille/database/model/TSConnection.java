@@ -280,7 +280,7 @@ public class TSConnection implements JETAExternalizable {
 			connection.setAutoCommit(true);
 
 			if (TSUtils.isDebug()) {
-				System.out.println("TSConnection.connected...");
+				// System.out.println("TSConnection.connected...");
 			}
 
 			if (connection.getMetaData().supportsCatalogsInTableDefinitions() || Database.MYSQL.equals(cinfo.getDatabase())) {

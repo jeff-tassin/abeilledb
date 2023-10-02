@@ -19,7 +19,7 @@ import java.io.IOException;
  * @author Jeff Tassin
  */
 public class Abeille implements TSComponent {
-	private File m_lockfile;
+	private static Boolean m_intialized=false;
 
 	private Splash m_splash;
 
@@ -77,6 +77,13 @@ public class Abeille implements TSComponent {
 	 * Launched base components needed by the rest of the application
 	 */
 	private void launchComponents(boolean launchFrame) throws ClassNotFoundException, InstantiationException, IllegalAccessException {
+		if ( m_intialized ) {
+			return;
+		}
+		m_intialized = true;
+
+		System.out.println("AbeilleDb-initializing...");
+
 		String[] args = {};
 
 		JETAInitializer ji = new JETAInitializer();
@@ -131,16 +138,8 @@ public class Abeille implements TSComponent {
 				ObjectStore os = (ObjectStore) ComponentMgr.lookup(ComponentNames.APPLICATION_STATE_STORE);
 				os.flush();
 			} catch (Exception e) {
-
+				// eat it
 			}
-
-			try {
-				if (m_lockfile != null)
-					m_lockfile.delete();
-			} catch (Exception e) {
-
-			}
-
 			System.exit(0);
 		} catch (Exception e) {
 			e.printStackTrace();
